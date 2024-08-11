@@ -391,26 +391,12 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Achievements Section */
-.achievements-section {
-    padding: 60px 0;
-    background-color: #1a1a1a; /* Dark theme */
-    color: #fff;
-}
-
-.achievements-title {
-    color: #149ddd; /* Secondary color */
-    font-weight: 700;
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 40px;
-}
-
+/* General Card Styles for Glass Effect */
 .card {
-    background-color: rgba(26, 26, 26, 0.8); /* Glassmorphism effect */
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
+    background-color: rgba(26, 26, 26, 0.8); /* Dark glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle white border */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Light shadow */
+    backdrop-filter: blur(10px); /* Glassmorphism blur */
     border-radius: 15px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
@@ -425,11 +411,35 @@ a:hover {
     font-size: 1.5rem;
     font-weight: 600;
     color: #149ddd; /* Secondary color for titles */
+    margin-bottom: 15px;
+    text-align: center;
 }
 
 .card-text {
     font-size: 1rem;
     color: #dcdcdc; /* Light gray text for readability */
+    text-align: justify;
+}
+
+/* Achievements Section */
+.achievements-section {
+    padding: 60px 0;
+    background-color: #1a1a1a; /* Dark theme */
+    color: #fff;
+}
+
+.achievements-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #149ddd; /* Secondary color */
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.achievements-section .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 /* Broader Impacts Section */
@@ -440,11 +450,17 @@ a:hover {
 }
 
 .broader-impacts-title {
-    color: #149ddd; /* Secondary color */
-    font-weight: 700;
     font-size: 2.5rem;
+    font-weight: 700;
+    color: #149ddd; /* Secondary color */
     text-align: center;
     margin-bottom: 40px;
+}
+
+.broader-impacts-section .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .list-unstyled {
