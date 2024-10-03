@@ -249,6 +249,12 @@ body {
     backdrop-filter: blur(10px);
     border-radius: 15px;
     margin-bottom: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.resume-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(20, 157, 221, 0.6);
 }
 
 .resume-degree, .resume-position {
