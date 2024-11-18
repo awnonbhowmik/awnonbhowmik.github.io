@@ -7,7 +7,7 @@ export default function Skills() {
           {/* Programming Skills */}
           <div className="bg-gray-800 rounded-lg p-6 shadow-lg mx-6 transition-transform hover:scale-105">
             <h3 className="text-2xl font-semibold mb-4 text-blue-400">Programming</h3>
-            <ul className="list-disc list-inside space-y-2">
+            <ul className="list-disc list-inside space-y-2 text-gray-300">
               <li>Python</li>
               <li>Java</li>
               <li>C/C++</li>
@@ -20,7 +20,7 @@ export default function Skills() {
           {/* Mathematics Skills */}
           <div className="bg-gray-800 rounded-lg p-6 shadow-lg mx-6 transition-transform hover:scale-105">
             <h3 className="text-2xl font-semibold mb-4 text-blue-400">Mathematics</h3>
-            <ul className="list-disc list-inside space-y-2">
+            <ul className="list-disc list-inside space-y-2 text-gray-300">
               <li>Mathematica</li>
               <li>Maple</li>
               <li>FORTRAN</li>
@@ -33,7 +33,7 @@ export default function Skills() {
           {/* Data Analytics Skills */}
           <div className="bg-gray-800 rounded-lg p-6 shadow-lg mx-6 transition-transform hover:scale-105">
             <h3 className="text-2xl font-semibold mb-4 text-blue-400">Data Analytics</h3>
-            <ul className="list-disc list-inside space-y-2">
+            <ul className="list-disc list-inside space-y-2 text-gray-300">
               <li>Excel</li>
               <li>Power BI</li>
               <li>Tableau</li>
@@ -46,7 +46,7 @@ export default function Skills() {
           {/* Cybersecurity Skills */}
           <div className="bg-gray-800 rounded-lg p-6 shadow-lg mx-6 transition-transform hover:scale-105">
             <h3 className="text-2xl font-semibold mb-4 text-blue-400">Cybersecurity</h3>
-            <ul className="list-disc list-inside space-y-2">
+            <ul className="list-disc list-inside space-y-2 text-gray-300">
               <li>Network Security</li>
               <li>Web Security</li>
               <li>Cloud Security</li>

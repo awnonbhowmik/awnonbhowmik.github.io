@@ -42,7 +42,7 @@ export default function Achievements() {
   ];
 
   return (
-    <section id="achievements" className="py-16 bg-[#1a1a1a] text-white">
+    <section id="achievements" className="py-16 bg-[#1a1a1a] text-gray-300">
       {/* Achievements Section */}
       <div className="max-w-5xl mx-auto text-center mb-12">
         <h2 className="text-4xl font-bold text-white">Achievements</h2>

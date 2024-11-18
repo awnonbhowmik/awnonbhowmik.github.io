@@ -27,16 +27,16 @@ export default function About() {
         
         {/* Text Section */}
         <div className="w-full lg:w-2/3 space-y-6">
-          <p className="text-lg text-justify leading-relaxed">
+          <p className="text-lg text-justify leading-relaxed text-gray-300">
             I am Awnon Bhowmik, a passionate researcher, educator, and developer. My primary expertise lies in Information Security and Data Analytics. I strive to push the boundaries of knowledge and innovation.
           </p>
-          <p className="text-lg text-justify leading-relaxed">
+          <p className="text-lg text-justify leading-relaxed text-gray-300">
             With a decade of experience as a mathematics educator, I have instructed undergraduate students in a variety of mathematical topics, ranging from college algebra and precalculus to calculus and differential equations.
           </p>
-          <p className="text-lg text-justify leading-relaxed">
+          <p className="text-lg text-justify leading-relaxed text-gray-300">
             As a programmer, I have developed software applications for financial & healthcare services. Currently working for the United States Postal Service (USPS), I am responsible for analyzing, designing, and developing software solutions to meet the organization's needs.
           </p>
-          <p className="text-lg text-justify leading-relaxed">
+          <p className="text-lg text-justify leading-relaxed text-gray-300">
             I am currently pursuing a Doctor of Computer Science degree in Cybersecurity and Information Assurance at Colorado Technical University. This is complemented by a Master of Science in Data Analytics and a Bachelor of Science in Mathematics and Computer Science.
           </p>
         </div>
