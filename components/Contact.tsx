@@ -35,7 +35,7 @@ export default function Contact() {
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
+          <div className="bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <input
@@ -94,7 +94,7 @@ export default function Contact() {
               width="100%"
               height="400"
               style={{ filter: 'invert(1)'}}
-              className="rounded-lg shadow-lg border-none"
+              className="rounded-lg shadow-lg border-none transition-transform hover:scale-105"
               allowFullScreen={false}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
