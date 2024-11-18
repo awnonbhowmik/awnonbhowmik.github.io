@@ -19,5 +19,7 @@ jobs:
       - run: touch out/.nojekyll
       - run: git config --global user.name 'github-actions[bot]'
       - run: git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-      - run: git add out && git commit -m "Deploy to GitHub Pages"
-      - run: git push origin `gh-pages`
+      - run: git checkout -b gh-pages
+      - run: git add out/*
+      - run: git commit -m "Deploy to GitHub Pages"
+      - run: git push origin gh-pages --force
