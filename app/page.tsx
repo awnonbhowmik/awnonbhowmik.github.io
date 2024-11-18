@@ -8,10 +8,6 @@ import Resume from '@/components/Resume';
 import Achievements from '@/components/Achievements';
 import Footer from '@/components/Footer';
 
-export { Skills };
-export { Contact };
-
-
 export default function HomePage() {
   return (
     <>
