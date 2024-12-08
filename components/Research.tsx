@@ -47,8 +47,8 @@ export default function Research() {
             className="flex flex-col items-center bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105"
           >
             <div className="mb-4 text-white">{area.icon}</div>
-            <h3 className="text-2xl font-semibold text-blue-400 mb-2">{area.title}</h3>
-            <p className="text-gray-300">{area.description}</p>
+            <h3 className="text-2xl text-center font-semibold text-blue-400 mb-2">{area.title}</h3>
+            <p className="text-gray-300 text-center">{area.description}</p>
           </div>
         ))}
       </div>

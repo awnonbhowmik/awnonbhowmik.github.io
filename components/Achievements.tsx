@@ -22,21 +22,21 @@ export default function Achievements() {
     {
       title: 'Mathematics Stack Exchange',
       description: `
-        Contributed 50+ answers to the community. 
-        Used this platform to learn about numerous books and problem-solving techniques.
-        Received positive feedback from users and moderators.
-        Helped students and professionals with their mathematical queries.
-        Received the "Enthusiast" badge.
+        - Contributed 50+ answers to the community.
+        - Used this platform to learn about numerous books and problem-solving techniques.
+        - Received positive feedback from users and moderators.
+        - Helped students and professionals with their mathematical queries.
+        - Received the "Enthusiast" badge.
       `,
     },
     {
       title: 'Quora',
       description: `
-        Contributed about 3500 answers related to mathematics and computer science.
-        Dubbed Top Writer in Calculus, Integration, and other topics numerous times.
-        Answers featured in Quora Digest multiple times.
-        Impacting people worldwide, with a following of over 4000.
-        Praised by experts in mathematics.
+        - Contributed about 3500 answers related to mathematics and computer science.
+        - Dubbed Top Writer in Calculus, Integration, and other topics numerous times.
+        - Answers featured in Quora Digest multiple times.
+        - Impacting people worldwide, with a following of over 4000.
+        - Praised by experts in mathematics.
       `,
     },
   ];
