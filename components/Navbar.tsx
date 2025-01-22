@@ -24,7 +24,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-[#1a1a1a] opacity-80 text-gray-100 fixed w-full shadow-lg z-50">
+    <nav className="bg-opacity-30 backdrop-blur-md bg-[#1a1a1a] text-gray-100 fixed w-full shadow-lg z-50">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         {/* Favicon and Logo */}
         <div className="flex items-center">
