@@ -25,7 +25,7 @@ export default function Footer() {
       {/* Footer Content */}
       <div className="text-center">
         <p className="mb-2">Made in NextJS</p>
-        <p className="text-gray-500">© 2024 Awnon Bhowmik. All Rights Reserved.</p>
+        <p className="text-gray-500">© 2025 Awnon Bhowmik. All Rights Reserved.</p>
       </div>
     </footer>
   );

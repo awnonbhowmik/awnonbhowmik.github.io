@@ -11,7 +11,7 @@ export default function Resume() {
     },
     {
       title: 'Master of Science',
-      institution: 'Data Analytics, Colorado State University Global Campus',
+      institution: 'Data Analytics & Cybersecurity, Colorado State University Global Campus',
       date: 'Aug 2023 - Mar 2025',
       icon: <FaUniversity size={30} />,
     },

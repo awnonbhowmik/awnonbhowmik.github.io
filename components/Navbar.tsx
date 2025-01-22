@@ -18,12 +18,17 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
+  // Function to scroll back to the top of the page
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <nav className="bg-[#1a1a1a] text-gray-100 fixed w-full shadow-lg z-50">
+    <nav className="bg-[#1a1a1a] opacity-80 text-gray-100 fixed w-full shadow-lg z-50">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         {/* Favicon and Logo */}
         <div className="flex items-center">
-          <Link href="/" className="flex items-center" onClick={closeMenu}>
+          <Link href="/" className="flex items-center" onClick={closeMenu} scroll={false}>
             <Image
               src="/favicon.ico"
               alt="Logo"
@@ -31,7 +36,7 @@ export default function Navbar() {
               height={100}
               className="mr-2 rounded-full"
               priority
-            />
+              onClick={(e) => {e.preventDefault; scrollToTop(); closeMenu();}}/>
           </Link>
         </div>
 
