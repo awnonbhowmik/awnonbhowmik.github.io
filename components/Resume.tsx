@@ -43,11 +43,17 @@ export default function Resume() {
       icon: <FaLaptopCode size={30} />,
     },
     {
-      title: 'Application Developer',
-      company: 'SS&C Technologies',
-      date: 'Mar 2017 - Mar 2023',
-      icon: <FaCode size={30} />,
+      title: 'Substitute Teacher',
+      company: 'NYC Department of Education',
+      date: 'Sep 2020 - Mar 2023',
+      icon: <FaChalkboardTeacher size={30} />,
     },
+    // {
+    //   title: 'Application Developer',
+    //   company: 'SS&C Technologies',
+    //   date: 'Mar 2017 - Mar 2023',
+    //   icon: <FaCode size={30} />,
+    // },
     {
       title: 'Mathematics Educator',
       company: 'CUNY BMCC',
