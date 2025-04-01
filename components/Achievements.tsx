@@ -1,5 +1,19 @@
+import { title } from "process";
+
 export default function Achievements() {
   const achievements = [
+    {
+      title: "Dean's List - CSU Global",
+      description: "Maintained a GPA 4.0 all throughout. Graduated with the highest honors.",
+    },
+    {
+      title: "Dean's List - CUNY York College",
+      description: "Graduated with Dean's List honors",
+    },
+    {
+      title: "Dean's List - CUNY BMCC",
+      description: "Consistently made the Dean's List on three separate occasions. Maintained a perfect GPA of 4.0 in major coursework.",
+    },
     {
       title: 'Ernesto Malave Merit Scholarship',
       description: 'University Student Senate (USS) of CUNY, 2015',
@@ -9,12 +23,8 @@ export default function Achievements() {
       description: 'Stella and Charles Guttman Foundation, 2015',
     },
     {
-      title: 'Inter-University Math Olympiad Champion',
+      title: 'University Math Olympiad Champion',
       description: 'University of Dhaka, July 2011',
-    },
-    {
-      title: "Dean's List Achievements",
-      description: "Consistently made the Dean's List on four separate occasions",
     },
   ];
 
