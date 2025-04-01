@@ -25,14 +25,21 @@ jobs:
         run: npm run build
 
       - name: Check if 'out/' Exists
-        run: ls -l out/ || echo "Directory 'out/' not found!"
+        run: |
+          if [ ! -d "out" ]; then
+            echo "'out/' directory not found, creating it..."
+            mkdir out
+          else
+            echo "'out/' directory exists."
+          fi
 
-      - name: Move Build Output (Only If Exists)
+      - name: Move Build Output to 'out/'
         run: |
           if [ -d "out" ]; then
-            mv out/* . && rm -rf out
+            mv * out/ && rm -rf out
+            echo "Moved build files to 'out/' directory."
           else
-            echo "No 'out/' directory found. Skipping move."
+            echo "No 'out/' directory found after build. Skipping move."
           fi
 
       - name: Commit and Push Changes
