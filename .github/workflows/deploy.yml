@@ -3,7 +3,7 @@ name: Deploy Next.js Site to GitHub Pages
 on:
   push:
     branches:
-      - main  # Runs only when code is merged into main
+      - main  # Trigger on push to the main branch
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20  # Update to the version you're using
 
       - name: Install Dependencies
         run: npm install
@@ -24,8 +24,16 @@ jobs:
       - name: Build Next.js App
         run: npm run build
 
-      - name: Move Build Output
-        run: mv out/* . && rm -rf out  # Move static files to root
+      - name: Check if 'out/' Exists
+        run: ls -l out/ || echo "Directory 'out/' not found!"
+
+      - name: Move Build Output (Only If Exists)
+        run: |
+          if [ -d "out" ]; then
+            mv out/* . && rm -rf out
+          else
+            echo "No 'out/' directory found. Skipping move."
+          fi
 
       - name: Commit and Push Changes
         run: |
