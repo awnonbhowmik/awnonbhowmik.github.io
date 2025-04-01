@@ -13,6 +13,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # Check Git version
+      - name: Check Git Version
+        run: git --version
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -41,6 +45,12 @@ jobs:
           else
             echo "No 'out/' directory found after build. Skipping move."
           fi
+
+      - name: Setup Git with Personal Access Token
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/awnonbhowmik/awnonbhowmik.github.io.git
 
       - name: Commit and Push Changes
         run: |
