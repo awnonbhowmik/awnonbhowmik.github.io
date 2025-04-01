@@ -37,8 +37,13 @@ jobs:
 
       - name: Commit and Push Changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Automated deployment from GitHub Actions"
-          git push origin main
+          # Only commit and push if there are changes
+          if [[ $(git status --porcelain) ]]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "Automated deployment from GitHub Actions"
+            git push origin main
+          else
+            echo "No changes to commit. Skipping push."
+          fi
