@@ -15,7 +15,7 @@ export default function About() {
           <div className="rounded-full overflow-hidden shadow-lg">
             {/* Use the correct path for your image */}
             <Image
-              src="/image_modified_high_contrast.webp" // Path relative to the public folder
+              src="./image_modified_high_contrast.webp" // Path relative to the public folder
               alt="Bee Logo"
               width={300}
               height={300}
