@@ -1,25 +1,36 @@
-name: Deploy to GitHub Pages
+name: Deploy Next.js Site to GitHub Pages
 
 on:
   push:
     branches:
-      - develop
+      - main  # Runs only when code is merged into main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-      - run: npm install
-      - run: npm run build
-      - run: npx next export
-      - run: touch out/.nojekyll
-      - run: git config --global user.name 'github-actions[bot]'
-      - run: git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-      - run: git checkout -b gh-pages
-      - run: git add out/*
-      - run: git commit -m "Deploy to GitHub Pages"
-      - run: git push origin gh-pages --force
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Next.js App
+        run: npm run build
+
+      - name: Move Build Output
+        run: mv out/* . && rm -rf out  # Move static files to root
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Automated deployment from GitHub Actions"
+          git push origin main
