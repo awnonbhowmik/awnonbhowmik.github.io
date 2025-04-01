@@ -23,7 +23,7 @@ jobs:
           node-version: 20  # Update to the version you're using
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build Next.js App
         run: npm run build
