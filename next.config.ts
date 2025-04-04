@@ -1,11 +1,13 @@
+// next.config.ts
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   output: 'export',
   images: {
-    unoptimized: true, // Required for GitHub Pages static export
+    unoptimized: true,
   },
-  basePath: '', // Leave empty for awnonbhowmik.github.io
+  // ❌ Don't set assetPrefix
+  // ❌ Don't set basePath
 };
 
 export default nextConfig;
