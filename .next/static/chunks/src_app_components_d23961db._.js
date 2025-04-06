@@ -1170,7 +1170,9 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-icons/fa/index.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
 'use client';
+;
 ;
 ;
 function Research() {
@@ -1182,7 +1184,7 @@ function Research() {
                 size: 40
             }, void 0, false, {
                 fileName: "[project]/src/app/components/Research.tsx",
-                lineNumber: 17,
+                lineNumber: 18,
                 columnNumber: 13
             }, this)
         },
@@ -1193,7 +1195,7 @@ function Research() {
                 size: 40
             }, void 0, false, {
                 fileName: "[project]/src/app/components/Research.tsx",
-                lineNumber: 22,
+                lineNumber: 23,
                 columnNumber: 13
             }, this)
         },
@@ -1204,7 +1206,7 @@ function Research() {
                 size: 40
             }, void 0, false, {
                 fileName: "[project]/src/app/components/Research.tsx",
-                lineNumber: 27,
+                lineNumber: 28,
                 columnNumber: 13
             }, this)
         },
@@ -1215,7 +1217,7 @@ function Research() {
                 size: 40
             }, void 0, false, {
                 fileName: "[project]/src/app/components/Research.tsx",
-                lineNumber: 32,
+                lineNumber: 33,
                 columnNumber: 13
             }, this)
         },
@@ -1226,7 +1228,7 @@ function Research() {
                 size: 40
             }, void 0, false, {
                 fileName: "[project]/src/app/components/Research.tsx",
-                lineNumber: 37,
+                lineNumber: 38,
                 columnNumber: 13
             }, this)
         },
@@ -1237,7 +1239,7 @@ function Research() {
                 size: 40
             }, void 0, false, {
                 fileName: "[project]/src/app/components/Research.tsx",
-                lineNumber: 42,
+                lineNumber: 43,
                 columnNumber: 13
             }, this)
         }
@@ -1253,202 +1255,222 @@ function Research() {
                     children: "Research Interests"
                 }, void 0, false, {
                     fileName: "[project]/src/app/components/Research.tsx",
-                    lineNumber: 49,
+                    lineNumber: 50,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/components/Research.tsx",
-                lineNumber: 48,
+                lineNumber: 49,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "container mx-auto text-justify mb-12 px-4",
+                className: "container mx-auto flex flex-col lg:flex-row items-center justify-between px-6 lg:px-16 space-y-12 lg:space-y-0 lg:space-x-16",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-lg text-gray-300 leading-relaxed",
-                        children: [
-                            "I am currently pursuing a ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                className: "text-blue-400",
-                                children: "Doctorate in Cybersecurity and Information Assurance"
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "w-full lg:w-1/3 flex justify-center transition-transform hover:scale-105 duration-300",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "rounded-full overflow-hidden shadow-xl",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                src: "/research.webp",
+                                alt: "Research Overview",
+                                width: 300,
+                                height: 300,
+                                className: "rounded-full",
+                                priority: true
                             }, void 0, false, {
                                 fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 55,
-                                columnNumber: 37
-                            }, this),
-                            " at ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                className: "text-blue-400",
-                                children: "Colorado Technical University"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 55,
-                                columnNumber: 136
-                            }, this),
-                            ". My research seeks to ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                children: "bridge the gap between data analytics and information security"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 55,
-                                columnNumber: 231
-                            }, this),
-                            ", focusing on how ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-blue-400",
-                                children: "data-driven approaches"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 55,
-                                columnNumber: 328
-                            }, this),
-                            " can enhance the detection and prevention of cyber threats. I explore the use of ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-blue-400",
-                                children: "machine learning models"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 55,
-                                columnNumber: 470
-                            }, this),
-                            " for predictive threat analysis and apply ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                className: "text-blue-400",
-                                children: "differential privacy"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 55,
-                                columnNumber: 574
-                            }, this),
-                            " techniques to safeguard sensitive data. My goal is to contribute to the development of ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                className: "text-blue-400",
-                                children: "efficient, secure, and privacy-preserving systems"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 55,
-                                columnNumber: 725
-                            }, this),
-                            " in an ever-evolving digital landscape."
-                        ]
-                    }, void 0, true, {
+                                lineNumber: 58,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/components/Research.tsx",
+                            lineNumber: 57,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
                         fileName: "[project]/src/app/components/Research.tsx",
-                        lineNumber: 54,
+                        lineNumber: 56,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-lg text-gray-300 leading-relaxed mt-4",
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "w-full lg:w-2/3 space-y-6",
                         children: [
-                            "In addition to my work in cybersecurity, I integrate my ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-blue-400",
-                                children: "mathematical skills"
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-lg text-gray-300 text-justify leading-relaxed",
+                                children: [
+                                    "I am currently pursuing a ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                        className: "text-blue-400",
+                                        children: "Doctorate in Cybersecurity and Information Assurance"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 71,
+                                        columnNumber: 39
+                                    }, this),
+                                    " at ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                        className: "text-blue-400",
+                                        children: "Colorado Technical University"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 71,
+                                        columnNumber: 138
+                                    }, this),
+                                    ". My research seeks to ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                        children: "bridge the gap between data analytics and information security"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 71,
+                                        columnNumber: 233
+                                    }, this),
+                                    ", focusing on how ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-blue-400",
+                                        children: "data-driven approaches"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 71,
+                                        columnNumber: 330
+                                    }, this),
+                                    " can enhance the detection and prevention of cyber threats. I explore the use of ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-blue-400",
+                                        children: "machine learning models"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 71,
+                                        columnNumber: 472
+                                    }, this),
+                                    " for predictive threat analysis and apply ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                        className: "text-blue-400",
+                                        children: "differential privacy"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 71,
+                                        columnNumber: 576
+                                    }, this),
+                                    " techniques to safeguard sensitive data. My goal is to contribute to the development of ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                        className: "text-blue-400",
+                                        children: "efficient, secure, and privacy-preserving systems"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 71,
+                                        columnNumber: 727
+                                    }, this),
+                                    " in an ever-evolving digital landscape."
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 58,
-                                columnNumber: 67
+                                lineNumber: 70,
+                                columnNumber: 11
                             }, this),
-                            " to develop algorithms for ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-blue-400",
-                                children: "hybrid cryptosystems"
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-lg text-gray-300 text-justify leading-relaxed mt-4",
+                                children: [
+                                    "In addition to my work in cybersecurity, I integrate my ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-blue-400",
+                                        children: "mathematical skills"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 74,
+                                        columnNumber: 69
+                                    }, this),
+                                    " to develop algorithms for ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-blue-400",
+                                        children: "hybrid cryptosystems"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 74,
+                                        columnNumber: 154
+                                    }, this),
+                                    ", and I have authored several research papers since 2020 in the fields of ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-blue-400",
+                                        children: "cryptography"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 74,
+                                        columnNumber: 287
+                                    }, this),
+                                    " and ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-blue-400",
+                                        children: "data science"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 74,
+                                        columnNumber: 343
+                                    }, this),
+                                    ". My academic contributions also extend to ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                        className: "text-blue-400",
+                                        children: "data-driven research"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 74,
+                                        columnNumber: 437
+                                    }, this),
+                                    ", where I have demonstrated my ability to handle and analyze large datasets. Beyond cybersecurity, I have a keen interest in the socio-environmental challenges posed by issues like ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                        className: "text-blue-400",
+                                        children: "microplastics"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 74,
+                                        columnNumber: 681
+                                    }, this),
+                                    ", and I have published research on their ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                        className: "text-blue-400",
+                                        children: "impact on public health"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/components/Research.tsx",
+                                        lineNumber: 74,
+                                        columnNumber: 778
+                                    }, this),
+                                    ", showcasing my interdisciplinary approach to solving complex real-world problems."
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 58,
-                                columnNumber: 152
-                            }, this),
-                            ", and I have authored several research papers since 2020 in the fields of ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-blue-400",
-                                children: "cryptography"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 58,
-                                columnNumber: 285
-                            }, this),
-                            " and ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-blue-400",
-                                children: "data science"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 58,
-                                columnNumber: 341
-                            }, this),
-                            ". My academic contributions also extend to ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                className: "text-blue-400",
-                                children: "data-driven research"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 58,
-                                columnNumber: 435
-                            }, this),
-                            ", where I have demonstrated my ability to handle and analyze large datasets. Beyond cybersecurity, I have a keen interest in the socio-environmental challenges posed by issues like ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                className: "text-blue-400",
-                                children: "microplastics"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 58,
-                                columnNumber: 679
-                            }, this),
-                            ", and I have published research on their ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                className: "text-blue-400",
-                                children: "impact on public health"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 58,
-                                columnNumber: 776
-                            }, this),
-                            ", showcasing my interdisciplinary approach to solving complex real-world problems."
+                                lineNumber: 73,
+                                columnNumber: 11
+                            }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/components/Research.tsx",
-                        lineNumber: 57,
+                        lineNumber: 69,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/components/Research.tsx",
-                lineNumber: 53,
+                lineNumber: 54,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "container mx-auto text-center mb-12 px-4",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                    className: "mt-2 text-gray-400 text-lg",
-                    children: "Areas where curiosity meets applied knowledge."
-                }, void 0, false, {
-                    fileName: "[project]/src/app/components/Research.tsx",
-                    lineNumber: 63,
-                    columnNumber: 9
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/src/app/components/Research.tsx",
-                lineNumber: 62,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6",
+                className: "container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 mt-8",
                 children: researchAreas.map((area, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex flex-col items-center text-center bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105 hover:shadow-xl",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "mb-4 text-blue-400",
+                                className: "mb-4 text-blue-400 transition-transform hover:scale-110",
                                 children: area.icon
                             }, void 0, false, {
                                 fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 74,
+                                lineNumber: 86,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                className: "text-2xl font-semibold text-blue-400 mb-2",
+                                className: "text-3xl font-semibold text-blue-400 mb-2",
                                 children: area.title
                             }, void 0, false, {
                                 fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 75,
+                                lineNumber: 87,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1456,24 +1478,24 @@ function Research() {
                                 children: area.description
                             }, void 0, false, {
                                 fileName: "[project]/src/app/components/Research.tsx",
-                                lineNumber: 76,
+                                lineNumber: 88,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, index, true, {
                         fileName: "[project]/src/app/components/Research.tsx",
-                        lineNumber: 70,
+                        lineNumber: 82,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/app/components/Research.tsx",
-                lineNumber: 68,
+                lineNumber: 80,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/components/Research.tsx",
-        lineNumber: 47,
+        lineNumber: 48,
         columnNumber: 5
     }, this);
 }

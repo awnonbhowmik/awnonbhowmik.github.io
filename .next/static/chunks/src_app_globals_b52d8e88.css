@@ -478,6 +478,14 @@
     min-height: 100vh;
   }
 
+  .w-1 {
+    width: calc(var(--spacing) * 1);
+  }
+
+  .w-1\/2 {
+    width: 50%;
+  }
+
   .w-full {
     width: 100%;
   }
@@ -917,6 +925,15 @@
       --tw-scale-x: 105%;
       --tw-scale-y: 105%;
       --tw-scale-z: 105%;
+      scale: var(--tw-scale-x) var(--tw-scale-y);
+    }
+  }
+
+  @media (hover: hover) {
+    .hover\:scale-110:hover {
+      --tw-scale-x: 110%;
+      --tw-scale-y: 110%;
+      --tw-scale-z: 110%;
       scale: var(--tw-scale-x) var(--tw-scale-y);
     }
   }
