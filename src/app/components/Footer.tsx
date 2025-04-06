@@ -10,16 +10,14 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#1a1a1a] text-gray-300 py-8">
-      {/* Back to Top Button */}
+      {/* Circular Back to Top Button */}
       <div className="text-center mb-4">
         <button
           onClick={scrollToTop}
-          className="flex items-center justify-center mx-auto space-x-2 text-blue-400 hover:text-blue-500 transition-colors text-sm font-semibold"
+          className="flex items-center justify-center mx-auto p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors"
           aria-label="Back to Top"
         >
-          <FaArrowUp />
-          <span>Back to Top</span>
-          <FaArrowUp />
+          <FaArrowUp size={20} />
         </button>
       </div>
 
