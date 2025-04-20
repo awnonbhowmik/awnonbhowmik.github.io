@@ -77,7 +77,7 @@ export default function Research() {
       </div>
 
       {/* Research Areas */}
-      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 mt-8">
+      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 mt-12">
         {researchAreas.map((area, index) => (
           <div
             key={index}

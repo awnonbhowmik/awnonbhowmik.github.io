@@ -92,9 +92,9 @@ export default function Contact() {
 
           {/* Google Map */}
           <div className="relative">
-            <h3 className="text-xl font-bold text-blue-400 mb-4 flex items-center justify-center">
+            {/* <h3 className="text-xl font-bold text-blue-400 mb-4 flex items-center justify-center">
               <FaMapMarkerAlt className="mr-2" /> My Location
-            </h3>
+            </h3> */}
             <iframe
               title="My Location - Paterson, NJ"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96884.16691981242!2d-74.21440107135363!3d40.916751033779756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2ef4096786dc9%3A0xa02889844b22b6e6!2sPaterson%2C%20NJ%2C%20USA!5e0!3m2!1sen!2sbd!4v1693521128697!5m2!1sen!2sbd"

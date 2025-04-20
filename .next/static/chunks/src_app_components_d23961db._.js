@@ -911,11 +911,9 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-icons/fa/index.mjs [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
-;
 ;
 function Contact() {
     _s();
@@ -1093,43 +1091,24 @@ function Contact() {
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "relative",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                    className: "text-xl font-bold text-blue-400 mb-4 flex items-center justify-center",
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaMapMarkerAlt"], {
-                                            className: "mr-2"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/components/Contact.tsx",
-                                            lineNumber: 96,
-                                            columnNumber: 15
-                                        }, this),
-                                        " My Location"
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/components/Contact.tsx",
-                                    lineNumber: 95,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("iframe", {
-                                    title: "My Location - Paterson, NJ",
-                                    src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96884.16691981242!2d-74.21440107135363!3d40.916751033779756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2ef4096786dc9%3A0xa02889844b22b6e6!2sPaterson%2C%20NJ%2C%20USA!5e0!3m2!1sen!2sbd!4v1693521128697!5m2!1sen!2sbd",
-                                    width: "100%",
-                                    height: "400",
-                                    style: {
-                                        filter: 'invert(1)'
-                                    },
-                                    className: "rounded-lg shadow-lg border-none transition-transform hover:scale-105",
-                                    allowFullScreen: false,
-                                    loading: "lazy",
-                                    referrerPolicy: "no-referrer-when-downgrade"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/components/Contact.tsx",
-                                    lineNumber: 98,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("iframe", {
+                                title: "My Location - Paterson, NJ",
+                                src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96884.16691981242!2d-74.21440107135363!3d40.916751033779756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2ef4096786dc9%3A0xa02889844b22b6e6!2sPaterson%2C%20NJ%2C%20USA!5e0!3m2!1sen!2sbd!4v1693521128697!5m2!1sen!2sbd",
+                                width: "100%",
+                                height: "400",
+                                style: {
+                                    filter: 'invert(1)'
+                                },
+                                className: "rounded-lg shadow-lg border-none transition-transform hover:scale-105",
+                                allowFullScreen: false,
+                                loading: "lazy",
+                                referrerPolicy: "no-referrer-when-downgrade"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/components/Contact.tsx",
+                                lineNumber: 98,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
                             fileName: "[project]/src/app/components/Contact.tsx",
                             lineNumber: 94,
                             columnNumber: 11
@@ -1453,7 +1432,7 @@ function Research() {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 mt-8",
+                className: "container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 mt-12",
                 children: researchAreas.map((area, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex flex-col items-center text-center bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105 hover:shadow-xl",
                         children: [
