@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+// import { FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
