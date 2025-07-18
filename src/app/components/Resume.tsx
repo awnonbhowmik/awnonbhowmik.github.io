@@ -14,7 +14,7 @@ export default function Resume() {
     {
       title: 'Doctor of Computer Science',
       institution: 'Cybersecurity & Information Assurance, Colorado Technical University',
-      date: 'Mar 2025 - May 2030',
+      date: 'Mar 2025 - Feb 2030',
       icon: <FaUniversity size={30} />,
     },
     {
