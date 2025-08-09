@@ -56,7 +56,7 @@ export default function Contact() {
   return (
     <section id="contact" className="py-16 bg-[#1a1a1a] text-white">
       <div className="container mx-auto px-4 max-w-6xl">
-        <h2 className="text-4xl font-bold text-center text-white mb-12">Contact Me</h2>
+        <h2 className="text-4xl font-bold text-center text-white mb-12">Get In Touch</h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
