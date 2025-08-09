@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 // import { FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function Contact() {
+  const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,18 +16,41 @@ export default function Contact() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    // Update the state based on the EmailJS field names
+    if (name === 'from_name') {
+      setFormData({ ...formData, name: value });
+    } else if (name === 'from_email') {
+      setFormData({ ...formData, email: value });
+    } else if (name === 'message') {
+      setFormData({ ...formData, message: value });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('Sending...');
 
-    // Simulate sending
-    setTimeout(() => {
+    if (!form.current) {
+      setStatus('Form reference error. Please try again.');
+      return;
+    }
+
+    try {
+      // EmailJS configuration - you'll need to replace these with your actual values
+      const result = await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID',
+        form.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY'
+      );
+
+      console.log('EmailJS result:', result.text);
       setStatus('Message sent successfully!');
       setFormData({ name: '', email: '', message: '' });
-    }, 1500);
+    } catch (error) {
+      console.error('EmailJS error:', error);
+      setStatus('Failed to send message. Please try again.');
+    }
   };
 
   return (
@@ -36,13 +61,13 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div className="bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="sr-only">Your Name</label>
                 <input
                   id="name"
                   type="text"
-                  name="name"
+                  name="from_name"
                   placeholder="Your Name"
                   value={formData.name}
                   onChange={handleChange}
@@ -56,7 +81,7 @@ export default function Contact() {
                 <input
                   id="email"
                   type="email"
-                  name="email"
+                  name="from_email"
                   placeholder="Your Email"
                   value={formData.email}
                   onChange={handleChange}
@@ -87,7 +112,16 @@ export default function Contact() {
               </button>
             </form>
 
-            {status && <p className="mt-6 text-green-400 text-center">{status}</p>}
+            {status && (
+              <p className={`mt-6 text-center ${status.includes('success') || status.includes('sent successfully')
+                ? 'text-green-400'
+                : status.includes('Sending')
+                  ? 'text-blue-400'
+                  : 'text-red-400'
+                }`}>
+                {status}
+              </p>
+            )}
           </div>
 
           {/* Google Map */}

@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  output: 'export', // Restored static export since we're using EmailJS
   images: {
     unoptimized: true,
   },
