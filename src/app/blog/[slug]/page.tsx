@@ -82,14 +82,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
-    const post = await getBlogPost(resolvedParams.slug); if (!post) {
+    const post = await getBlogPost(resolvedParams.slug);
+
+    if (!post) {
         notFound();
     }
 
     const { frontmatter, content, readingTime } = post;
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] text-white">
+        <div className="min-h-screen bg-[#1a1a1a] text-white">
             <div className="container mx-auto px-4 py-12 max-w-4xl">
                 {/* Back to Blog */}
                 <div className="mb-8">
@@ -181,7 +183,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                             <h4 className="font-semibold">Share this post</h4>
                             <div className="flex gap-2">
                                 <a
-                                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(frontmatter.title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(frontmatter.title)}&url=${encodeURIComponent(`https://awnonbhowmik.github.io/blog/${resolvedParams.slug}`)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded text-sm transition-colors"
@@ -189,7 +191,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                     Twitter
                                 </a>
                                 <a
-                                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://awnonbhowmik.github.io/blog/${resolvedParams.slug}`)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="bg-blue-700 hover:bg-blue-800 text-white px-3 py-2 rounded text-sm transition-colors"
