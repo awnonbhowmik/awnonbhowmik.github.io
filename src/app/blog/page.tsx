@@ -18,8 +18,22 @@ export default async function BlogPage() {
     return (
         <div className="min-h-screen bg-[#1a1a1a] text-white py-16">
             <div className="container mx-auto px-4 max-w-6xl">
-                {/* Admin Controls - Top */}
-                <div className="flex justify-end mb-6">
+                {/* Navigation - Top */}
+                <div className="flex justify-between items-center mb-6">
+                    <Link
+                        href="/"
+                        className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors group"
+                    >
+                        <svg
+                            className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Home
+                    </Link>
                     <AdminControls minimal={true} />
                 </div>
 

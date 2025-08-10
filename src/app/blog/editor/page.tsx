@@ -104,6 +104,33 @@ ${content}`;
     return (
         <div className="min-h-screen bg-[#1a1a1a] text-white">
             <div className="container mx-auto px-4 py-8 max-w-6xl">
+                {/* Navigation */}
+                <div className="flex justify-between items-center mb-8">
+                    <div className="flex items-center gap-4">
+                        <Link
+                            href="/"
+                            className="inline-flex items-center text-gray-400 hover:text-blue-300 transition-colors group"
+                        >
+                            <svg
+                                className="w-4 h-4 mr-1 transform group-hover:-translate-x-1 transition-transform"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>
+                            Home
+                        </Link>
+                        <span className="text-gray-600">•</span>
+                        <Link
+                            href="/blog"
+                            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors"
+                        >
+                            ← Back to Blog
+                        </Link>
+                    </div>
+                </div>
+
                 {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold mb-4">Blog Post Editor</h1>
