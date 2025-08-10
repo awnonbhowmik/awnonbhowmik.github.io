@@ -1,0 +1,260 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import 'katex/dist/katex.css';
+
+// Dynamic import to avoid SSR issues
+const MDEditor = dynamic(
+    () => import('@uiw/react-md-editor'),
+    { ssr: false }
+);
+
+export default function BlogEditor() {
+    const [title, setTitle] = useState('');
+    const [category, setCategory] = useState('research');
+    const [tags, setTags] = useState('');
+    const [excerpt, setExcerpt] = useState('');
+    const [content, setContent] = useState(`# Your Blog Post Title
+
+Write your content here! You can use:
+
+## Markdown Features
+- **Bold text**
+- *Italic text*
+- \`Inline code\`
+- [Links](https://example.com)
+
+## Code Blocks
+\`\`\`python
+def hello_world():
+    print("Hello, World!")
+\`\`\`
+
+## Mathematical Equations
+Inline math: $E = mc^2$
+
+Block math:
+$$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
+
+## Lists
+1. First item
+2. Second item
+3. Third item
+
+- Bullet point 1
+- Bullet point 2
+- Bullet point 3
+
+Happy writing! 🚀
+`);
+
+    const categories = [
+        'research',
+        'tutorial',
+        'conference',
+        'paper-review',
+        'career-advice',
+        'general'
+    ];
+
+    const generateSlug = (title: string) => {
+        return title
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .trim();
+    };
+
+    const generateMDXContent = () => {
+        const currentDate = new Date().toISOString().split('T')[0];
+        const tagArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+        return `---
+title: "${title}"
+date: "${currentDate}"
+category: "${category}"
+tags: [${tagArray.map(tag => `"${tag}"`).join(', ')}]
+excerpt: "${excerpt}"
+---
+
+${content}`;
+    };
+
+    const downloadMDX = () => {
+        const mdxContent = generateMDXContent();
+        const slug = generateSlug(title) || 'new-post';
+        const blob = new Blob([mdxContent], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${slug}.mdx`;
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
+    const copyToClipboard = () => {
+        const mdxContent = generateMDXContent();
+        navigator.clipboard.writeText(mdxContent);
+        alert('MDX content copied to clipboard!');
+    };
+
+    return (
+        <div className="min-h-screen bg-[#0a0a0a] text-white">
+            <div className="container mx-auto px-4 py-8 max-w-6xl">
+                {/* Header */}
+                <div className="mb-8">
+                    <h1 className="text-4xl font-bold mb-4">Blog Post Editor</h1>
+                    <p className="text-gray-400">
+                        Create and edit your blog posts with live preview, LaTeX support, and syntax highlighting.
+                    </p>
+                </div>
+
+                {/* Metadata Form */}
+                <div className="bg-gray-800 p-6 rounded-lg mb-6">
+                    <h2 className="text-xl font-semibold mb-4">Post Metadata</h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        {/* Title */}
+                        <div>
+                            <label htmlFor="title" className="block text-sm font-medium mb-2">
+                                Post Title *
+                            </label>
+                            <input
+                                id="title"
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                placeholder="Enter your post title..."
+                                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                            />
+                        </div>
+
+                        {/* Category */}
+                        <div>
+                            <label htmlFor="category" className="block text-sm font-medium mb-2">
+                                Category
+                            </label>
+                            <select
+                                id="category"
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                {categories.map(cat => (
+                                    <option key={cat} value={cat}>
+                                        {cat.charAt(0).toUpperCase() + cat.slice(1).replace('-', ' ')}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Tags */}
+                        <div>
+                            <label htmlFor="tags" className="block text-sm font-medium mb-2">
+                                Tags (comma-separated)
+                            </label>
+                            <input
+                                id="tags"
+                                type="text"
+                                value={tags}
+                                onChange={(e) => setTags(e.target.value)}
+                                placeholder="research, machine learning, tutorial"
+                                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+
+                        {/* Slug Preview */}
+                        <div>
+                            <label className="block text-sm font-medium mb-2">
+                                URL Slug (auto-generated)
+                            </label>
+                            <div className="w-full p-3 bg-gray-900 border border-gray-600 rounded-lg text-gray-400">
+                                /blog/{generateSlug(title) || 'new-post'}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Excerpt */}
+                    <div className="mt-4">
+                        <label htmlFor="excerpt" className="block text-sm font-medium mb-2">
+                            Excerpt (Brief description)
+                        </label>
+                        <textarea
+                            id="excerpt"
+                            value={excerpt}
+                            onChange={(e) => setExcerpt(e.target.value)}
+                            placeholder="A brief description of your post..."
+                            rows={3}
+                            className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+                </div>
+
+                {/* MDX Editor */}
+                <div className="bg-gray-800 rounded-lg overflow-hidden">
+                    <div className="p-4 border-b border-gray-700">
+                        <h2 className="text-xl font-semibold">Content Editor</h2>
+                        <p className="text-gray-400 text-sm mt-1">
+                            Use Markdown syntax. Math equations with $ for inline or $$ for blocks. Code blocks with triple backticks.
+                        </p>
+                    </div>
+
+                    <div className="p-4">
+                        <MDEditor
+                            value={content}
+                            onChange={(val) => setContent(val || '')}
+                            preview="edit"
+                            hideToolbar={false}
+                            height={600}
+                            data-color-mode="dark"
+                        />
+                    </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="mt-6 flex flex-wrap gap-4">
+                    <button
+                        onClick={downloadMDX}
+                        disabled={!title.trim()}
+                        className="bg-blue-600 hover:bg-blue-500 disabled:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed"
+                    >
+                        📥 Download MDX File
+                    </button>
+
+                    <button
+                        onClick={copyToClipboard}
+                        disabled={!title.trim()}
+                        className="bg-green-600 hover:bg-green-500 disabled:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed"
+                    >
+                        📋 Copy to Clipboard
+                    </button>
+
+                    <Link
+                        href="/blog"
+                        className="bg-gray-600 hover:bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                    >
+                        ← Back to Blog
+                    </Link>
+                </div>
+
+                {/* Instructions */}
+                <div className="mt-8 bg-blue-900/20 border border-blue-500/30 rounded-lg p-6">
+                    <h3 className="text-lg font-semibold mb-3 text-blue-400">How to Publish Your Post</h3>
+                    <ol className="list-decimal list-inside space-y-2 text-gray-300">
+                        <li>Fill in the post metadata (title, category, tags, excerpt)</li>
+                        <li>Write your content using Markdown syntax in the editor</li>
+                        <li>Click &quot;Download MDX File&quot; to save the post to your computer</li>
+                        <li>Place the downloaded file in <code className="bg-gray-700 px-2 py-1 rounded">src/content/blog/</code></li>
+                        <li>Commit and push to GitHub to publish on your live site</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    );
+}

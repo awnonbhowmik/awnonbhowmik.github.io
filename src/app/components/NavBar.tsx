@@ -9,11 +9,12 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Home', id: 'home' },
-    { name: 'About', id: 'about' },
-    { name: 'Research', id: 'research' },
-    { name: 'Resume', id: 'resume' },
-    { name: 'Contact', id: 'contact' },
+    { name: 'Home', id: 'home', type: 'scroll' },
+    { name: 'About', id: 'about', type: 'scroll' },
+    { name: 'Research', id: 'research', type: 'scroll' },
+    { name: 'Resume', id: 'resume', type: 'scroll' },
+    { name: 'Blog', id: '/blog', type: 'link' },
+    { name: 'Contact', id: 'contact', type: 'scroll' },
   ];
 
   const scrollToSection = (id: string) => {
@@ -21,6 +22,16 @@ const NavBar = () => {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
       setIsOpen(false);
+    }
+  };
+
+  const handleNavClick = (link: typeof navLinks[0]) => {
+    if (link.type === 'link') {
+      // For external links like Blog, just navigate
+      setIsOpen(false);
+    } else {
+      // For scroll navigation
+      scrollToSection(link.id);
     }
   };
 
@@ -61,13 +72,24 @@ const NavBar = () => {
         {/* Desktop Nav */}
         <div className="hidden lg:flex space-x-6">
           {navLinks.map((link) => (
-            <button
-              key={link.name}
-              onClick={() => scrollToSection(link.id)}
-              className="hover:text-blue-400 transition"
-            >
-              {link.name}
-            </button>
+            link.type === 'link' ? (
+              <Link
+                key={link.name}
+                href={link.id}
+                className="hover:text-blue-400 transition"
+                onClick={() => setIsOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ) : (
+              <button
+                key={link.name}
+                onClick={() => handleNavClick(link)}
+                className="hover:text-blue-400 transition"
+              >
+                {link.name}
+              </button>
+            )
           ))}
         </div>
       </div>
@@ -77,13 +99,24 @@ const NavBar = () => {
         <div className="lg:hidden px-4 pb-4 bg-gray-900/90">
           <div className="space-y-2">
             {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => scrollToSection(link.id)}
-                className="block w-full text-left py-2 text-gray-300 hover:text-blue-400 transition"
-              >
-                {link.name}
-              </button>
+              link.type === 'link' ? (
+                <Link
+                  key={link.name}
+                  href={link.id}
+                  className="block w-full text-left py-2 text-gray-300 hover:text-blue-400 transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              ) : (
+                <button
+                  key={link.name}
+                  onClick={() => handleNavClick(link)}
+                  className="block w-full text-left py-2 text-gray-300 hover:text-blue-400 transition"
+                >
+                  {link.name}
+                </button>
+              )
             ))}
           </div>
         </div>
