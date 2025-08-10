@@ -60,8 +60,8 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <div className="bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105">
-            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
+          <div className="bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105 h-[400px] flex flex-col">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
               <div>
                 <label htmlFor="name" className="sr-only">Your Name</label>
                 <input
@@ -90,17 +90,16 @@ export default function Contact() {
                 />
               </div>
 
-              <div>
+              <div className="flex-1">
                 <label htmlFor="message" className="sr-only">Your Message</label>
                 <textarea
                   id="message"
                   name="message"
-                  rows={5}
                   placeholder="Your Message"
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full h-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                 />
               </div>
 
@@ -113,7 +112,7 @@ export default function Contact() {
             </form>
 
             {status && (
-              <p className={`mt-6 text-center ${status.includes('success') || status.includes('sent successfully')
+              <p className={`mt-4 text-center text-sm ${status.includes('success') || status.includes('sent successfully')
                 ? 'text-green-400'
                 : status.includes('Sending')
                   ? 'text-blue-400'
