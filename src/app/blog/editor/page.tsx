@@ -109,7 +109,7 @@ ${content}`;
                     <div className="flex items-center gap-4">
                         <Link
                             href="/"
-                            className="inline-flex items-center text-gray-400 hover:text-blue-300 transition-colors group"
+                            className="inline-flex items-center text-[#149ddd] hover:text-white border border-[#149ddd] px-3 py-1 rounded transition-colors group bg-transparent"
                         >
                             <svg
                                 className="w-4 h-4 mr-1 transform group-hover:-translate-x-1 transition-transform"
@@ -124,7 +124,7 @@ ${content}`;
                         <span className="text-gray-600">•</span>
                         <Link
                             href="/blog"
-                            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors"
+                            className="inline-flex items-center text-[#149ddd] hover:text-white border border-[#149ddd] px-3 py-1 rounded transition-colors bg-transparent"
                         >
                             ← Back to Blog
                         </Link>
@@ -155,7 +155,7 @@ ${content}`;
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 placeholder="Enter your post title..."
-                                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full p-3 bg-gray-700 border border-[#149ddd] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#149ddd]"
                                 required
                             />
                         </div>
@@ -169,7 +169,7 @@ ${content}`;
                                 id="category"
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
-                                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full p-3 bg-gray-700 border border-[#149ddd] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#149ddd]"
                             >
                                 {categories.map(cat => (
                                     <option key={cat} value={cat}>
@@ -192,7 +192,7 @@ ${content}`;
                                 value={tags}
                                 onChange={(e) => setTags(e.target.value)}
                                 placeholder="research, machine learning, tutorial"
-                                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full p-3 bg-gray-700 border border-[#149ddd] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#149ddd]"
                             />
                         </div>
 
@@ -218,7 +218,7 @@ ${content}`;
                             onChange={(e) => setExcerpt(e.target.value)}
                             placeholder="A brief description of your post..."
                             rows={3}
-                            className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full p-3 bg-gray-700 border border-[#149ddd] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#149ddd]"
                         />
                     </div>
                 </div>
@@ -249,7 +249,7 @@ ${content}`;
                     <button
                         onClick={downloadMDX}
                         disabled={!title.trim()}
-                        className="bg-blue-600 hover:bg-blue-500 disabled:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed"
+                        className="border border-[#149ddd] text-[#149ddd] hover:bg-[#149ddd] hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed bg-transparent disabled:border-gray-600 disabled:text-gray-600"
                     >
                         📥 Download MDX File
                     </button>
@@ -257,22 +257,22 @@ ${content}`;
                     <button
                         onClick={copyToClipboard}
                         disabled={!title.trim()}
-                        className="bg-green-600 hover:bg-green-500 disabled:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed"
+                        className="border border-[#149ddd] text-[#149ddd] hover:bg-[#149ddd] hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed bg-transparent disabled:border-gray-600 disabled:text-gray-600"
                     >
                         📋 Copy to Clipboard
                     </button>
 
                     <Link
                         href="/blog"
-                        className="bg-gray-600 hover:bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                        className="border border-[#149ddd] text-[#149ddd] hover:bg-[#149ddd] hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors bg-transparent"
                     >
                         ← Back to Blog
                     </Link>
                 </div>
 
                 {/* Instructions */}
-                <div className="mt-8 bg-blue-900/20 border border-blue-500/30 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold mb-3 text-blue-400">How to Publish Your Post</h3>
+                <div className="mt-8 border border-[#149ddd] rounded-lg p-6 bg-transparent">
+                    <h3 className="text-lg font-semibold mb-3 text-[#149ddd]">How to Publish Your Post</h3>
                     <ol className="list-decimal list-inside space-y-2 text-gray-300">
                         <li>Fill in the post metadata (title, category, tags, excerpt)</li>
                         <li>Write your content using Markdown syntax in the editor</li>

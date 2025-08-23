@@ -14,7 +14,7 @@ export default function Footer() {
       <div className="text-center mb-4">
         <button
           onClick={scrollToTop}
-          className="flex items-center justify-center mx-auto p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors"
+          className="flex items-center justify-center mx-auto p-4 bg-[#149ddd] text-white rounded-full shadow-lg hover:bg-[#117bb8] transition-colors"
           aria-label="Back to Top"
         >
           <FaArrowUp size={20} />

@@ -101,7 +101,7 @@ export default function Hero() {
       <div className="flex flex-wrap gap-4 mt-8 justify-center">
         <button
           onClick={scrollToContact}
-          className="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600 transition-colors"
+          className="bg-[#149ddd] text-white px-5 py-2 rounded hover:bg-[#117bb8] transition-colors"
         >
           Get In Touch
         </button>
@@ -109,7 +109,7 @@ export default function Hero() {
           href=""
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-gray-600 text-white px-5 py-2 rounded hover:bg-gray-700 transition-colors"
+          className="border border-[#149ddd] text-[#149ddd] px-5 py-2 rounded bg-transparent hover:bg-[#149ddd]/10 transition-colors"
         >
           Download CV
         </a>
