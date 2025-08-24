@@ -114,7 +114,7 @@ export default function Achievements() {
 
       {/* Competitive Programming Section */}
       <div className="max-w-5xl mx-auto text-center mt-20 mb-12 px-4">
-        <h2 className="text-4xl font-bold text-white">Competitive Programming</h2>
+        <h2 className="text-4xl font-bold text-white">Coding Stats</h2>
         {/* <p className="text-gray-400 text-lg mt-2">Online coding platforms and achievements</p> */}
       </div>
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
@@ -126,7 +126,14 @@ export default function Achievements() {
               <li key={i}>{stat}</li>
             ))}
           </ul>
-          <a href={competitive[0].url} target="_blank" rel="noopener noreferrer" className="text-[#149ddd] underline text-center hover:text-blue-500 transition-colors">View Profile</a>
+          <a
+            href={competitive[0].url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-[#149ddd] text-[#149ddd] px-4 py-2 rounded-full text-sm font-semibold text-center bg-transparent transition-colors duration-200 hover:bg-[#149ddd] hover:text-white"
+          >
+            View Profile
+          </a>
         </div>
         {/* HackerRank Card */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform hover:scale-105 flex flex-col justify-between">
@@ -149,7 +156,14 @@ export default function Achievements() {
               ))}
             </div>
           </div>
-          <a href={competitive[1].url} target="_blank" rel="noopener noreferrer" className="text-[#149ddd] underline text-center hover:text-blue-500 transition-colors">View Profile</a>
+          <a
+            href={competitive[1].url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-[#149ddd] text-[#149ddd] px-4 py-2 rounded-full text-sm font-semibold text-center bg-transparent transition-colors duration-200 hover:bg-[#149ddd] hover:text-white"
+          >
+            View Profile
+          </a>
         </div>
       </div>
     </section>
