@@ -1,5 +1,5 @@
 'use client';
-import { FaCode, FaCubes, FaDatabase, FaServer, FaBug, FaLaptopCode, FaCheckCircle, FaCloud, FaChartBar, FaFileAlt, FaImage, FaCube, FaWindowRestore, FaShieldAlt } from 'react-icons/fa';
+import { FaCode, FaDatabase, FaChartBar, FaShieldAlt } from 'react-icons/fa';
 
 
 const skillCategories = [
