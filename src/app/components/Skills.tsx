@@ -46,7 +46,7 @@ export default function Skills() {
               className="bg-gray-800 rounded-lg p-6 shadow-lg flex flex-col items-center hover:scale-105 hover:shadow-xl transition-transform"
             >
               {cat.icon}
-              <h3 className="text-lg font-semibold mb-4 text-[#149ddd]">{cat.title}</h3>
+              <h3 className="text-2xl font-semibold mb-4 text-[#149ddd]">{cat.title}</h3>
               <div className="flex flex-wrap gap-2 justify-center">
                 {cat.skills.map((skill) => (
                   <span

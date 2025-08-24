@@ -142,7 +142,7 @@ export default function Achievements() {
             <div className="font-semibold text-[#149ddd] mb-1">Badges:</div>
             <div className="flex flex-wrap gap-2 justify-center mb-2">
               {(competitive[1].badges ?? []).map((badge, i) => (
-                <span key={i} className="border border-[#149ddd] text-white px-3 py-1 rounded-full text-xs font-semibold shadow bg-transparent hover:bg-[#149ddd]/10">
+                <span key={i} className="border border-[#149ddd] text-white px-3 py-1 rounded-full text-sm font-semibold shadow bg-transparent hover:bg-[#149ddd]/10">
                   {badge}
                 </span>
               ))}
@@ -150,7 +150,7 @@ export default function Achievements() {
             <div className="font-semibold text-[#149ddd] mb-1">Certifications:</div>
             <div className="flex flex-wrap gap-2 justify-center">
               {(competitive[1].certifications ?? []).map((cert, i) => (
-                <span key={i} className="border border-[#149ddd] text-white px-3 py-1 rounded text-xs font-semibold shadow bg-transparent hover:bg-[#149ddd]/10">
+                <span key={i} className="border border-[#149ddd] text-white px-3 py-1 rounded text-sm font-semibold shadow bg-transparent hover:bg-[#149ddd]/10">
                   {cert}
                 </span>
               ))}

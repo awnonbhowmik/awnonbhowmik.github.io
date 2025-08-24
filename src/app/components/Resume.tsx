@@ -74,13 +74,13 @@ export default function Resume() {
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 px-6 relative">
         {/* Education Section */}
         <div>
-          <h3 className="flex items-center text-3xl font-semibold text-[#149ddd] mb-6">
+          <h3 className="flex items-center text-2xl font-semibold text-[#149ddd] mb-6">
             <FaGraduationCap className="mr-2" /> Education
           </h3>
           {education.map((item, index) => (
             <div
               key={index}
-              className="flex items-start bg-gray-800 p-6 mb-8 rounded-lg shadow transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
+              className="flex flex-col justify-between min-h-[200px] bg-gray-800 p-6 mb-8 rounded-lg shadow transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
             >
               <div className="mr-4 text-[#149ddd]">{item.icon}</div>
               <div>
@@ -96,13 +96,13 @@ export default function Resume() {
 
         {/* Experience Section */}
         <div>
-          <h3 className="flex items-center text-3xl font-semibold text-[#149ddd] mb-6">
+          <h3 className="flex items-center text-2xl font-semibold text-[#149ddd] mb-6">
             <FaBriefcase className="mr-2" /> Experience
           </h3>
           {experience.map((item, index) => (
             <div
               key={index}
-              className="flex items-start bg-gray-800 p-6 mb-8 rounded-lg shadow transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
+              className="flex flex-col justify-between min-h-[200px] bg-gray-800 p-6 mb-8 rounded-lg shadow transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
             >
               <div className="mr-4 text-[#149ddd]">{item.icon}</div>
               <div>
