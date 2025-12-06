@@ -70,10 +70,12 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   
   // Verify the resolved path is still within the blog directory
   // This prevents path traversal attacks like ../../../etc/passwd
-  const normalizedPath = path.normalize(fullPath);
-  const normalizedBlogDir = path.normalize(blogDirectory);
+  // Using path.relative() and checking for '..' is more robust than startsWith
+  const relativePath = path.relative(blogDirectory, fullPath);
   
-  if (!normalizedPath.startsWith(normalizedBlogDir)) {
+  // If relative path contains '..', the file is outside the blog directory
+  // Also check if relative path is empty or starts with path separator
+  if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
     return null;
   }
   
