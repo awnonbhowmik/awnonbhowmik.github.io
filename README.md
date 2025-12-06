@@ -2,6 +2,30 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Environment Setup
+
+Before running the application, create a `.env` file in the root directory with the following variables:
+
+```bash
+# Blog Admin Password - Set a strong, unique password
+NEXT_PUBLIC_BLOG_ADMIN_PASSWORD=your_secure_password_here
+
+# EmailJS Configuration (for Contact Form)
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+You can also copy `.env.example` to `.env` and update the values:
+
+```bash
+cp .env.example .env
+```
+
+**⚠️ Security Note:** Never commit `.env` files to version control. The `.gitignore` file is configured to prevent this.
+
+### Running the Development Server
+
 First, run the development server:
 
 ```bash
