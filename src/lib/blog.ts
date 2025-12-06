@@ -56,7 +56,28 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
-  const fullPath = path.join(process.cwd(), 'src/content/blog', `${slug}.mdx`);
+  // Sanitize slug to prevent path traversal attacks
+  // Only allow alphanumeric characters, hyphens, and underscores
+  const sanitizedSlug = slug.replace(/[^a-zA-Z0-9-_]/g, '');
+  
+  if (!sanitizedSlug || sanitizedSlug !== slug) {
+    // If slug contains invalid characters, return null
+    return null;
+  }
+  
+  const blogDirectory = path.join(process.cwd(), 'src/content/blog');
+  const fullPath = path.join(blogDirectory, `${sanitizedSlug}.mdx`);
+  
+  // Verify the resolved path is still within the blog directory
+  // This prevents path traversal attacks like ../../../etc/passwd
+  // Using path.relative() and checking for '..' is more robust than startsWith
+  const relativePath = path.relative(blogDirectory, fullPath);
+  
+  // If relative path contains '..', the file is outside the blog directory
+  // Also check if relative path is empty or starts with path separator
+  if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
+    return null;
+  }
   
   if (!fs.existsSync(fullPath)) {
     return null;
@@ -67,7 +88,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   const readingTime = calculateReadingTime(content);
 
   return {
-    slug,
+    slug: sanitizedSlug,
     frontmatter: frontmatter as BlogPostFrontmatter,
     content,
     readingTime,

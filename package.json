@@ -16,7 +16,7 @@
     "@uiw/react-md-editor": "^4.0.8",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.22",
-    "next": "15.4.7",
+    "next": "^15.5.7",
     "next-mdx-remote": "^5.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

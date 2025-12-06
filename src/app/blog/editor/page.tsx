@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import 'katex/dist/katex.css';
+import { sanitizeTitle, sanitizeCategory, sanitizeTags, sanitizeExcerpt } from '@/lib/sanitize';
 
 // Dynamic import to avoid SSR issues
 const MDEditor = dynamic(
@@ -70,14 +71,19 @@ Happy writing! 🚀
 
     const generateMDXContent = () => {
         const currentDate = new Date().toISOString().split('T')[0];
-        const tagArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+        
+        // Sanitize all inputs before generating MDX
+        const sanitizedTitle = sanitizeTitle(title);
+        const sanitizedCategory = sanitizeCategory(category);
+        const sanitizedTags = sanitizeTags(tags);
+        const sanitizedExcerpt = sanitizeExcerpt(excerpt);
 
         return `---
-title: "${title}"
+title: "${sanitizedTitle}"
 date: "${currentDate}"
-category: "${category}"
-tags: [${tagArray.map(tag => `"${tag}"`).join(', ')}]
-excerpt: "${excerpt}"
+category: "${sanitizedCategory}"
+tags: [${sanitizedTags.map(tag => `"${tag}"`).join(', ')}]
+excerpt: "${sanitizedExcerpt}"
 ---
 
 ${content}`;

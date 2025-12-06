@@ -23,8 +23,15 @@ export default function AdminControls({ showWhenEmpty = false, minimal = false }
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        // Simple password check - you can change this password
-        if (password === 'Mdb@g1990') {
+        // Check password against environment variable
+        const adminPassword = process.env.NEXT_PUBLIC_BLOG_ADMIN_PASSWORD;
+        
+        if (!adminPassword) {
+            alert('Admin authentication is not configured. Please set NEXT_PUBLIC_BLOG_ADMIN_PASSWORD in your environment variables.');
+            return;
+        }
+        
+        if (password === adminPassword) {
             localStorage.setItem('blog_admin_auth', 'awnon_authenticated');
             setIsAdmin(true);
             setShowLogin(false);

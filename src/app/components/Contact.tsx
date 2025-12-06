@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import { sanitizeEmail, isValidEmail } from '@/lib/sanitize';
 // import { FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function Contact() {
@@ -32,6 +33,19 @@ export default function Contact() {
 
     if (!form.current) {
       setStatus('Form reference error. Please try again.');
+      return;
+    }
+
+    // Validate and sanitize email
+    const sanitizedEmail = sanitizeEmail(formData.email);
+    if (!sanitizedEmail || !isValidEmail(sanitizedEmail)) {
+      setStatus('Please enter a valid email address.');
+      return;
+    }
+
+    // Validate required fields
+    if (!formData.name.trim() || !formData.message.trim()) {
+      setStatus('Please fill in all required fields.');
       return;
     }
 
