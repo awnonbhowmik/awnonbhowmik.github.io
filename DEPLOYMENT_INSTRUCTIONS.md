@@ -66,14 +66,26 @@ After deployment:
 
 ## Security Notes
 
-⚠️ **Important**: The `NEXT_PUBLIC_` prefix means this variable is exposed in the client-side bundle. This is suitable for:
+⚠️ **CRITICAL: Client-Side Password Exposure**
+
+The `NEXT_PUBLIC_` prefix means this variable is exposed in the client-side bundle. **Anyone can view this password by:**
+- Opening browser Developer Tools (F12)
+- Inspecting the JavaScript bundle
+- Looking at the network requests or localStorage
+
+This is suitable for:
 - Personal blogs with low-risk content
 - Hiding admin UI from casual visitors
 - Using as an "access code" rather than enterprise-level security
+
+**This is NOT suitable for:**
+- Protecting sensitive data
+- Sites requiring real authentication
+- Production applications with security requirements
 
 For production sites requiring stronger security, consider:
 - Server-side authentication with API routes
 - OAuth integration (GitHub, Google, etc.)
 - Headless CMS with built-in auth (Contentful, Sanity, etc.)
 
-The current setup provides convenient access control for a personal blog while keeping the password out of your git repository.
+The current setup provides convenient access control for a personal blog while keeping the password out of your git repository. However, understand that the password will be visible to anyone who knows how to use browser developer tools.
