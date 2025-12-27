@@ -1,12 +1,18 @@
 # Deployment Instructions for Blog Password
 
+## ⚠️ IMPORTANT SECURITY NOTE
+
+**DO NOT commit your `.env` file or share your password in public repositories.** The `.env` file is properly gitignored and contains your actual password. This documentation file uses placeholder text for security.
+
+---
+
 Your blog admin password has been set locally in the `.env` file. To use this password in production, you need to configure it in your deployment platform.
 
 ## Local Development Setup ✅
 
-The password `Mdb@g1990` is already set in your local `.env` file as:
+Your blog admin password is already set in your local `.env` file as:
 ```
-NEXT_PUBLIC_BLOG_ADMIN_PASSWORD=Mdb@g1990
+NEXT_PUBLIC_BLOG_ADMIN_PASSWORD=your_secure_password_here
 ```
 
 This file is properly gitignored and will **not** be committed to the repository for security reasons.
@@ -28,7 +34,7 @@ To use the same password in your production deployment on Netlify:
 4. **Add the Environment Variable**:
    - Click "Add a variable" or "Add environment variable"
    - **Key**: `NEXT_PUBLIC_BLOG_ADMIN_PASSWORD`
-   - **Value**: `Mdb@g1990`
+   - **Value**: `your_secure_password_here` (use the same password from your local `.env` file)
    - Click "Create variable" or "Save"
 
 5. **Redeploy your site**:
@@ -41,7 +47,7 @@ To use the same password in your production deployment on Netlify:
 After deployment:
 1. Visit your blog at https://awnonbhowmik.github.io/blog
 2. Look for the "Admin Login" link
-3. Enter the password `Mdb@g1990`
+3. Enter your configured admin password
 4. You should be able to access admin features
 
 ## Alternative Deployment Platforms
@@ -49,12 +55,12 @@ After deployment:
 ### Vercel:
 1. Go to your project settings
 2. Navigate to "Environment Variables"
-3. Add: `NEXT_PUBLIC_BLOG_ADMIN_PASSWORD` = `Mdb@g1990`
+3. Add: `NEXT_PUBLIC_BLOG_ADMIN_PASSWORD` = `your_secure_password_here`
 4. Redeploy
 
 ### GitHub Pages with Actions:
 1. Go to repository Settings → Secrets and variables → Actions
-2. Add repository secret: `NEXT_PUBLIC_BLOG_ADMIN_PASSWORD` = `Mdb@g1990`
+2. Add repository secret: `NEXT_PUBLIC_BLOG_ADMIN_PASSWORD` = `your_secure_password_here`
 3. Update your GitHub Actions workflow to use this secret
 4. Push changes to trigger deployment
 
