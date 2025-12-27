@@ -199,6 +199,7 @@ npx tsc --noEmit
 |------|---------|-------------|
 | 2025-12-06 | Initial | Comprehensive security audit and fixes |
 | 2025-12-06 | 1.0 | - Updated Next.js to 15.5.7<br>- Fixed js-yaml vulnerabilities<br>- Fixed mdast-util-to-hast vulnerability<br>- Removed hardcoded password<br>- Added input sanitization<br>- Added path traversal protection |
+| 2025-12-27 | 1.1 | - Updated Next.js to 15.5.9<br>- Fixed Server Actions source code exposure (GHSA-w37m-7fhw-fmv9)<br>- Fixed DoS with Server Components (GHSA-mwv6-3258-q52c)<br>- Removed 6 unnecessary template files<br>- Verified 0 vulnerabilities in dependencies |
 
 ## Additional Resources
 
@@ -213,4 +214,4 @@ This security policy is part of the project and follows the same license.
 
 ---
 
-**Last Updated**: December 6, 2025
+**Last Updated**: December 27, 2025
