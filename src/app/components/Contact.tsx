@@ -1,9 +1,14 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import { sanitizeEmail, isValidEmail } from '@/lib/sanitize';
 // import { FaMapMarkerAlt } from 'react-icons/fa';
+
+// Rate limiting constants
+const RATE_LIMIT_WINDOW = 60 * 1000; // 60 seconds
+const MAX_SUBMISSIONS_PER_WINDOW = 3; // Max 3 submissions per window
+const SUBMISSION_TIMEOUT = 5 * 1000; // 5 second timeout per submission
 
 export default function Contact() {
   const form = useRef<HTMLFormElement>(null);
@@ -14,24 +19,106 @@ export default function Contact() {
   });
 
   const [status, setStatus] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionCount, setSubmissionCount] = useState(0);
+  const lastSubmissionTimeRef = useRef(0);
+  const submissionTimesRef = useRef<number[]>([]);
+
+  // Initialize rate limiting from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem('contact_form_submissions');
+    if (stored) {
+      try {
+        const data = JSON.parse(stored);
+        submissionTimesRef.current = data.times || [];
+        // Clean up old submissions outside the rate limit window
+        const now = Date.now();
+        submissionTimesRef.current = submissionTimesRef.current.filter(
+          (time) => now - time < RATE_LIMIT_WINDOW
+        );
+      } catch {
+        submissionTimesRef.current = [];
+      }
+    }
+  }, []);
+
+  // Check if submission is allowed based on rate limiting
+  const isRateLimited = (): boolean => {
+    const now = Date.now();
+    // Remove submissions older than the rate limit window
+    submissionTimesRef.current = submissionTimesRef.current.filter(
+      (time) => now - time < RATE_LIMIT_WINDOW
+    );
+    return submissionTimesRef.current.length >= MAX_SUBMISSIONS_PER_WINDOW;
+  };
+
+  // Record a submission for rate limiting
+  const recordSubmission = (): void => {
+    const now = Date.now();
+    submissionTimesRef.current.push(now);
+    localStorage.setItem(
+      'contact_form_submissions',
+      JSON.stringify({ times: submissionTimesRef.current })
+    );
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    // Update the state based on the EmailJS field names
-    if (name === 'from_name') {
-      setFormData({ ...formData, name: value });
-    } else if (name === 'from_email') {
-      setFormData({ ...formData, email: value });
-    } else if (name === 'message') {
-      setFormData({ ...formData, message: value });
+
+    // Enforce maximum input lengths to prevent DoS attacks
+    const maxLengths: Record<string, number> = {
+      from_name: 100,
+      from_email: 254,
+      message: 5000, // Reasonable limit for a message
+    };
+
+    const maxLength = maxLengths[name] || 1000;
+
+    if (value.length <= maxLength) {
+      // Update the state based on the EmailJS field names
+      if (name === 'from_name') {
+        setFormData({ ...formData, name: value });
+      } else if (name === 'from_email') {
+        setFormData({ ...formData, email: value });
+      } else if (name === 'message') {
+        setFormData({ ...formData, message: value });
+      }
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Prevent double submissions
+    if (isSubmitting) {
+      setStatus('Submission already in progress. Please wait...');
+      return;
+    }
+
+    // Rate limiting check
+    if (isRateLimited()) {
+      const oldestSubmission = submissionTimesRef.current[0];
+      const timeUntilAvailable = Math.ceil(
+        (RATE_LIMIT_WINDOW - (Date.now() - oldestSubmission)) / 1000
+      );
+      setStatus(
+        `Too many submissions. Please wait ${timeUntilAvailable}s before submitting again.`
+      );
+      return;
+    }
+
     setStatus('Sending...');
+    setIsSubmitting(true);
+
+    // Set a timeout to prevent hanging requests
+    const submissionTimeoutId = setTimeout(() => {
+      setIsSubmitting(false);
+      setStatus('Request timeout. Please try again.');
+    }, SUBMISSION_TIMEOUT);
 
     if (!form.current) {
+      clearTimeout(submissionTimeoutId);
+      setIsSubmitting(false);
       setStatus('Form reference error. Please try again.');
       return;
     }
@@ -39,13 +126,32 @@ export default function Contact() {
     // Validate and sanitize email
     const sanitizedEmail = sanitizeEmail(formData.email);
     if (!sanitizedEmail || !isValidEmail(sanitizedEmail)) {
+      clearTimeout(submissionTimeoutId);
+      setIsSubmitting(false);
       setStatus('Please enter a valid email address.');
       return;
     }
 
     // Validate required fields
     if (!formData.name.trim() || !formData.message.trim()) {
+      clearTimeout(submissionTimeoutId);
+      setIsSubmitting(false);
       setStatus('Please fill in all required fields.');
+      return;
+    }
+
+    // Additional validation: check minimum lengths
+    if (formData.name.trim().length < 2) {
+      clearTimeout(submissionTimeoutId);
+      setIsSubmitting(false);
+      setStatus('Name must be at least 2 characters long.');
+      return;
+    }
+
+    if (formData.message.trim().length < 10) {
+      clearTimeout(submissionTimeoutId);
+      setIsSubmitting(false);
+      setStatus('Message must be at least 10 characters long.');
       return;
     }
 
@@ -58,12 +164,20 @@ export default function Contact() {
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY'
       );
 
+      // Record successful submission for rate limiting
+      recordSubmission();
+
+      clearTimeout(submissionTimeoutId);
       console.log('EmailJS result:', result.text);
       setStatus('Message sent successfully!');
       setFormData({ name: '', email: '', message: '' });
+      lastSubmissionTimeRef.current = Date.now();
     } catch (error) {
+      clearTimeout(submissionTimeoutId);
       console.error('EmailJS error:', error);
       setStatus('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -119,9 +233,10 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full bg-[#149ddd] hover:bg-[#117bb8] text-white py-3 rounded-lg transition-all duration-200 shadow-lg focus:ring-2 focus:ring-[#149ddd] focus:outline-none"
+                disabled={isSubmitting}
+                className="w-full bg-[#149ddd] hover:bg-[#117bb8] disabled:bg-gray-600 disabled:cursor-not-allowed text-white py-3 rounded-lg transition-all duration-200 shadow-lg focus:ring-2 focus:ring-[#149ddd] focus:outline-none"
               >
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
 
