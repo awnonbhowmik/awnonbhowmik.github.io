@@ -20,7 +20,6 @@ export default function Contact() {
 
   const [status, setStatus] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionCount, setSubmissionCount] = useState(0);
   const lastSubmissionTimeRef = useRef(0);
   const submissionTimesRef = useRef<number[]>([]);
 
