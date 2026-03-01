@@ -74,7 +74,7 @@ export default function Resume() {
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 px-6 relative">
         {/* Education Section */}
         <div>
-          <h3 className="flex items-center text-2xl font-semibold text-[#149ddd] mb-6">
+          <h3 className="flex items-center text-2xl font-semibold text-accent mb-6">
             <FaGraduationCap className="mr-2" /> Education
           </h3>
           {education.map((item, index) => (
@@ -82,9 +82,9 @@ export default function Resume() {
               key={index}
               className="flex flex-col justify-between min-h-[200px] bg-gray-800 p-6 mb-8 rounded-lg shadow transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
             >
-              <div className="mr-4 text-[#149ddd]">{item.icon}</div>
+              <div className="mr-4 text-accent">{item.icon}</div>
               <div>
-                <h4 className="text-xl font-semibold text-[#149ddd]">{item.title}</h4>
+                <h4 className="text-xl font-semibold text-accent">{item.title}</h4>
                 <p className="text-gray-300">{item.institution}</p>
                 <p className="flex items-center text-gray-400 mt-2">
                   <FaCalendarAlt className="mr-2" /> {item.date}
@@ -96,7 +96,7 @@ export default function Resume() {
 
         {/* Experience Section */}
         <div>
-          <h3 className="flex items-center text-2xl font-semibold text-[#149ddd] mb-6">
+          <h3 className="flex items-center text-2xl font-semibold text-accent mb-6">
             <FaBriefcase className="mr-2" /> Experience
           </h3>
           {experience.map((item, index) => (
@@ -104,9 +104,9 @@ export default function Resume() {
               key={index}
               className="flex flex-col justify-between min-h-[200px] bg-gray-800 p-6 mb-8 rounded-lg shadow transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
             >
-              <div className="mr-4 text-[#149ddd]">{item.icon}</div>
+              <div className="mr-4 text-accent">{item.icon}</div>
               <div>
-                <h4 className="text-xl font-semibold text-[#149ddd]">{item.title}</h4>
+                <h4 className="text-xl font-semibold text-accent">{item.title}</h4>
                 <p className="text-gray-300">{item.company}</p>
                 <p className="flex items-center text-gray-400 mt-2">
                   <FaCalendarAlt className="mr-2" /> {item.date}
@@ -115,7 +115,7 @@ export default function Resume() {
             </div>
           ))}
           {/* Subtle vertical divider for large screens */}
-          <div className="hidden lg:block absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-px bg-[#149ddd]/10 z-0"></div>
+          <div className="hidden lg:block absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-px bg-accent/10 z-0"></div>
         </div>
       </div>
     </section>

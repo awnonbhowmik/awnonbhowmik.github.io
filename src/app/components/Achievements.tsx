@@ -86,7 +86,7 @@ export default function Achievements() {
             key={index}
             className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform hover:scale-105"
           >
-            <h3 className="text-2xl font-semibold text-[#149ddd] text-center">{item.title}</h3>
+            <h3 className="text-2xl font-semibold text-accent text-center">{item.title}</h3>
             <p className="text-center mt-2 text-gray-300">{item.description}</p>
           </div>
         ))}
@@ -102,7 +102,7 @@ export default function Achievements() {
             key={index}
             className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform hover:scale-105"
           >
-            <h3 className="text-2xl font-semibold text-[#149ddd] mb-2">{item.title}</h3>
+            <h3 className="text-2xl font-semibold text-accent mb-2">{item.title}</h3>
             <ul className="list-disc list-inside text-gray-300 pl-6">
               {item.points.map((point, i) => (
                 <li key={i}>{point}</li>
@@ -120,7 +120,7 @@ export default function Achievements() {
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
         {/* LeetCode Card */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform hover:scale-105 flex flex-col justify-between">
-          <h3 className="text-2xl font-semibold text-[#149ddd] text-left mb-2">{competitive[0].title}</h3>
+          <h3 className="text-2xl font-semibold text-accent text-left mb-2">{competitive[0].title}</h3>
           <ul className="list-disc list-inside text-gray-300 pl-6 mb-4">
             {(competitive[0].stats ?? []).map((stat, i) => (
               <li key={i}>{stat}</li>
@@ -130,27 +130,27 @@ export default function Achievements() {
             href={competitive[0].url}
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-[#149ddd] text-[#149ddd] px-4 py-2 rounded-full text-sm font-semibold text-center bg-transparent transition-colors duration-200 hover:bg-[#149ddd] hover:text-white"
+            className="border border-accent text-accent px-4 py-2 rounded-full text-sm font-semibold text-center bg-transparent transition-colors duration-200 hover:bg-accent hover:text-white"
           >
             View Profile
           </a>
         </div>
         {/* HackerRank Card */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform hover:scale-105 flex flex-col justify-between">
-          <h3 className="text-2xl font-semibold text-[#149ddd] mb-2">{competitive[1].title}</h3>
+          <h3 className="text-2xl font-semibold text-accent mb-2">{competitive[1].title}</h3>
           <div className="mb-4">
-            <div className="font-semibold text-[#149ddd] mb-1">Badges:</div>
+            <div className="font-semibold text-accent mb-1">Badges:</div>
             <div className="flex flex-wrap gap-2 justify-center mb-2">
               {(competitive[1].badges ?? []).map((badge, i) => (
-                <span key={i} className="border border-[#149ddd] text-white px-3 py-1 rounded-full text-sm font-semibold shadow bg-transparent hover:bg-[#149ddd]/10">
+                <span key={i} className="border border-accent text-white px-3 py-1 rounded-full text-sm font-semibold shadow bg-transparent hover:bg-accent/10">
                   {badge}
                 </span>
               ))}
             </div>
-            <div className="font-semibold text-[#149ddd] mb-1">Certifications:</div>
+            <div className="font-semibold text-accent mb-1">Certifications:</div>
             <div className="flex flex-wrap gap-2 justify-center">
               {(competitive[1].certifications ?? []).map((cert, i) => (
-                <span key={i} className="border border-[#149ddd] text-white px-3 py-1 rounded text-sm font-semibold shadow bg-transparent hover:bg-[#149ddd]/10">
+                <span key={i} className="border border-accent text-white px-3 py-1 rounded text-sm font-semibold shadow bg-transparent hover:bg-accent/10">
                   {cert}
                 </span>
               ))}
@@ -160,7 +160,7 @@ export default function Achievements() {
             href={competitive[1].url}
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-[#149ddd] text-[#149ddd] px-4 py-2 rounded-full text-sm font-semibold text-center bg-transparent transition-colors duration-200 hover:bg-[#149ddd] hover:text-white"
+            className="border border-accent text-accent px-4 py-2 rounded-full text-sm font-semibold text-center bg-transparent transition-colors duration-200 hover:bg-accent hover:text-white"
           >
             View Profile
           </a>

@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { FaGithub, FaLinkedin, FaResearchgate, FaGraduationCap } from 'react-icons/fa';
 
 export default function Hero() {
+  const typedWordsRef = useRef<HTMLSpanElement>(null);
+
   useEffect(() => {
     const words = ["Researcher", "Mentor", "Developer"];
     let wordIndex = 0;
@@ -11,7 +13,7 @@ export default function Hero() {
     const typingSpeed = 100;
     const erasingSpeed = 50;
     const delayBetweenWords = 1000;
-    const typedWordsElement = document.getElementById("typed-words");
+    const typedWordsElement = typedWordsRef.current;
 
     function type() {
       if (typedWordsElement) {
@@ -57,8 +59,8 @@ export default function Hero() {
       <h1 className="text-6xl font-bold mb-4">Awnon Bhowmik</h1>
 
       {/* Animated Typing */}
-      <h2 className="text-xl sm:text-2xl mt-2 text-[#149ddd]">
-        A <span id="typed-words"></span>
+      <h2 className="text-xl sm:text-2xl mt-2 text-accent">
+        A <span ref={typedWordsRef}></span>
       </h2>
 
       {/* Social Icons */}
@@ -101,7 +103,7 @@ export default function Hero() {
       <div className="flex flex-wrap gap-4 mt-8 justify-center">
         <button
           onClick={scrollToContact}
-          className="bg-[#149ddd] text-white px-5 py-2 rounded hover:bg-[#117bb8] transition-colors"
+          className="bg-accent text-white px-5 py-2 rounded hover:bg-accent-dark transition-colors"
         >
           Get In Touch
         </button>
@@ -109,7 +111,7 @@ export default function Hero() {
           href=""
           target="_blank"
           rel="noopener noreferrer"
-          className="border border-[#149ddd] text-[#149ddd] px-5 py-2 rounded bg-transparent hover:bg-[#149ddd]/10 transition-colors"
+          className="border border-accent text-accent px-5 py-2 rounded bg-transparent hover:bg-accent/10 transition-colors"
         >
           Download CV
         </a>

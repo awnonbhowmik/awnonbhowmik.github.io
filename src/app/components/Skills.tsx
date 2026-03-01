@@ -4,7 +4,7 @@ import { FaCode, FaDatabase, FaChartBar, FaShieldAlt } from 'react-icons/fa';
 
 const skillCategories = [
   {
-    icon: <FaCode className="text-3xl text-[#149ddd]" />,
+    icon: <FaCode className="text-3xl text-accent" />,
     title: "Programming",
     skills: [
       "Java", "Python", "JavaScript", "C++", "C", "SQL", "FORTRAN", "MASM x86",
@@ -12,21 +12,21 @@ const skillCategories = [
     ],
   },
   {
-    icon: <FaChartBar className="text-3xl text-[#149ddd]" />,
+    icon: <FaChartBar className="text-3xl text-accent" />,
     title: "Mathematics",
     skills: [
       "Mathematica", "Maple", "MATLAB", "LaTeX", "GeoGebra", "Desmos", "SageMath"
     ],
   },
   {
-    icon: <FaDatabase className="text-3xl text-[#149ddd]" />,
+    icon: <FaDatabase className="text-3xl text-accent" />,
     title: "Data Analytics",
     skills: [
       "Excel", "Tableau", "Power BI", "Looker Studio", "R Programming", "SAS", "Pandas", "NumPy", "Matplotlib", "Seaborn"
     ],
   },
   {
-    icon: <FaShieldAlt className="text-3xl text-[#149ddd]" />,
+    icon: <FaShieldAlt className="text-3xl text-accent" />,
     title: "Cybersecurity",
     skills: [
       "Ubuntu", "Kali Linux", "Wireshark", "NMap", "Nikto", "Burp Suite", "Metasploit", "Penetration Testing", "Network Security"
@@ -46,12 +46,12 @@ export default function Skills() {
               className="bg-gray-800 rounded-lg p-6 shadow-lg flex flex-col items-center hover:scale-105 hover:shadow-xl transition-transform"
             >
               {cat.icon}
-              <h3 className="text-2xl font-semibold mb-4 text-[#149ddd]">{cat.title}</h3>
+              <h3 className="text-2xl font-semibold mb-4 text-accent">{cat.title}</h3>
               <div className="flex flex-wrap gap-2 justify-center">
                 {cat.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="border border-[#149ddd] text-white px-3 py-1 rounded-full text-sm font-medium bg-transparent transition-colors duration-200 hover:bg-[#149ddd]/10 hover:text-[#149ddd]"
+                    className="border border-accent text-white px-3 py-1 rounded-full text-sm font-medium bg-transparent transition-colors duration-200 hover:bg-accent/10 hover:text-accent"
                   >
                     {skill}
                   </span>
