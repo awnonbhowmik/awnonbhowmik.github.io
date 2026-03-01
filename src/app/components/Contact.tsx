@@ -234,7 +234,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#149ddd] hover:bg-[#117bb8] disabled:bg-gray-600 disabled:cursor-not-allowed text-white py-3 rounded-lg transition-all duration-200 shadow-lg focus:ring-2 focus:ring-[#149ddd] focus:outline-none"
+                className="w-full bg-accent hover:bg-accent-dark disabled:bg-gray-600 disabled:cursor-not-allowed text-white py-3 rounded-lg transition-all duration-200 shadow-lg focus:ring-2 focus:ring-accent focus:outline-none"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>

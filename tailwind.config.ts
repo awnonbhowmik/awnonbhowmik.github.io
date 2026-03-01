@@ -11,6 +11,10 @@ const config: Config = {
       fontFamily: {
         mono: ['"JetBrains Mono"', 'monospace'],
       },
+      colors: {
+        accent: '#149ddd',
+        'accent-dark': '#117bb8',
+      },
     },
   },
   plugins: [],

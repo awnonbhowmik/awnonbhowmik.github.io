@@ -29,16 +29,16 @@ export default function About() {
         {/* Text Section */}
         <div className="w-full lg:w-2/3 space-y-6">
           <p className="text-lg text-justify leading-relaxed text-gray-300">
-            I am <strong className="text-[#149ddd]">Awnon Bhowmik</strong>, a passionate researcher, educator, and developer. My primary expertise lies in <span className="text-[#149ddd]">Information Security</span> and <span className="text-[#149ddd]">Data Analytics</span>. I strive to push the boundaries of knowledge and innovation.
+            I am <strong className="text-accent">Awnon Bhowmik</strong>, a passionate researcher, educator, and developer. My primary expertise lies in <span className="text-accent">Information Security</span> and <span className="text-accent">Data Analytics</span>. I strive to push the boundaries of knowledge and innovation.
           </p>
           <p className="text-lg text-justify leading-relaxed text-gray-300">
             With a decade of experience as a mathematics educator, I have instructed undergraduate students in a variety of mathematical topics, ranging from college algebra and precalculus to calculus and differential equations.
           </p>
           <p className="text-lg text-justify leading-relaxed text-gray-300">
-            As a programmer, I have developed software applications for <span className="text-[#149ddd]">financial</span> and <span className="text-[#149ddd]">healthcare services</span>. Currently working for the <span className="text-[#149ddd]">United States Postal Service (USPS)</span>, I am responsible for analyzing, designing, and developing software solutions to meet the organization&apos;s needs.
+            As a programmer, I have developed software applications for <span className="text-accent">financial</span> and <span className="text-accent">healthcare services</span>. Currently working for the <span className="text-accent">United States Postal Service (USPS)</span>, I am responsible for analyzing, designing, and developing software solutions to meet the organization&apos;s needs.
           </p>
           <p className="text-lg text-justify leading-relaxed text-gray-300">
-            I am a first-year doctoral student specializing in <span className="text-[#149ddd]">Cybersecurity and Information Assurance</span> at Colorado Technical University. My research focuses on integrating data analytics and information security to advance security measures and explore innovative solutions for protecting digital assets in an ever-evolving technological landscape.
+            I am a first-year doctoral student specializing in <span className="text-accent">Cybersecurity and Information Assurance</span> at Colorado Technical University. My research focuses on integrating data analytics and information security to advance security measures and explore innovative solutions for protecting digital assets in an ever-evolving technological landscape.
           </p>
         </div>
       </div>
