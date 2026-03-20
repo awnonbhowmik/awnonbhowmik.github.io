@@ -1,0 +1,168 @@
+---
+title: "What is Differential Privacy?"
+date: "2026-03-20"
+category: "privacy-security"
+tags: ["differential privacy", "privacy", "machine learning", "mathematics", "data analytics"]
+excerpt: "A rigorous but accessible introduction to differential privacy — what it means, why it matters, and how the mathematics actually works."
+---
+
+# What is Differential Privacy?
+
+Data is the raw material of modern research, medicine, policy, and machine learning. Yet every time we publish a statistic, train a model, or answer a query over a dataset, we risk leaking something private about the individuals inside it. Differential privacy is a mathematically precise answer to the question: *how much can an algorithm reveal about any single person?*
+
+This post builds the concept from scratch — no prior knowledge of cryptography required, though familiarity with probability will help.
+
+---
+
+## The Problem With Naive Anonymization
+
+Suppose a hospital publishes the average age of patients diagnosed with a rare condition. That seems harmless. But if you know that your neighbor was recently admitted — and the hospital published the average both before and after their admission — you can compute exactly how their age compares to everyone else's. One subtraction, and the "anonymous" statistic becomes a disclosure.
+
+This class of attack is called a **differencing attack**, and it illustrates a fundamental truth: aggregate statistics are not inherently private. Removing names and IDs is necessary but not sufficient.
+
+The deeper issue is that any output that *depends* on an individual's data can, in principle, leak information about that individual. We need a stronger guarantee — one that holds even against an adversary who already knows a great deal about the dataset. Dwork and Roth (2014) provide a comprehensive treatment of why weaker notions of privacy fail under such adversarial assumptions.
+
+---
+
+## The Core Intuition
+
+Here is the central idea of differential privacy, stated informally:
+
+> An algorithm is differentially private if its output looks essentially the same whether or not any single individual's record is included in the input.
+
+More precisely: if you run the algorithm on a dataset $D$ and then on a neighboring dataset $D'$ — one that differs from $D$ by exactly one record — the probability distributions over outputs should be nearly indistinguishable.
+
+The word *neighboring* is doing important work here. We define two datasets as neighbors if one can be obtained from the other by adding, removing, or modifying one row. This captures the threat model precisely: an adversary who wants to infer whether a specific person is in the dataset gains essentially nothing from the output.
+
+---
+
+## The Formal Definition
+
+Let $\mathcal{M}$ be a randomized algorithm (a *mechanism*) that takes a dataset as input. We say $\mathcal{M}$ satisfies **$\varepsilon$-differential privacy** if for all pairs of neighboring datasets $D$ and $D'$, and for every possible output set $S$ (Dwork et al., 2006):
+
+$$\Pr[\mathcal{M}(D) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(D') \in S]$$
+
+The parameter $\varepsilon > 0$ is called the **privacy budget**. It controls how much the output distributions are allowed to diverge.
+
+- When $\varepsilon = 0$: the two distributions are identical — perfect privacy, but the output carries no information whatsoever.
+- When $\varepsilon$ is large: the bound is loose, the distributions can differ substantially, and privacy is weak.
+- In practice, values between $0.1$ and $10$ are typical, depending on the application.
+
+Notice that the definition is symmetric: if $\mathcal{M}(D)$ is unlikely to produce some output $s$, then $\mathcal{M}(D')$ must also be unlikely to produce $s$ (within the $e^\varepsilon$ factor). This prevents both inclusion and exclusion attacks.
+
+---
+
+## Sensitivity: How Much Can One Person Change the Answer?
+
+To build a differentially private mechanism, we need to understand how sensitive the function we are computing is to individual records. Define the **global sensitivity** of a function $f$ as (Dwork & Roth, 2014):
+
+$$\Delta f = \max_{D, D' \text{ neighbors}} \|f(D) - f(D')\|_1$$
+
+This is the worst-case change in the output when a single record is added or removed.
+
+**Example.** Suppose $f(D) = \frac{1}{|D|}\sum_{i} x_i$ computes the average of values in $[0, 1]$. Adding one record can shift the average by at most $\frac{1}{n}$, so $\Delta f \leq \frac{1}{n}$. A function with low sensitivity requires less noise to protect.
+
+Contrast this with $f(D) = \max_i x_i$, the maximum value. Adding one record can change the maximum by up to 1 regardless of dataset size, so $\Delta f = 1$. High sensitivity means we must add more noise.
+
+---
+
+## The Laplace Mechanism
+
+The canonical mechanism for achieving $\varepsilon$-differential privacy on real-valued queries is the **Laplace mechanism** (Dwork et al., 2006). It works by adding noise drawn from a Laplace distribution calibrated to the sensitivity:
+
+$$\mathcal{M}(D) = f(D) + \text{Lap}\!\left(0,\, \frac{\Delta f}{\varepsilon}\right)$$
+
+The Laplace distribution with location 0 and scale $b$ has probability density:
+
+$$p(z \mid b) = \frac{1}{2b} \exp\!\left(-\frac{|z|}{b}\right)$$
+
+Its variance is $2b^2$. To protect privacy, we set $b = \Delta f / \varepsilon$.
+
+**Why does this work?** Consider two neighboring datasets $D$ and $D'$ with $|f(D) - f(D')| \leq \Delta f$. The ratio of the densities of $\mathcal{M}(D)$ and $\mathcal{M}(D')$ at any output value $o$ is:
+
+$$\frac{p(o - f(D) \mid b)}{p(o - f(D') \mid b)} = \exp\!\left(\frac{|o - f(D')| - |o - f(D)|}{b}\right) \leq \exp\!\left(\frac{\Delta f}{b}\right) = e^{\varepsilon}$$
+
+The inequality uses the triangle inequality: $|o - f(D')| - |o - f(D)| \leq |f(D) - f(D')| \leq \Delta f$. So the mechanism satisfies $\varepsilon$-differential privacy.
+
+---
+
+## The Privacy-Utility Tradeoff
+
+Adding noise is what protects privacy. But noise degrades accuracy. This tension — between how private a result is and how useful it is — is called the **privacy-utility tradeoff**.
+
+The tradeoff has a precise shape. For the Laplace mechanism:
+- The error (standard deviation of the noise) is $\sqrt{2} \cdot \Delta f / \varepsilon$.
+- To halve the error, you must double $\varepsilon$ — weakening privacy by a factor of $e^2 \approx 7.4$ in the worst-case bound.
+
+This is not a limitation of the Laplace mechanism specifically; it reflects a fundamental information-theoretic constraint. A result that is highly accurate must carry substantial information about the input, and a result that carries substantial information about the input may reveal individual records (Dwork & Roth, 2014).
+
+---
+
+## Composition: What Happens With Multiple Queries?
+
+Real systems answer many queries, not one. Differential privacy degrades under repeated use, and the composition theorems tell us exactly how (Dwork & Roth, 2014).
+
+**Sequential composition.** If $\mathcal{M}_1$ is $\varepsilon_1$-DP and $\mathcal{M}_2$ is $\varepsilon_2$-DP, and both are applied to the same dataset, the combined mechanism is $(\varepsilon_1 + \varepsilon_2)$-DP. Privacy budgets add up linearly.
+
+**Parallel composition.** If $\mathcal{M}_1$ and $\mathcal{M}_2$ are applied to *disjoint* subsets of the data, the combined mechanism is $\max(\varepsilon_1, \varepsilon_2)$-DP — the budget does not accumulate.
+
+These two theorems are why privacy budget management is a first-class engineering concern. A system that answers 1000 queries at $\varepsilon = 0.1$ each has effectively spent a budget of $\varepsilon = 100$, which provides negligible privacy.
+
+Advanced composition results, such as the **moments accountant** (Abadi et al., 2016) and Rényi differential privacy (Mironov, 2017), give tighter bounds than the naive sum and enable training deep learning models under meaningful privacy guarantees.
+
+---
+
+## The Gaussian Mechanism and ($\varepsilon$, $\delta$)-DP
+
+A useful relaxation of pure $\varepsilon$-DP is **$(\varepsilon, \delta)$-differential privacy** (Dwork & Roth, 2014):
+
+$$\Pr[\mathcal{M}(D) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(D') \in S] + \delta$$
+
+The additive $\delta$ allows the privacy guarantee to fail with probability at most $\delta$, which should be negligibly small (e.g., $\delta < 10^{-6}$).
+
+This relaxation enables the **Gaussian mechanism**, which adds noise from $\mathcal{N}(0, \sigma^2)$ with:
+
+$$\sigma = \frac{\Delta_2 f \cdot \sqrt{2 \ln(1.25/\delta)}}{\varepsilon}$$
+
+where $\Delta_2 f$ is the $\ell_2$ sensitivity. The Gaussian mechanism is the foundation of **DP-SGD** (differentially private stochastic gradient descent), which clips per-sample gradients to bound $\ell_2$ sensitivity and then adds Gaussian noise before each parameter update (Abadi et al., 2016).
+
+---
+
+## Where Differential Privacy Is Used
+
+Differential privacy has moved from theory into production:
+
+- **Apple** uses local differential privacy — where noise is added on the device before any data leaves — to collect usage statistics for keyboard corrections and health features without a central trusted party ever seeing raw inputs (Apple Inc., 2017).
+- **Google** deployed RAPPOR, a locally differentially private protocol, for collecting Chrome browser statistics at scale (Erlingsson et al., 2014).
+- **The U.S. Census Bureau** used differential privacy to protect individual responses in the 2020 decennial census, injecting calibrated noise into published tabulations (Abowd, 2018).
+- **Machine learning**: DP-SGD allows training neural networks with formal privacy guarantees, preventing models from memorizing and later disclosing individual training examples (Abadi et al., 2016).
+
+---
+
+## A Note on What Differential Privacy Does Not Guarantee
+
+It is worth being precise about the limits:
+
+- DP does not hide whether a *group* was present, only individuals.
+- DP does not prevent someone from learning accurate statistics about the *population* — it just ensures that no single person's data drives the result.
+- DP does not protect against auxiliary information: if an adversary already knows that you are one of only two possible records in the dataset, even a strongly private mechanism may narrow the possibilities.
+
+These are not failures of the definition — they are honest statements about what it was designed to do. As Dwork and Roth (2014) note, differential privacy gives a *worst-case per-individual guarantee*, which is exactly what it promises.
+
+---
+
+## References
+
+Abowd, J. M. (2018). The U.S. Census Bureau adopts differential privacy. In *Proceedings of the 24th ACM SIGKDD international conference on knowledge discovery & data mining* (p. 2867). ACM. https://doi.org/10.1145/3219819.3220053
+
+Abadi, M., Chu, A., Goodfellow, I., McMahan, H. B., Mironov, I., Talwar, K., & Zhang, L. (2016). Deep learning with differential privacy. In *Proceedings of the 2016 ACM SIGSAC conference on computer and communications security* (pp. 308–318). ACM. https://doi.org/10.1145/2976749.2978318
+
+Apple Inc. (2017). *Learning with privacy at scale*. Apple Machine Learning Research. https://machinelearning.apple.com/research/learning-with-privacy-at-scale
+
+Dwork, C., McSherry, F., Nissim, K., & Smith, A. (2006). Calibrating noise to sensitivity in private data analysis. In S. Halevi & T. Rabin (Eds.), *Theory of cryptography* (pp. 265–284). Springer. https://doi.org/10.1007/11681878_14
+
+Dwork, C., & Roth, A. (2014). The algorithmic foundations of differential privacy. *Foundations and Trends in Theoretical Computer Science*, *9*(3–4), 211–407. https://doi.org/10.1561/0400000042
+
+Erlingsson, Ú., Pihur, V., & Korolova, A. (2014). RAPPOR: Randomized aggregatable privacy-preserving ordinal response. In *Proceedings of the 2016 ACM SIGSAC conference on computer and communications security* (pp. 1054–1067). ACM. https://doi.org/10.1145/2660267.2660348
+
+Mironov, I. (2017). Rényi differential privacy. In *2017 IEEE 30th computer security foundations symposium* (pp. 263–275). IEEE. https://doi.org/10.1109/CSF.2017.11

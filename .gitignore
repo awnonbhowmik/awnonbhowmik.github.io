@@ -1,10 +1,13 @@
 # Dependencies
 node_modules
+.pnp
+.pnp.js
 
 # Next.js build output
 .next/
 out/
 *.tsbuildinfo
+next-env.d.ts
 
 # Environment variables
 .env
@@ -15,11 +18,28 @@ out/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# Claude Code
+.claude/
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# Cache
+.eslintcache
+.turbo/
+.vercel/
+.netlify/
+
+# Coverage / test output
+coverage/
+.nyc_output/

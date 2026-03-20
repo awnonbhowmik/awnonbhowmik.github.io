@@ -7,17 +7,17 @@ export default function About() {
     <section id="about" className="py-16 bg-[#1a1a1a] text-white">
       {/* Section Heading */}
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-white">About Me</h2>
+        <h2 className="text-4xl font-bold text-white">About</h2>
       </div>
 
-      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between px-6 lg:px-16 space-y-12 lg:space-y-0 lg:space-x-16">
+      <div className="container mx-auto flex flex-col lg:flex-row items-start justify-between px-6 lg:px-16 space-y-12 lg:space-y-0 lg:space-x-16">
 
-        {/* Image Section */}
-        <div className="w-full lg:w-1/3 flex justify-center transition-transform hover:scale-105 duration-300">
+        {/* Image */}
+        <div className="w-full lg:w-1/3 flex justify-center lg:sticky lg:top-24 transition-transform hover:scale-105 duration-300">
           <div className="rounded-full overflow-hidden shadow-xl">
             <Image
               src="/image_modified_high_contrast.webp"
-              alt="Bee Logo"
+              alt="Awnon Bhowmik"
               width={300}
               height={300}
               className="rounded-full"
@@ -26,19 +26,49 @@ export default function About() {
           </div>
         </div>
 
-        {/* Text Section */}
+        {/* Text */}
         <div className="w-full lg:w-2/3 space-y-6">
           <p className="text-lg text-justify leading-relaxed text-gray-300">
-            I am <strong className="text-accent">Awnon Bhowmik</strong>, a passionate researcher, educator, and developer. My primary expertise lies in <span className="text-accent">Information Security</span> and <span className="text-accent">Data Analytics</span>. I strive to push the boundaries of knowledge and innovation.
+            I am <strong className="text-white">Awnon Bhowmik</strong>, a doctoral researcher
+            and software engineer working at the intersection of{' '}
+            <span className="text-accent">cybersecurity</span>,{' '}
+            <span className="text-accent">privacy-preserving machine learning</span>, and{' '}
+            <span className="text-accent">applied mathematical modeling</span>. My work combines
+            formal quantitative methods with engineering practice to address security and privacy
+            problems with real deployment implications.
           </p>
+
           <p className="text-lg text-justify leading-relaxed text-gray-300">
-            With a decade of experience as a mathematics educator, I have instructed undergraduate students in a variety of mathematical topics, ranging from college algebra and precalculus to calculus and differential equations.
+            I am pursuing a{' '}
+            <strong className="text-white">
+              Doctor of Computer Science, specializing in Cybersecurity and Information Assurance
+            </strong>
+            , at Colorado Technical University. My doctoral research sits at the intersection of{' '}
+            <span className="text-accent">cybersecurity</span> and{' '}
+            <span className="text-accent">privacy-preserving machine learning</span>, with a
+            focus on developing systems that provide formal mathematical privacy guarantees
+            while remaining operationally useful in real security environments.
           </p>
+
           <p className="text-lg text-justify leading-relaxed text-gray-300">
-            As a programmer, I have developed software applications for <span className="text-accent">financial</span> and <span className="text-accent">healthcare services</span>. Currently working for the <span className="text-accent">United States Postal Service (USPS)</span>, I am responsible for analyzing, designing, and developing software solutions to meet the organization&apos;s needs.
+            Professionally, I work as a{' '}
+            <strong className="text-white">Computer Systems Analyst and Programmer</strong> at
+            the <span className="text-accent">United States Postal Service</span>, where I
+            contribute to the design, development, and modernization of enterprise software
+            systems. Prior roles included software development for financial and healthcare
+            services, and nearly a decade of undergraduate mathematics instruction at{' '}
+            <span className="text-accent">CUNY BMCC</span>, where I taught courses from college
+            algebra through differential equations.
           </p>
+
           <p className="text-lg text-justify leading-relaxed text-gray-300">
-            I am a first-year doctoral student specializing in <span className="text-accent">Cybersecurity and Information Assurance</span> at Colorado Technical University. My research focuses on integrating data analytics and information security to advance security measures and explore innovative solutions for protecting digital assets in an ever-evolving technological landscape.
+            My published research spans{' '}
+            <span className="text-accent">applied cryptography</span> — including novel
+            encryption schemes, trapdoor function design, and post-quantum approaches — as well
+            as <span className="text-accent">cybersecurity</span> and interdisciplinary work on{' '}
+            <span className="text-accent">environmental modeling</span>. I approach research
+            problems with the rigor of a mathematician and the pragmatism of a working engineer,
+            aiming for work that is both theoretically sound and practically relevant.
           </p>
         </div>
       </div>

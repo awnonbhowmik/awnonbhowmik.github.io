@@ -1,93 +1,123 @@
 'use client';
 
+import Image from 'next/image';
 import {
   FaShieldAlt,
-  FaUserShield,
-  FaChartLine,
-  FaCalculator,
-  FaCogs,
-  FaSquareRootAlt,
+  FaLock,
+  FaBrain,
+  FaNetworkWired,
+  FaProjectDiagram,
+  FaBalanceScale,
 } from 'react-icons/fa';
-import Image from 'next/image';
+
+const researchAreas = [
+  {
+    icon: <FaShieldAlt size={36} />,
+    title: 'Privacy-Preserving Threat Detection',
+    description:
+      'Applying differential privacy and privacy-preserving machine learning techniques to ' +
+      'cybersecurity problems, balancing formal mathematical guarantees with real-world utility.',
+  },
+  {
+    icon: <FaLock size={36} />,
+    title: 'Differential Privacy Theory',
+    description:
+      'Analyzing (ε, δ)-differential privacy mechanisms in the context of classification and anomaly ' +
+      'detection tasks. Characterizing the privacy-utility tradeoff across varying privacy budgets and threat models.',
+  },
+  {
+    icon: <FaBrain size={36} />,
+    title: 'Adversarial Robustness',
+    description:
+      'Studying the robustness properties of privacy-preserving models under adversarial ' +
+      'conditions and their implications for secure system design.',
+  },
+  {
+    icon: <FaNetworkWired size={36} />,
+    title: 'Applied Cryptography',
+    description:
+      'Designing and analyzing novel cryptographic constructions, including hybrid cryptosystems, ' +
+      'trapdoor functions, and encryption schemes grounded in number theory and algebraic structures.',
+  },
+  {
+    icon: <FaProjectDiagram size={36} />,
+    title: 'Mathematical Modeling',
+    description:
+      'Applying analytical and computational models to complex systems — from cryptographic algorithm ' +
+      'design to environmental transport dynamics — using formal mathematical frameworks.',
+  },
+  {
+    icon: <FaBalanceScale size={36} />,
+    title: 'Governance & Compliance Alignment',
+    description:
+      'Examining how formal privacy frameworks — differential privacy, federated learning — map to ' +
+      'regulatory requirements such as GDPR and sector-specific data protection standards.',
+  },
+];
 
 export default function Research() {
-  const researchAreas = [
-    {
-      title: 'Information Security',
-      description: 'Securing systems from threats.',
-      icon: <FaShieldAlt size={40} />,
-    },
-    {
-      title: 'Security & Privacy',
-      description: 'Ensuring data protection and privacy compliance.',
-      icon: <FaUserShield size={40} />,
-    },
-    {
-      title: 'Data Analytics',
-      description: 'Interpreting data to drive decision-making.',
-      icon: <FaChartLine size={40} />,
-    },
-    {
-      title: 'Computational Mathematics',
-      description: 'Solving problems using mathematical models.',
-      icon: <FaCalculator size={40} />,
-    },
-    {
-      title: 'Mathematical Modeling',
-      description: 'Predicting behaviors with mathematical models.',
-      icon: <FaCogs size={40} />,
-    },
-    {
-      title: 'Number Theory',
-      description: 'Exploring properties of numbers.',
-      icon: <FaSquareRootAlt size={40} />,
-    },
-  ];
-
   return (
     <section id="research" className="py-16 bg-[#1a1a1a] text-white">
-      <div className="container mx-auto text-center mb-12 px-4">
-        <h2 className="text-4xl font-bold text-white">Research</h2>
-      </div>
+      <div className="container mx-auto px-6 lg:px-16">
+        {/* Heading */}
+        <div className="text-center mb-14">
+          <h2 className="text-4xl font-bold text-white">Research Focus</h2>
+        </div>
 
-      {/* Research Overview */}
-      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between px-6 lg:px-16 space-y-12 lg:space-y-0 lg:space-x-16">
-        {/* Image Section */}
-        <div className="w-full lg:w-1/3 flex justify-center transition-transform hover:scale-105 duration-300">
-          <div className="rounded-full overflow-hidden shadow-xl">
-            <Image
-              src="/research.webp"
-              alt="Research Overview"
-              width={300}
-              height={300}
-              className="rounded-full"
-              priority
-            />
+        {/* Dissertation Overview — image + text */}
+        <div className="flex flex-col lg:flex-row items-start justify-between mb-16 space-y-12 lg:space-y-0 lg:space-x-16">
+          {/* Image */}
+          <div className="w-full lg:w-1/3 flex justify-center transition-transform hover:scale-105 duration-300">
+            <div className="rounded-full overflow-hidden shadow-xl">
+              <Image
+                src="/research.webp"
+                alt="Research overview"
+                width={300}
+                height={300}
+                className="rounded-full"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Text */}
+          <div className="w-full lg:w-2/3 space-y-6">
+            <p className="text-lg text-gray-300 text-justify leading-relaxed">
+              My doctoral work, conducted as part of the Doctor of Computer Science program
+              (Cybersecurity and Information Assurance) at{' '}
+              <span className="text-accent">Colorado Technical University</span>, investigates
+              the application of{' '}
+              <span className="text-accent">differential privacy</span> and{' '}
+              <span className="text-accent">privacy-preserving machine learning</span> to
+              problems in cybersecurity. The research is grounded in formal mathematical
+              methods and evaluated against practical deployment constraints.
+            </p>
+
+            <p className="text-lg text-gray-300 text-justify leading-relaxed">
+              Alongside my dissertation work, I maintain an active program in{' '}
+              <span className="text-accent">applied cryptography</span>, with peer-reviewed
+              publications on novel encryption schemes, trapdoor function design, and
+              post-quantum approaches to cryptosystem construction. My published work also
+              extends to{' '}
+              <span className="text-accent">mathematical modeling</span>, including
+              interdisciplinary contributions to environmental transport dynamics.
+            </p>
           </div>
         </div>
-        {/* Text Section */}
-        <div className="w-full lg:w-2/3 space-y-6">
-          <p className="text-lg text-gray-300 text-justify leading-relaxed">
-            I am currently pursuing a <strong className='text-accent'>Doctorate in Cybersecurity and Information Assurance</strong> at <strong className='text-accent'>Colorado Technical University</strong>. My research seeks to <strong>bridge the gap between data analytics and information security</strong>, focusing on how <span className='text-accent'>data-driven approaches</span> can enhance the detection and prevention of cyber threats. I explore the use of <span className='text-accent'>machine learning models</span> for predictive threat analysis and apply <strong className='text-accent'>differential privacy</strong> techniques to safeguard sensitive data. My goal is to contribute to the development of <strong className='text-accent'>efficient, secure, and privacy-preserving systems</strong> in an ever-evolving digital landscape.
-          </p>
-          <p className="text-lg text-gray-300 text-justify leading-relaxed mt-4">
-            In addition to my work in cybersecurity, I integrate my <span className='text-accent'>mathematical skills</span> to develop algorithms for <span className='text-accent'>hybrid cryptosystems</span>, and I have authored several research papers since 2020 in the fields of <span className='text-accent'>cryptography</span> and <span className='text-accent'>data science</span>. My academic contributions also extend to <strong className='text-accent'>data-driven research</strong>, where I have demonstrated my ability to handle and analyze large datasets. Beyond cybersecurity, I have a keen interest in the socio-environmental challenges posed by issues like <strong className='text-accent'>microplastics</strong>, and I have published research on their <strong className='text-accent'>impact on public health</strong>, showcasing my interdisciplinary approach to solving complex real-world problems.
-          </p>
-        </div>
-      </div>
 
-      {/* Research Areas */}
-      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 mt-12">
-        {researchAreas.map((area, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-center text-center bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105 hover:shadow-xl"
-          >
-            <div className="mb-4 text-accent transition-transform hover:scale-110">{area.icon}</div>
-            <h3 className="text-2xl font-semibold text-accent mb-2">{area.title}</h3>
-            <p className="text-gray-300">{area.description}</p>
-          </div>
-        ))}
+        {/* Research Areas Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {researchAreas.map((area) => (
+            <div
+              key={area.title}
+              className="flex flex-col items-start bg-gray-800 p-7 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+            >
+              <div className="mb-4 text-accent">{area.icon}</div>
+              <h3 className="text-lg font-semibold text-white mb-2">{area.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed text-justify">{area.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

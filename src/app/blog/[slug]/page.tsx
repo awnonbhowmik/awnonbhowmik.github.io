@@ -17,10 +17,10 @@ const components = {
     ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => <ol className="mb-4 ml-6 list-decimal text-gray-300" {...props} />,
     li: (props: React.HTMLProps<HTMLLIElement>) => <li className="mb-1" {...props} />,
     blockquote: (props: React.HTMLProps<HTMLQuoteElement>) => (
-        <blockquote className="border-l-4 border-blue-500 pl-4 my-4 italic text-gray-400" {...props} />
+        <blockquote className="border-l-4 border-accent pl-4 my-4 italic text-gray-400" {...props} />
     ),
     code: (props: React.HTMLProps<HTMLElement>) => (
-        <code className="bg-gray-800 px-2 py-1 rounded text-sm font-mono text-blue-300" {...props} />
+        <code className="bg-gray-800 px-2 py-1 rounded text-sm font-mono text-accent" {...props} />
     ),
     pre: (props: React.HTMLProps<HTMLPreElement>) => (
         <pre className="bg-gray-800 p-4 rounded-lg overflow-x-auto mb-4 border border-gray-700" {...props} />
@@ -98,7 +98,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                     <div className="flex items-center gap-4">
                         <Link
                             href="/"
-                            className="inline-flex items-center text-gray-400 hover:text-blue-300 transition-colors group"
+                            className="inline-flex items-center text-gray-400 hover:text-accent transition-colors group"
                         >
                             <svg
                                 className="w-4 h-4 mr-1 transform group-hover:-translate-x-1 transition-transform"
@@ -113,7 +113,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                         <span className="text-gray-600">•</span>
                         <Link
                             href="/blog"
-                            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors"
+                            className="inline-flex items-center text-accent hover:text-accent-dark transition-colors"
                         >
                             ← Back to Blog
                         </Link>
@@ -123,7 +123,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 {/* Article Header */}
                 <header className="mb-12">
                     <div className="mb-4">
-                        <span className="inline-block bg-blue-600 text-white text-sm px-3 py-1 rounded-full uppercase tracking-wide">
+                        <span className="inline-block bg-accent text-white text-sm px-3 py-1 rounded-full uppercase tracking-wide">
                             {frontmatter.category?.replace('-', ' ')}
                         </span>
                     </div>
@@ -191,8 +191,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                         <div>
                             <h3 className="text-lg font-semibold mb-2">About the Author</h3>
                             <p className="text-gray-400">
-                                Awnon Bhowmik is a researcher and academic working in the field of computer science.
-                                Connect with him for discussions on research, technology, and academic pursuits.
+                                Awnon Bhowmik is a doctoral researcher in cybersecurity, software engineer, and
+                                mathematics educator with over a decade of teaching experience. His research spans
+                                privacy-preserving machine learning, applied cryptography, and mathematical modeling.
                             </p>
                         </div>
 

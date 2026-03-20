@@ -1,0 +1,210 @@
+---
+title: "How Shor's Algorithm Breaks RSA"
+date: "2026-03-20"
+category: "cryptography"
+tags: ["Shor's algorithm", "RSA", "quantum computing", "post-quantum cryptography", "number theory"]
+excerpt: "RSA has secured the internet for decades. Shor's algorithm, running on a sufficiently large quantum computer, renders it obsolete. Here is exactly how."
+---
+
+# How Shor's Algorithm Breaks RSA
+
+RSA encryption has protected private communications, financial transactions, and software distribution for nearly five decades. Its security rests on a single assumption: that factoring a large composite number into its prime factors is computationally infeasible. This assumption has held against every classical attack we have devised.
+
+Peter Shor's 1994 algorithm changed the picture entirely. A quantum computer running Shor's algorithm can factor an $n$-bit integer in time $O(n^3)$ — polynomial, not exponential. For RSA, this is catastrophic (Shor, 1997).
+
+This post works through the mathematics step by step: why factoring is hard classically, what makes quantum computers different, the key mathematical insight connecting factoring to period-finding, and how the Quantum Fourier Transform makes period-finding tractable.
+
+---
+
+## Why RSA Works (Classically)
+
+RSA key generation proceeds as follows (Rivest et al., 1978):
+
+1. Choose two large primes $p$ and $q$, each typically 2048–4096 bits.
+2. Compute $n = p \cdot q$.
+3. Compute Euler's totient: $\phi(n) = (p-1)(q-1)$.
+4. Choose $e$ coprime to $\phi(n)$ (commonly $e = 65537$).
+5. Compute $d$ such that $ed \equiv 1 \pmod{\phi(n)}$.
+
+The **public key** is $(n, e)$; the **private key** is $d$.
+
+Encryption: $c = m^e \bmod n$. Decryption: $m = c^d \bmod n$.
+
+The security reduces to the following: given only $n$ and $e$, an adversary cannot compute $d$ without knowing $\phi(n)$, and computing $\phi(n) = (p-1)(q-1)$ requires knowing $p$ and $q$, which requires factoring $n$.
+
+Multiplying $p \times q$ takes microseconds. Factoring $n$ back into $p$ and $q$ — with current classical algorithms — takes longer than the age of the universe for 2048-bit keys.
+
+---
+
+## How Hard Is Factoring, Classically?
+
+Trial division — checking every integer up to $\sqrt{n}$ — runs in time $O(\sqrt{n})$, which is $O(2^{n/2})$ in terms of the bit-length. For a 2048-bit $n$, this is $2^{1024}$ operations: entirely hopeless.
+
+The best known classical algorithm is the **General Number Field Sieve (GNFS)** (Lenstra et al., 1993), which runs in heuristic time:
+
+$$\exp\!\left(\left(\frac{64}{9}\right)^{1/3} (\ln n)^{1/3} (\ln \ln n)^{2/3}\right)$$
+
+For a 2048-bit $n$, this is approximately $2^{112}$ operations — still astronomically large. The 768-bit RSA-768 challenge was factored in 2009 using the GNFS across thousands of machines over two years (Kleinjung et al., 2010); RSA-2048 remains unfactored.
+
+The GNFS is sub-exponential but still super-polynomial. It does not break RSA in practice — but it does set a floor on how large keys must be.
+
+---
+
+## What Makes a Quantum Computer Different?
+
+A classical bit is either 0 or 1. A **qubit** can be in a *superposition* (Nielsen & Chuang, 2010):
+
+$$|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$$
+
+where $\alpha, \beta \in \mathbb{C}$ and $|\alpha|^2 + |\beta|^2 = 1$. Before measurement, the qubit exists in both states simultaneously. Upon measurement, it collapses to $|0\rangle$ with probability $|\alpha|^2$ and to $|1\rangle$ with probability $|\beta|^2$.
+
+A register of $n$ qubits can represent a superposition of all $2^n$ states simultaneously:
+
+$$|\psi\rangle = \frac{1}{\sqrt{2^n}} \sum_{x=0}^{2^n - 1} |x\rangle$$
+
+A quantum gate applied to this register acts on all $2^n$ states at once — this is **quantum parallelism**. But measurement collapses the superposition to a single outcome.
+
+The art of quantum algorithm design is using **interference** — the wave-like cancellation and reinforcement of probability amplitudes — to make desired outcomes more probable and undesired ones less probable, so that measurement yields a useful result with high probability (Nielsen & Chuang, 2010).
+
+---
+
+## The Key Insight: Factoring Reduces to Period-Finding
+
+Shor's algorithm does not attempt to factor $n$ directly. Instead, it exploits a classical number-theoretic connection (Shor, 1997):
+
+**Claim.** If we can find the **order** (period) $r$ of a random element $a \bmod n$ — that is, the smallest positive integer $r$ such that $a^r \equiv 1 \pmod{n}$ — then we can likely factor $n$.
+
+Here is why. If $r$ is even, write:
+
+$$a^r - 1 \equiv 0 \pmod{n}$$
+$$(a^{r/2} - 1)(a^{r/2} + 1) \equiv 0 \pmod{n}$$
+
+Since $n = pq$, either $p$ or $q$ (or both) divides one of the two factors. If $a^{r/2} \not\equiv \pm 1 \pmod{n}$, then:
+
+$$\gcd(a^{r/2} - 1,\; n) \in \{p, q\}$$
+
+This gives a non-trivial factor of $n$ using only one GCD computation — an $O((\log n)^2)$ classical operation.
+
+One can show that for a randomly chosen $a$, the probability that $r$ is odd or that $a^{r/2} \equiv -1 \pmod n$ is at most $1/2$. By repeating with different values of $a$, the failure probability drops exponentially fast.
+
+**The problem has shifted.** We no longer need to factor $n$; we need to find the period of $f(x) = a^x \bmod n$. This function is periodic: $f(x + r) = f(x)$ for all $x$. Finding the period classically requires evaluating $f$ at $O(\sqrt{r})$ points — still exponential. Quantum computing finds the period in polynomial time.
+
+---
+
+## The Quantum Period-Finding Algorithm
+
+Here is the structure of the quantum subroutine (Shor, 1997; Nielsen & Chuang, 2010):
+
+**Step 1: Initialize a superposition.**
+
+Create a quantum register of $t$ qubits, where $t \approx 2 \log_2 n$, initialized in uniform superposition:
+
+$$|s_0\rangle = \frac{1}{\sqrt{2^t}} \sum_{x=0}^{2^t - 1} |x\rangle$$
+
+**Step 2: Compute $f(x)$ in superposition.**
+
+Using quantum circuits for modular exponentiation, compute $f(x) = a^x \bmod n$ and store the result in a second register:
+
+$$|s_1\rangle = \frac{1}{\sqrt{2^t}} \sum_{x=0}^{2^t - 1} |x\rangle |a^x \bmod n\rangle$$
+
+All $2^t$ evaluations happen simultaneously through quantum parallelism.
+
+**Step 3: Measure the second register.**
+
+Suppose the measurement yields the value $u = a^{x_0} \bmod n$ for some $x_0$. The first register collapses to a superposition over all $x$ with $f(x) = u$ — exactly those $x$ congruent to $x_0 \bmod r$:
+
+$$|s_2\rangle = \frac{1}{\sqrt{m}} \sum_{j=0}^{m-1} |x_0 + jr\rangle$$
+
+where $m \approx 2^t / r$ is the number of such terms.
+
+**Step 4: Apply the Quantum Fourier Transform.**
+
+The first register now encodes a periodic function with period $r$. The **Quantum Fourier Transform (QFT)** is the quantum analogue of the discrete Fourier transform (Nielsen & Chuang, 2010):
+
+$$\text{QFT}|j\rangle = \frac{1}{\sqrt{2^t}} \sum_{k=0}^{2^t - 1} e^{2\pi i jk / 2^t} |k\rangle$$
+
+Applied to $|s_2\rangle$, the QFT concentrates probability amplitude at multiples of $2^t / r$:
+
+$$|s_3\rangle \approx \frac{1}{\sqrt{r}} \sum_{l=0}^{r-1} e^{2\pi i l x_0 / r} \left|\frac{l \cdot 2^t}{r}\right\rangle$$
+
+The complex exponentials destructively interfere at non-multiples of $2^t/r$ and constructively reinforce at multiples.
+
+**Step 5: Measure and extract $r$.**
+
+Measurement yields some value $k \approx l \cdot 2^t / r$ for a random integer $l$. Dividing by $2^t$:
+
+$$\frac{k}{2^t} \approx \frac{l}{r}$$
+
+By the **continued fraction algorithm**, we recover $r$ exactly from this rational approximation in polynomial time — the approximation is guaranteed to be within $1/(2r)$ with high probability.
+
+---
+
+## The Quantum Fourier Transform
+
+The QFT deserves a closer look because it is the computational heart of the algorithm.
+
+The classical Discrete Fourier Transform (DFT) on $N$ points takes $O(N \log N)$ time via the Fast Fourier Transform. The QFT on $n$ qubits (where $N = 2^n$) uses only $O(n^2)$ quantum gates — exponentially fewer operations in terms of $n$ (Nielsen & Chuang, 2010). It is implemented as a sequence of Hadamard gates and controlled phase rotations:
+
+$$R_k = \begin{pmatrix} 1 & 0 \\ 0 & e^{2\pi i / 2^k} \end{pmatrix}$$
+
+The total circuit depth is $O(n^2)$ gates for $n$ qubits, compared to the $O(n \cdot 2^n)$ operations of the classical FFT. The speedup is exponential.
+
+---
+
+## Overall Complexity
+
+Putting it all together (Shor, 1997):
+
+| Step | Classical Cost | Quantum Cost |
+|---|---|---|
+| Choose random $a$ | $O(n)$ | $O(n)$ |
+| Check $\gcd(a, n)$ | $O(n^2)$ | $O(n^2)$ |
+| Modular exponentiation | $O(n^3)$ | $O(n^3)$ quantum gates |
+| Quantum Fourier Transform | — | $O(n^2)$ gates |
+| Continued fraction recovery | $O(n^3)$ | $O(n^3)$ |
+
+**Total:** $O(n^3)$ quantum gate operations, where $n$ is the number of bits in the modulus. This is polynomial. Classically, RSA-2048 requires approximately $2^{112}$ operations; quantum mechanically, around $2048^3 \approx 8.6 \times 10^9$ gate operations — well within reach of a fault-tolerant quantum computer.
+
+---
+
+## What "Sufficiently Large" Means
+
+The practical caveat is significant. Shor's algorithm requires a **fault-tolerant quantum computer** with enough logical qubits and sufficiently low error rates. Current quantum computers are **noisy intermediate-scale quantum (NISQ)** devices — they lack the error correction infrastructure to run Shor's algorithm against real RSA key sizes.
+
+A 2021 resource analysis estimated that factoring a 2048-bit RSA modulus would require approximately 20 million physical qubits running for about eight hours under optimistic hardware assumptions (Gidney & Ekerå, 2021). Current leading hardware operates in the hundreds to low thousands of physical qubits, with error rates still well above the fault-tolerance threshold.
+
+This does not mean RSA is safe indefinitely. The **harvest now, decrypt later** threat is real: adversaries can record encrypted traffic today and decrypt it once quantum hardware matures. Communications requiring long-term secrecy must transition to post-quantum cryptography immediately.
+
+---
+
+## Post-Quantum Cryptography
+
+The response is **post-quantum cryptography (PQC)** — systems whose hardness assumptions are not known to be vulnerable to quantum algorithms.
+
+In 2024, NIST finalized its first post-quantum standards (National Institute of Standards and Technology, 2024):
+
+- **ML-KEM** (formerly CRYSTALS-Kyber): a key encapsulation mechanism based on the hardness of the **Module Learning With Errors (MLWE)** problem — a lattice problem.
+- **ML-DSA** (formerly CRYSTALS-Dilithium): a digital signature scheme, also lattice-based.
+- **SLH-DSA** (formerly SPHINCS+): a stateless hash-based signature scheme relying only on the security of cryptographic hash functions.
+
+Lattice problems — specifically, finding a short vector in a high-dimensional lattice — are not known to yield efficiently to quantum algorithms. The best known quantum attacks offer only modest speedups, leaving large parameter margins of safety.
+
+The transition is underway. TLS, SSH, code signing, certificate authorities, and hardware security modules all require updates. The cryptographic infrastructure of the internet is being renegotiated in real time.
+
+---
+
+## References
+
+Gidney, C., & Ekerå, M. (2021). How to factor 2048 bit RSA integers in 8 hours using 20 million noisy qubits. *Quantum*, *5*, 433. https://doi.org/10.22331/q-2021-04-15-433
+
+Kleinjung, T., Aoki, K., Franke, J., Lenstra, A. K., Thomé, E., Bos, J. W., Gaudry, P., Kruppa, A., Montgomery, P. L., Osvik, D. A., te Riele, H., Timofeev, A., & Zimmermann, P. (2010). Factorization of a 768-bit RSA modulus. In T. Rabin (Ed.), *Advances in cryptology — CRYPTO 2010* (pp. 333–350). Springer. https://doi.org/10.1007/978-3-642-14623-7_18
+
+Lenstra, A. K., Lenstra, H. W., Jr., Manasse, M. S., & Pollard, J. M. (1993). The number field sieve. In A. K. Lenstra & H. W. Lenstra, Jr. (Eds.), *The development of the number field sieve* (pp. 11–42). Springer. https://doi.org/10.1007/BFb0091537
+
+National Institute of Standards and Technology. (2024). *Post-quantum cryptography standardization*. U.S. Department of Commerce. https://csrc.nist.gov/projects/post-quantum-cryptography
+
+Nielsen, M. A., & Chuang, I. L. (2010). *Quantum computation and quantum information* (10th anniversary ed.). Cambridge University Press.
+
+Rivest, R. L., Shamir, A., & Adleman, L. (1978). A method for obtaining digital signatures and public-key cryptosystems. *Communications of the ACM*, *21*(2), 120–126. https://doi.org/10.1145/359340.359342
+
+Shor, P. W. (1997). Polynomial-time algorithms for prime factorization and discrete logarithms on a quantum computer. *SIAM Journal on Computing*, *26*(5), 1484–1509. https://doi.org/10.1137/S0097539795293172

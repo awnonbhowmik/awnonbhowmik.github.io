@@ -7,47 +7,42 @@ export default function Hero() {
   const typedWordsRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const words = ["Researcher", "Mentor", "Developer"];
+    const words = ['Researcher', 'Data Analyst', 'Engineer', 'Educator'];
     let wordIndex = 0;
     let letterIndex = 0;
-    const typingSpeed = 100;
-    const erasingSpeed = 50;
-    const delayBetweenWords = 1000;
-    const typedWordsElement = typedWordsRef.current;
+    const typingSpeed = 90;
+    const erasingSpeed = 65;
+    const delayBetweenWords = 1800;
+    const el = typedWordsRef.current;
 
     function type() {
-      if (typedWordsElement) {
-        if (letterIndex < words[wordIndex].length) {
-          typedWordsElement.textContent = words[wordIndex].substring(0, letterIndex + 1);
-          letterIndex++;
-          setTimeout(type, typingSpeed);
-        } else {
-          setTimeout(erase, delayBetweenWords);
-        }
+      if (!el) return;
+      if (letterIndex < words[wordIndex].length) {
+        el.textContent = words[wordIndex].substring(0, letterIndex + 1);
+        letterIndex++;
+        setTimeout(type, typingSpeed);
+      } else {
+        setTimeout(erase, delayBetweenWords);
       }
     }
 
     function erase() {
-      if (typedWordsElement) {
-        if (letterIndex > 0) {
-          typedWordsElement.textContent = words[wordIndex].substring(0, letterIndex - 1);
-          letterIndex--;
-          setTimeout(erase, erasingSpeed);
-        } else {
-          wordIndex = (wordIndex + 1) % words.length;
-          setTimeout(type, typingSpeed);
-        }
+      if (!el) return;
+      if (letterIndex > 0) {
+        el.textContent = words[wordIndex].substring(0, letterIndex - 1);
+        letterIndex--;
+        setTimeout(erase, erasingSpeed);
+      } else {
+        wordIndex = (wordIndex + 1) % words.length;
+        setTimeout(type, typingSpeed);
       }
     }
 
     type();
   }, []);
 
-  const scrollToContact = () => {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -56,12 +51,20 @@ export default function Hero() {
       className="min-h-screen flex flex-col justify-center items-center px-4 text-center bg-[#1a1a1a] text-white"
     >
       {/* Name */}
-      <h1 className="text-6xl font-bold mb-4">Awnon Bhowmik</h1>
+      <h1 className="text-5xl sm:text-6xl font-bold mb-3 tracking-tight">
+        Awnon Bhowmik
+      </h1>
 
-      {/* Animated Typing */}
-      <h2 className="text-xl sm:text-2xl mt-2 text-accent">
-        A <span ref={typedWordsRef}></span>
+      {/* Typed role */}
+      <h2 className="text-xl sm:text-2xl text-accent mt-1 min-h-[2rem]">
+        <span ref={typedWordsRef}></span>
+        <span className="animate-pulse">|</span>
       </h2>
+
+      {/* Positioning line */}
+      <p className="mt-4 text-gray-400 text-sm sm:text-base tracking-widest uppercase">
+        Cybersecurity &nbsp;·&nbsp; Data Analytics &nbsp;·&nbsp; Software Engineering &nbsp;·&nbsp; Applied Mathematics
+      </p>
 
       {/* Social Icons */}
       <div className="flex space-x-6 mt-8 justify-center">
@@ -69,52 +72,62 @@ export default function Hero() {
           href="https://linkedin.com/in/awnon-bhowmik"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-400 hover:text-blue-500 transition-colors"
+          aria-label="LinkedIn"
+          className="text-gray-400 hover:text-accent transition-colors"
         >
-          <FaLinkedin size={30} />
+          <FaLinkedin size={26} />
         </a>
         <a
           href="https://github.com/awnonbhowmik"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-400 hover:text-blue-500 transition-colors"
+          aria-label="GitHub"
+          className="text-gray-400 hover:text-accent transition-colors"
         >
-          <FaGithub size={30} />
+          <FaGithub size={26} />
         </a>
         <a
           href="https://www.researchgate.net/profile/Awnon-Bhowmik"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-400 hover:text-blue-500 transition-colors"
+          aria-label="ResearchGate"
+          className="text-gray-400 hover:text-accent transition-colors"
         >
-          <FaResearchgate size={30} />
+          <FaResearchgate size={26} />
         </a>
         <a
           href="https://scholar.google.com/citations?user=nEdZAFkAAAAJ&hl=en"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-400 hover:text-blue-500 transition-colors"
+          aria-label="Google Scholar"
+          className="text-gray-400 hover:text-accent transition-colors"
         >
-          <FaGraduationCap size={30} />
+          <FaGraduationCap size={26} />
         </a>
       </div>
 
       {/* CTA Buttons */}
       <div className="flex flex-wrap gap-4 mt-8 justify-center">
         <button
-          onClick={scrollToContact}
-          className="bg-accent text-white px-5 py-2 rounded hover:bg-accent-dark transition-colors"
+          onClick={() => scrollTo('research')}
+          className="bg-accent text-white px-6 py-2.5 rounded hover:bg-accent-dark transition-colors text-sm font-medium"
         >
-          Get In Touch
+          View Research
         </button>
         <a
-          href=""
+          href="https://github.com/awnonbhowmik/Awnon-CV/releases/download/latest/main.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          className="border border-accent text-accent px-5 py-2 rounded bg-transparent hover:bg-accent/10 transition-colors"
+          className="border border-accent text-accent px-6 py-2.5 rounded hover:bg-accent/10 transition-colors text-sm font-medium"
         >
           Download CV
         </a>
+        <button
+          onClick={() => scrollTo('contact')}
+          className="border border-gray-600 text-gray-300 px-6 py-2.5 rounded bg-transparent hover:border-accent hover:text-accent transition-colors text-sm font-medium"
+        >
+          Contact
+        </button>
       </div>
     </section>
   );

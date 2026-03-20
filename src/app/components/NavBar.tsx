@@ -27,10 +27,8 @@ const NavBar = () => {
 
   const handleNavClick = (link: typeof navLinks[0]) => {
     if (link.type === 'link') {
-      // For external links like Blog, just navigate
       setIsOpen(false);
     } else {
-      // For scroll navigation
       scrollToSection(link.id);
     }
   };
@@ -43,13 +41,8 @@ const NavBar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#1a1a1a]/30 backdrop-blur-md shadow-md text-gray-100">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-4">
-        {/* Logo Only */}
-        <Link
-          href="/"
-          scroll={false}
-          onClick={handleScrollToTop}
-          className="flex items-center"
-        >
+        {/* Logo */}
+        <button onClick={handleScrollToTop} className="flex items-center">
           <Image
             src="/image_modified_high_contrast.webp"
             alt="Cyber Bee Logo"
@@ -58,7 +51,7 @@ const NavBar = () => {
             className="rounded-full"
             priority
           />
-        </Link>
+        </button>
 
         {/* Hamburger Menu (Mobile) */}
         <button
@@ -76,7 +69,7 @@ const NavBar = () => {
               <Link
                 key={link.name}
                 href={link.id}
-                className="hover:text-blue-400 transition"
+                className="hover:text-accent transition"
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
@@ -85,7 +78,7 @@ const NavBar = () => {
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link)}
-                className="hover:text-blue-400 transition"
+                className="hover:text-accent transition"
               >
                 {link.name}
               </button>
@@ -103,7 +96,7 @@ const NavBar = () => {
                 <Link
                   key={link.name}
                   href={link.id}
-                  className="block w-full text-left py-2 text-gray-300 hover:text-blue-400 transition"
+                  className="block w-full text-left py-2 text-gray-300 hover:text-accent transition"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
@@ -112,7 +105,7 @@ const NavBar = () => {
                 <button
                   key={link.name}
                   onClick={() => handleNavClick(link)}
-                  className="block w-full text-left py-2 text-gray-300 hover:text-blue-400 transition"
+                  className="block w-full text-left py-2 text-gray-300 hover:text-accent transition"
                 >
                   {link.name}
                 </button>

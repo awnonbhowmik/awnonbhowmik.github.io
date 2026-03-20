@@ -22,7 +22,7 @@ export default async function BlogPage() {
                 <div className="flex justify-between items-center mb-6">
                     <Link
                         href="/"
-                        className="inline-flex items-center text-[#149ddd] hover:text-white border border-[#149ddd] px-3 py-1 rounded transition-colors group bg-transparent"
+                        className="inline-flex items-center text-accent hover:text-white border border-accent px-3 py-1 rounded transition-colors group bg-transparent"
                     >
                         <svg
                             className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform"
@@ -48,15 +48,15 @@ export default async function BlogPage() {
                 {/* Statistics */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                     <div className="bg-gray-800 p-6 rounded-lg text-center">
-                        <h3 className="text-2xl font-bold text-[#149ddd]">{posts.length}</h3>
+                        <h3 className="text-2xl font-bold text-accent">{posts.length}</h3>
                         <p className="text-gray-400">Total Posts</p>
                     </div>
                     <div className="bg-gray-800 p-6 rounded-lg text-center">
-                        <h3 className="text-2xl font-bold text-[#149ddd]">{categories.length}</h3>
+                        <h3 className="text-2xl font-bold text-accent">{categories.length}</h3>
                         <p className="text-gray-400">Categories</p>
                     </div>
                     <div className="bg-gray-800 p-6 rounded-lg text-center">
-                        <h3 className="text-2xl font-bold text-[#149ddd]">{tags.length}</h3>
+                        <h3 className="text-2xl font-bold text-accent">{tags.length}</h3>
                         <p className="text-gray-400">Tags</p>
                     </div>
                 </div>
@@ -72,13 +72,13 @@ export default async function BlogPage() {
                                 <div className="p-6">
                                     {/* Category Badge */}
                                     <div className="mb-3">
-                                        <span className="inline-block px-3 py-1 text-xs font-semibold border border-[#149ddd] text-[#149ddd] rounded-full bg-transparent">
+                                        <span className="inline-block px-3 py-1 text-xs font-semibold border border-accent text-accent rounded-full bg-transparent">
                                             {post.frontmatter?.category?.replace('-', ' ') || 'Uncategorized'}
                                         </span>
                                     </div>
 
                                     {/* Title */}
-                                    <h2 className="text-xl font-bold mb-3 hover:text-[#149ddd] transition-colors">
+                                    <h2 className="text-xl font-bold mb-3 hover:text-accent transition-colors">
                                         <Link href={`/blog/${post.slug}`}>
                                             {post.frontmatter?.title || 'Untitled'}
                                         </Link>
@@ -94,13 +94,13 @@ export default async function BlogPage() {
                                         {(post.frontmatter?.tags || []).slice(0, 3).map((tag: string) => (
                                             <span
                                                 key={tag}
-                                                className="px-2 py-1 text-xs border border-[#149ddd] text-[#149ddd] rounded bg-transparent"
+                                                className="px-2 py-1 text-xs border border-accent text-accent rounded bg-transparent"
                                             >
                                                 #{tag}
                                             </span>
                                         ))}
                                         {(post.frontmatter?.tags || []).length > 3 && (
-                                            <span className="px-2 py-1 text-xs border border-[#149ddd] text-[#149ddd] rounded bg-transparent">
+                                            <span className="px-2 py-1 text-xs border border-accent text-accent rounded bg-transparent">
                                                 +{(post.frontmatter?.tags || []).length - 3} more
                                             </span>
                                         )}
@@ -114,7 +114,7 @@ export default async function BlogPage() {
                                     <div className="mt-4">
                                         <Link
                                             href={`/blog/${post.slug}`}
-                                            className="inline-block border border-[#149ddd] text-[#149ddd] hover:bg-[#149ddd] hover:text-white px-4 py-2 rounded transition-colors bg-transparent"
+                                            className="inline-block border border-accent text-accent hover:bg-[#149ddd] hover:text-white px-4 py-2 rounded transition-colors bg-transparent"
                                         >
                                             Read More
                                         </Link>
@@ -143,7 +143,7 @@ export default async function BlogPage() {
                             {categories.map((category) => (
                                 <span
                                     key={category as string}
-                                    className="border border-[#149ddd] text-[#149ddd] px-3 py-1 rounded-full text-sm bg-transparent"
+                                    className="border border-accent text-accent px-3 py-1 rounded-full text-sm bg-transparent"
                                 >
                                     {(category as string)?.replace('-', ' ') || 'Uncategorized'}
                                 </span>
@@ -157,13 +157,13 @@ export default async function BlogPage() {
                             {tags.slice(0, 20).map((tag) => (
                                 <span
                                     key={tag as string}
-                                    className="border border-[#149ddd] text-[#149ddd] px-2 py-1 rounded text-sm bg-transparent"
+                                    className="border border-accent text-accent px-2 py-1 rounded text-sm bg-transparent"
                                 >
                                     #{tag as string}
                                 </span>
                             ))}
                             {tags.length > 20 && (
-                                <span className="border border-[#149ddd] text-[#149ddd] px-2 py-1 rounded text-sm bg-transparent">
+                                <span className="border border-accent text-accent px-2 py-1 rounded text-sm bg-transparent">
                                     +{tags.length - 20} more
                                 </span>
                             )}

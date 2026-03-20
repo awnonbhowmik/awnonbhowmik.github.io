@@ -1,0 +1,204 @@
+---
+title: "Why Elliptic Curves Make Better Keys"
+date: "2026-03-20"
+category: "cryptography"
+tags: ["elliptic curve cryptography", "ECC", "public key cryptography", "mathematics", "number theory"]
+excerpt: "Elliptic curve cryptography offers the same security as RSA with dramatically smaller keys. Here is the mathematics that explains why."
+---
+
+# Why Elliptic Curves Make Better Keys
+
+When you connect to a website over HTTPS, your browser and the server negotiate a shared secret without ever transmitting it. This magic — exchanging a secret over a public channel — is the domain of public-key cryptography. For decades, RSA dominated this space. Today, elliptic curve cryptography has largely replaced it for key exchange and digital signatures, and the reason comes down to mathematics: the problem at the heart of ECC is simply harder to solve.
+
+This post explains what elliptic curves are, how arithmetic works on them, and why the security they provide comes at a fraction of the computational cost.
+
+---
+
+## A Brief History of Public-Key Cryptography
+
+Classical cryptography was symmetric: both parties needed the same secret key, and distributing that key securely was a logistical nightmare. In 1976, Diffie and Hellman showed that two parties could establish a shared secret over a completely public channel, using what we now call a **trapdoor function** — a computation easy to perform in one direction and intractable to reverse (Diffie & Hellman, 1976).
+
+The original Diffie-Hellman protocol relies on the **discrete logarithm problem** in a multiplicative group modulo a large prime $p$: given $g$ and $g^x \bmod p$, find $x$. This is believed to be computationally hard, but sub-exponential algorithms exist for it.
+
+RSA, introduced shortly after, uses a different trapdoor: integer factorization. Given $n = p \cdot q$ where $p$ and $q$ are large primes, it is easy to compute $n$ but hard to recover $p$ and $q$ (Rivest et al., 1978). RSA key generation, encryption, and signing all rest on this asymmetry.
+
+Both problems are *hard*, but neither is *as hard as it could be*. Elliptic curves, proposed independently for cryptographic use by Koblitz (1987) and Miller (1985), offer a harder problem in a more compact algebraic structure.
+
+---
+
+## What Is an Elliptic Curve?
+
+Over the real numbers, an elliptic curve is the set of points $(x, y)$ satisfying:
+
+$$y^2 = x^3 + ax + b$$
+
+together with a special "point at infinity" denoted $\mathcal{O}$, subject to the non-singularity condition $4a^3 + 27b^2 \neq 0$, which ensures the curve has no cusps or self-intersections.
+
+This is not an ellipse — the name traces back historically to elliptic integrals, not the shape. The curve has a smooth, symmetric appearance about the $x$-axis, and this symmetry is algebraically significant.
+
+For cryptography, we do not work over the real numbers. We work over a **finite field** $\mathbb{F}_p$, where $p$ is a large prime. The curve becomes:
+
+$$y^2 \equiv x^3 + ax + b \pmod{p}$$
+
+The points satisfying this congruence — together with $\mathcal{O}$ — form a finite set, and it is this finite set that we perform arithmetic on (Koblitz, 1987).
+
+---
+
+## Point Addition: Geometry Becomes Algebra
+
+The key structure that makes elliptic curves useful is that we can define an **addition operation** on the points of the curve that makes them form an **abelian group**. Let us build this geometrically first, then algebraically.
+
+**Adding two distinct points.** Given points $P = (x_1, y_1)$ and $Q = (x_2, y_2)$ with $x_1 \neq x_2$, draw the line through them. A cubic curve intersects a line at three points (counting multiplicity). This line will meet the curve at a third point $R' = (x_3, -y_3)$. We define $P + Q$ to be the reflection of $R'$ over the $x$-axis: $P + Q = (x_3, y_3)$.
+
+Algebraically, the coordinates are:
+
+$$\lambda = \frac{y_2 - y_1}{x_2 - x_1}$$
+
+$$x_3 = \lambda^2 - x_1 - x_2, \qquad y_3 = \lambda(x_1 - x_3) - y_1$$
+
+**Point doubling.** When $P = Q$, we take the tangent line to the curve at $P$. By implicit differentiation, the slope is:
+
+$$\lambda = \frac{3x_1^2 + a}{2y_1}$$
+
+and the same formulas apply for $x_3$ and $y_3$.
+
+**Special cases.**
+- $P + \mathcal{O} = P$ for all $P$ — $\mathcal{O}$ is the identity element.
+- $P + (-P) = \mathcal{O}$, where $-P = (x_1, -y_1)$ — every point has an inverse.
+
+Over $\mathbb{F}_p$, all divisions become modular inverses computed via the extended Euclidean algorithm, and all arithmetic is performed modulo $p$.
+
+---
+
+## Scalar Multiplication
+
+The cryptographically useful operation is **scalar multiplication**: given a point $P$ and a positive integer $k$, compute:
+
+$$kP = \underbrace{P + P + \cdots + P}_{k \text{ times}}$$
+
+This is done efficiently using the **double-and-add algorithm**, analogous to fast exponentiation. Write $k$ in binary: $k = \sum_{i} k_i 2^i$. Then:
+
+$$kP = \sum_{i: k_i = 1} 2^i P$$
+
+Starting from $P$, we repeatedly double and conditionally add, completing the computation in $O(\log k)$ point operations — roughly 256 steps for a 256-bit scalar.
+
+---
+
+## The Elliptic Curve Discrete Logarithm Problem
+
+Given a curve, a base point $G$ of large prime order, and a point $Q = kG$, the **Elliptic Curve Discrete Logarithm Problem (ECDLP)** asks: find $k$.
+
+Computing $Q$ from $k$ and $G$ is fast: $O(\log k)$ point additions. Finding $k$ from $Q$ and $G$ is, as far as we know, exponentially hard.
+
+The best known algorithms for ECDLP — Pollard's rho algorithm and its variants (Pollard, 1978) — run in time:
+
+$$O\!\left(\sqrt{n}\right)$$
+
+where $n$ is the order of the group. This is fully exponential in the bit-length of $p$. There is no known sub-exponential algorithm that applies to a properly chosen elliptic curve over a prime field.
+
+Compare this to the integer factorization problem underlying RSA, where the **General Number Field Sieve (GNFS)** (Lenstra et al., 1993) runs in sub-exponential time:
+
+$$O\!\left(\exp\!\left(\left(\frac{64}{9}\right)^{1/3} (\ln n)^{1/3} (\ln \ln n)^{2/3}\right)\right)$$
+
+The GNFS breaks the exponential barrier; Pollard's rho for ECDLP does not. This gap is precisely why ECC provides more security per bit.
+
+---
+
+## Key Size Comparison
+
+The practical consequence is dramatic. To achieve equivalent security levels, the following key sizes are required (Barker, 2020):
+
+| Security Level | RSA / DH Key Size | ECC Key Size |
+|---|---|---|
+| 80 bits | 1024 bits | 160 bits |
+| 112 bits | 2048 bits | 224 bits |
+| 128 bits | 3072 bits | 256 bits |
+| 192 bits | 7680 bits | 384 bits |
+| 256 bits | 15360 bits | 521 bits |
+
+A 256-bit ECC key is equivalent in security to a 3072-bit RSA key — a factor of 12 reduction in key size for the same security level. Smaller keys mean faster computations, less bandwidth, and lower power consumption, which are critical advantages for mobile devices, embedded systems, and IoT hardware.
+
+---
+
+## ECDH: Key Exchange With Elliptic Curves
+
+The Elliptic Curve Diffie-Hellman (ECDH) protocol adapts the original Diffie-Hellman idea to elliptic curves. Both parties agree publicly on a curve and a base point $G$.
+
+1. Alice picks a private scalar $a$, computes $A = aG$, and sends $A$ to Bob.
+2. Bob picks a private scalar $b$, computes $B = bG$, and sends $B$ to Alice.
+3. Alice computes $aB = a(bG) = abG$.
+4. Bob computes $bA = b(aG) = abG$.
+
+Both arrive at the same point $abG$ without ever transmitting $a$, $b$, or $abG$. An eavesdropper sees $A = aG$, $B = bG$, and the curve parameters, but recovering $a$ or $b$ requires solving ECDLP.
+
+This is the foundation of the X25519 key exchange used in TLS 1.3, Signal, and WireGuard (Bernstein, 2006).
+
+---
+
+## ECDSA: Digital Signatures
+
+The Elliptic Curve Digital Signature Algorithm (ECDSA) allows a private key to sign a message such that anyone with the corresponding public key can verify the signature.
+
+Given a private scalar $d$ and public key $Q = dG$:
+
+**Signing** a message with hash $z$:
+1. Pick a random nonce $k$, compute $R = kG$, let $r = x_R \bmod n$.
+2. Compute $s = k^{-1}(z + rd) \bmod n$.
+3. The signature is $(r, s)$.
+
+**Verification**: given $(r, s)$ and public key $Q$:
+1. Compute $u_1 = s^{-1} z \bmod n$ and $u_2 = s^{-1} r \bmod n$.
+2. Compute $X = u_1 G + u_2 Q$.
+3. Accept if $x_X \equiv r \pmod{n}$.
+
+The security of ECDSA depends critically on the randomness of the nonce $k$. Reusing $k$ across two signatures with the same private key immediately reveals the private key — a well-documented vulnerability exploited in several high-profile incidents (Heninger et al., 2012).
+
+---
+
+## Curve25519 and Modern Practice
+
+Not all elliptic curves are equally secure. Curves with special structure — anomalous curves, supersingular curves, curves with smooth group order — are vulnerable to specialized attacks. Choosing a secure curve requires care.
+
+**Curve25519**, designed by Bernstein (2006), uses the curve $y^2 = x^3 + 486662x^2 + x$ over $\mathbb{F}_{2^{255} - 19}$. Its design prioritizes:
+
+- **Immunity to timing attacks**: the constant-time Montgomery ladder algorithm naturally avoids secret-dependent branches.
+- **Transparency**: the prime $2^{255} - 19$ and all design parameters were chosen with fully published rationale.
+- **Efficiency**: the Montgomery form enables fast scalar multiplication without computing $y$-coordinates.
+
+The corresponding key exchange protocol, **X25519**, is now the default in TLS 1.3 and has displaced NIST P-256 in many modern protocols (Bernstein, 2006).
+
+---
+
+## What About Quantum Computers?
+
+Shor's algorithm — discussed in a companion post — can solve both integer factorization and the discrete logarithm problem (including ECDLP) in polynomial time on a quantum computer (Shor, 1997). This means ECC, like RSA, is not quantum-resistant.
+
+Post-quantum cryptography does not currently rely on elliptic curves in the conventional sense. NIST finalized its first post-quantum standards in 2024, based primarily on lattice problems, which are not known to yield to quantum algorithms efficiently (National Institute of Standards and Technology, 2024).
+
+For now, ECC remains the dominant choice for classical systems — but the transition to post-quantum algorithms is already underway.
+
+---
+
+## References
+
+Barker, E. (2020). *Recommendation for key management: Part 1 — General* (NIST Special Publication 800-57 Part 1 Rev. 5). National Institute of Standards and Technology. https://doi.org/10.6028/NIST.SP.800-57pt1r5
+
+Bernstein, D. J. (2006). Curve25519: New Diffie-Hellman speed records. In M. Yung, Y. Dodis, A. Kiayias, & T. Malkin (Eds.), *Public key cryptography — PKC 2006* (pp. 207–228). Springer. https://doi.org/10.1007/11745853_14
+
+Diffie, W., & Hellman, M. (1976). New directions in cryptography. *IEEE Transactions on Information Theory*, *22*(6), 644–654. https://doi.org/10.1109/TIT.1976.1055638
+
+Heninger, N., Durumeric, Z., Wustrow, E., & Halderman, J. A. (2012). Mining your Ps and Qs: Detection of widespread weak keys in network devices. In *Proceedings of the 21st USENIX security symposium* (pp. 205–220). USENIX Association.
+
+Koblitz, N. (1987). Elliptic curve cryptosystems. *Mathematics of Computation*, *48*(177), 203–209. https://doi.org/10.2307/2007884
+
+Lenstra, A. K., Lenstra, H. W., Jr., Manasse, M. S., & Pollard, J. M. (1993). The number field sieve. In A. K. Lenstra & H. W. Lenstra, Jr. (Eds.), *The development of the number field sieve* (pp. 11–42). Springer. https://doi.org/10.1007/BFb0091537
+
+Miller, V. S. (1985). Use of elliptic curves in cryptography. In H. C. Williams (Ed.), *Advances in cryptology — CRYPTO '85* (pp. 417–426). Springer. https://doi.org/10.1007/3-540-39799-X_31
+
+National Institute of Standards and Technology. (2024). *Post-quantum cryptography standardization*. U.S. Department of Commerce. https://csrc.nist.gov/projects/post-quantum-cryptography
+
+Pollard, J. M. (1978). Monte Carlo methods for index computation mod $p$. *Mathematics of Computation*, *32*(143), 918–924. https://doi.org/10.2307/2006496
+
+Rivest, R. L., Shamir, A., & Adleman, L. (1978). A method for obtaining digital signatures and public-key cryptosystems. *Communications of the ACM*, *21*(2), 120–126. https://doi.org/10.1145/359340.359342
+
+Shor, P. W. (1997). Polynomial-time algorithms for prime factorization and discrete logarithms on a quantum computer. *SIAM Journal on Computing*, *26*(5), 1484–1509. https://doi.org/10.1137/S0097539795293172

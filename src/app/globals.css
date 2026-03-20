@@ -10,6 +10,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-accent: #149ddd;
+  --color-accent-dark: #117bb8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,4 +30,12 @@ body {
 html {
   scroll-behavior: smooth;
   font-family: 'Arial', sans-serif;
+}
+
+/* Center KaTeX block (display) equations in blog posts */
+.katex-display {
+  display: block;
+  text-align: center;
+  overflow-x: auto;
+  margin: 1.5em 0;
 }
