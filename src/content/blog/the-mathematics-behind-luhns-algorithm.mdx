@@ -51,7 +51,7 @@ Is the 15-digit number 372185450453211 valid?
 The number begins with 3, identifying it as an American Express card. Number positions from right to left starting at 1; positions 2, 4, 6, ... are doubled.
 
 | Digit | 3 | 7 | 2 | 1 | 8 | 5 | 4 | 5 | 0 | 4 | 5 | 3 | 2 | 1 | 1 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | Doubled? | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — |
 | After doubling | 3 | 14 | 2 | 2 | 8 | 10 | 4 | 10 | 0 | 8 | 5 | 6 | 2 | 2 | 1 |
 | Reduced (−9 if >9) | 3 | 5 | 2 | 2 | 8 | 1 | 4 | 1 | 0 | 8 | 5 | 6 | 2 | 2 | 1 |
@@ -65,7 +65,7 @@ What is the check digit for the 16-digit Visa number 478452358563556X?
 X occupies position 1 (rightmost, undoubled). Positions 2, 4, ... from the right are doubled.
 
 | Digit | 4 | 7 | 8 | 4 | 5 | 2 | 3 | 5 | 8 | 5 | 6 | 3 | 5 | 5 | 6 | X |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | Doubled? | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — |
 | After doubling | 8 | 7 | 16 | 4 | 10 | 2 | 6 | 5 | 16 | 5 | 12 | 3 | 10 | 5 | 12 | X |
 | Reduced (−9 if >9) | 8 | 7 | 7 | 4 | 1 | 2 | 6 | 5 | 7 | 5 | 3 | 3 | 1 | 5 | 3 | X |
@@ -89,7 +89,7 @@ $$
 The complete table:
 
 | $d$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
-|-----|---|---|---|---|---|---|---|---|---|---|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | $f(d)$ | 0 | 2 | 4 | 6 | 8 | 1 | 3 | 5 | 7 | 9 |
 
 Two properties are immediately visible.
@@ -140,7 +140,7 @@ $$
 The transposition goes undetected precisely when $f(a) - a \equiv f(b) - b \pmod{10}$. Computing $f(d) - d$ for each digit:
 
 | $d$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
-|-----|---|---|---|---|---|---|---|---|---|---|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | $f(d) - d \pmod{10}$ | 0 | 1 | 2 | 3 | 4 | 6 | 7 | 8 | 9 | 0 |
 
 All ten values are distinct — except that $d = 0$ and $d = 9$ both yield 0. Therefore the only adjacent transposition that evades detection is the swap of **0 and 9**.
