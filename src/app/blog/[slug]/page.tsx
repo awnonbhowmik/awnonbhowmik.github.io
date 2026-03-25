@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { getBlogPost, getBlogPosts } from '@/lib/blog';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import Link from 'next/link';
 import 'katex/dist/katex.css';
@@ -12,7 +13,7 @@ const components = {
     h2: (props: React.HTMLProps<HTMLHeadingElement>) => <h2 className="text-3xl font-bold mb-4 mt-8 text-white" {...props} />,
     h3: (props: React.HTMLProps<HTMLHeadingElement>) => <h3 className="text-2xl font-bold mb-3 mt-6 text-white" {...props} />,
     h4: (props: React.HTMLProps<HTMLHeadingElement>) => <h4 className="text-xl font-bold mb-2 mt-4 text-white" {...props} />,
-    p: (props: React.HTMLProps<HTMLParagraphElement>) => <p className="mb-4 text-gray-300 leading-relaxed" {...props} />,
+    p: (props: React.HTMLProps<HTMLParagraphElement>) => <p className="mb-4 text-gray-300 leading-relaxed text-justify" {...props} />,
     ul: (props: React.HTMLProps<HTMLUListElement>) => <ul className="mb-4 ml-6 list-disc text-gray-300" {...props} />,
     ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => <ol className="mb-4 ml-6 list-decimal text-gray-300" {...props} />,
     li: (props: React.HTMLProps<HTMLLIElement>) => <li className="mb-1" {...props} />,
@@ -177,7 +178,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                             components={components}
                             options={{
                                 mdxOptions: {
-                                    remarkPlugins: [remarkMath],
+                                    remarkPlugins: [remarkMath, remarkGfm],
                                     rehypePlugins: [rehypeKatex],
                                 },
                             }}

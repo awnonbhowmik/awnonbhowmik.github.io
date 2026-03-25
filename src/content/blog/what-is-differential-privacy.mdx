@@ -40,7 +40,9 @@ The word *neighboring* is doing important work here. We define two datasets as n
 
 Let $\mathcal{M}$ be a randomized algorithm (a *mechanism*) that takes a dataset as input. We say $\mathcal{M}$ satisfies **$\varepsilon$-differential privacy** if for all pairs of neighboring datasets $D$ and $D'$, and for every possible output set $S$ (Dwork et al., 2006):
 
-$$\Pr[\mathcal{M}(D) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(D') \in S]$$
+$$
+\displaystyle \Pr[\mathcal{M}(D) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(D') \in S] \tag*{($\varepsilon$-DP)}
+$$
 
 The parameter $\varepsilon > 0$ is called the **privacy budget**. It controls how much the output distributions are allowed to diverge.
 
@@ -56,7 +58,9 @@ Notice that the definition is symmetric: if $\mathcal{M}(D)$ is unlikely to prod
 
 To build a differentially private mechanism, we need to understand how sensitive the function we are computing is to individual records. Define the **global sensitivity** of a function $f$ as (Dwork & Roth, 2014):
 
-$$\Delta f = \max_{D, D' \text{ neighbors}} \|f(D) - f(D')\|_1$$
+$$
+\displaystyle \Delta f = \max_{D,\, D' \text{ neighbors}} \|f(D) - f(D')\|_1 \tag*{(global sensitivity)}
+$$
 
 This is the worst-case change in the output when a single record is added or removed.
 
@@ -70,17 +74,26 @@ Contrast this with $f(D) = \max_i x_i$, the maximum value. Adding one record can
 
 The canonical mechanism for achieving $\varepsilon$-differential privacy on real-valued queries is the **Laplace mechanism** (Dwork et al., 2006). It works by adding noise drawn from a Laplace distribution calibrated to the sensitivity:
 
-$$\mathcal{M}(D) = f(D) + \text{Lap}\!\left(0,\, \frac{\Delta f}{\varepsilon}\right)$$
+$$
+\displaystyle \mathcal{M}(D) = f(D) + \text{Lap}\!\left(0,\, \frac{\Delta f}{\varepsilon}\right) \tag*{(Laplace mechanism)}
+$$
 
 The Laplace distribution with location 0 and scale $b$ has probability density:
 
-$$p(z \mid b) = \frac{1}{2b} \exp\!\left(-\frac{|z|}{b}\right)$$
+$$
+\displaystyle p(z \mid b) = \frac{1}{2b} \exp\!\left(-\frac{|z|}{b}\right) \tag*{(Laplace density)}
+$$
 
 Its variance is $2b^2$. To protect privacy, we set $b = \Delta f / \varepsilon$.
 
 **Why does this work?** Consider two neighboring datasets $D$ and $D'$ with $|f(D) - f(D')| \leq \Delta f$. The ratio of the densities of $\mathcal{M}(D)$ and $\mathcal{M}(D')$ at any output value $o$ is:
 
-$$\frac{p(o - f(D) \mid b)}{p(o - f(D') \mid b)} = \exp\!\left(\frac{|o - f(D')| - |o - f(D)|}{b}\right) \leq \exp\!\left(\frac{\Delta f}{b}\right) = e^{\varepsilon}$$
+$$
+\begin{align*}
+\frac{p(o - f(D) \mid b)}{p(o - f(D') \mid b)} &= \exp\!\left(\frac{|o - f(D')| - |o - f(D)|}{b}\right) \\
+&\leq \exp\!\left(\frac{\Delta f}{b}\right) = e^{\varepsilon}
+\end{align*}
+$$
 
 The inequality uses the triangle inequality: $|o - f(D')| - |o - f(D)| \leq |f(D) - f(D')| \leq \Delta f$. So the mechanism satisfies $\varepsilon$-differential privacy.
 
@@ -116,13 +129,17 @@ Advanced composition results, such as the **moments accountant** (Abadi et al., 
 
 A useful relaxation of pure $\varepsilon$-DP is **$(\varepsilon, \delta)$-differential privacy** (Dwork & Roth, 2014):
 
-$$\Pr[\mathcal{M}(D) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(D') \in S] + \delta$$
+$$
+\displaystyle \Pr[\mathcal{M}(D) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(D') \in S] + \delta \tag*{($(\varepsilon, \delta)$-DP)}
+$$
 
 The additive $\delta$ allows the privacy guarantee to fail with probability at most $\delta$, which should be negligibly small (e.g., $\delta < 10^{-6}$).
 
 This relaxation enables the **Gaussian mechanism**, which adds noise from $\mathcal{N}(0, \sigma^2)$ with:
 
-$$\sigma = \frac{\Delta_2 f \cdot \sqrt{2 \ln(1.25/\delta)}}{\varepsilon}$$
+$$
+\displaystyle \sigma = \frac{\Delta_2 f \cdot \sqrt{2 \ln(1.25/\delta)}}{\varepsilon} \tag*{(Gaussian mechanism)}
+$$
 
 where $\Delta_2 f$ is the $\ell_2$ sensitivity. The Gaussian mechanism is the foundation of **DP-SGD** (differentially private stochastic gradient descent), which clips per-sample gradients to bound $\ell_2$ sensitivity and then adds Gaussian noise before each parameter update (Abadi et al., 2016).
 
@@ -163,6 +180,6 @@ Dwork, C., McSherry, F., Nissim, K., & Smith, A. (2006). Calibrating noise to se
 
 Dwork, C., & Roth, A. (2014). The algorithmic foundations of differential privacy. *Foundations and Trends in Theoretical Computer Science*, *9*(3–4), 211–407. https://doi.org/10.1561/0400000042
 
-Erlingsson, Ú., Pihur, V., & Korolova, A. (2014). RAPPOR: Randomized aggregatable privacy-preserving ordinal response. In *Proceedings of the 2016 ACM SIGSAC conference on computer and communications security* (pp. 1054–1067). ACM. https://doi.org/10.1145/2660267.2660348
+Erlingsson, Ú., Pihur, V., & Korolova, A. (2014). RAPPOR: Randomized aggregatable privacy-preserving ordinal response. In *Proceedings of the 2014 ACM SIGSAC conference on computer and communications security* (pp. 1054–1067). ACM. https://doi.org/10.1145/2660267.2660348
 
 Mironov, I. (2017). Rényi differential privacy. In *2017 IEEE 30th computer security foundations symposium* (pp. 263–275). IEEE. https://doi.org/10.1109/CSF.2017.11

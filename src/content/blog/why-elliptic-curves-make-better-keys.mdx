@@ -30,7 +30,9 @@ Both problems are *hard*, but neither is *as hard as it could be*. Elliptic curv
 
 Over the real numbers, an elliptic curve is the set of points $(x, y)$ satisfying:
 
-$$y^2 = x^3 + ax + b$$
+$$
+\displaystyle y^2 = x^3 + ax + b \tag*{(Weierstrass form)}
+$$
 
 together with a special "point at infinity" denoted $\mathcal{O}$, subject to the non-singularity condition $4a^3 + 27b^2 \neq 0$, which ensures the curve has no cusps or self-intersections.
 
@@ -38,7 +40,9 @@ This is not an ellipse — the name traces back historically to elliptic integra
 
 For cryptography, we do not work over the real numbers. We work over a **finite field** $\mathbb{F}_p$, where $p$ is a large prime. The curve becomes:
 
-$$y^2 \equiv x^3 + ax + b \pmod{p}$$
+$$
+\displaystyle y^2 \equiv x^3 + ax + b \pmod{p} \tag*{(over $\mathbb{F}_p$)}
+$$
 
 The points satisfying this congruence — together with $\mathcal{O}$ — form a finite set, and it is this finite set that we perform arithmetic on (Koblitz, 1987).
 
@@ -50,17 +54,62 @@ The key structure that makes elliptic curves useful is that we can define an **a
 
 **Adding two distinct points.** Given points $P = (x_1, y_1)$ and $Q = (x_2, y_2)$ with $x_1 \neq x_2$, draw the line through them. A cubic curve intersects a line at three points (counting multiplicity). This line will meet the curve at a third point $R' = (x_3, -y_3)$. We define $P + Q$ to be the reflection of $R'$ over the $x$-axis: $P + Q = (x_3, y_3)$.
 
+<svg viewBox="0 0 500 280" style={{display:"block",width:"100%",height:"auto",marginTop:"0.75rem",marginBottom:"0.25rem"}}>
+  <rect width="500" height="280" fill="#0f172a" rx="8"/>
+  <line x1="55" y1="150" x2="450" y2="150" stroke="#334155" strokeWidth="1" strokeDasharray="4,3"/>
+  <path d="M 100,150 C 103,132 110,108 120,94 C 130,80 146,77 158,84 C 169,91 180,97 215,105 C 235,110 258,91 274,52 C 287,25 304,12 322,5"
+        fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round"/>
+  <path d="M 100,150 C 103,168 110,192 120,206 C 130,220 146,223 158,216 C 169,209 180,203 215,195 C 235,190 255,208 270,240 C 280,260 292,265 305,265"
+        fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round"/>
+  <line x1="42" y1="115" x2="372" y2="26" stroke="#94a3b8" strokeWidth="1.5"/>
+  <line x1="158" y1="84" x2="158" y2="216" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="5,4"/>
+  <circle cx="120" cy="94" r="5" fill="#f97316"/>
+  <text x="104" y="82" fill="#e2e8f0" fontSize="15" fontFamily="serif" fontStyle="italic">P</text>
+  <circle cx="274" cy="52" r="5" fill="#f97316"/>
+  <text x="278" y="46" fill="#e2e8f0" fontSize="15" fontFamily="serif" fontStyle="italic">Q</text>
+  <circle cx="158" cy="84" r="5" fill="#ef4444"/>
+  <text x="163" y="76" fill="#ef4444" fontSize="14" fontFamily="serif" fontStyle="italic">R′</text>
+  <circle cx="158" cy="216" r="5" fill="#22c55e"/>
+  <text x="163" y="233" fill="#22c55e" fontSize="13" fontFamily="serif" fontStyle="italic">P+Q</text>
+</svg>
+
+<p style={{textAlign:"center",fontSize:"0.85rem",color:"#94a3b8",fontStyle:"italic",marginTop:"0.5rem",marginBottom:"1.5rem"}}>Figure 1. Chord-and-reflect: the secant through P and Q meets the curve again at R′; P + Q is the reflection of R′ over the x-axis.</p>
+
 Algebraically, the coordinates are:
 
-$$\lambda = \frac{y_2 - y_1}{x_2 - x_1}$$
-
-$$x_3 = \lambda^2 - x_1 - x_2, \qquad y_3 = \lambda(x_1 - x_3) - y_1$$
+$$
+\begin{align*}
+\lambda &= \frac{y_2 - y_1}{x_2 - x_1} \tag*{(addition slope)} \\[6pt]
+x_3 &= \lambda^2 - x_1 - x_2, \qquad y_3 = \lambda(x_1 - x_3) - y_1 \tag*{(addition coords)}
+\end{align*}
+$$
 
 **Point doubling.** When $P = Q$, we take the tangent line to the curve at $P$. By implicit differentiation, the slope is:
 
-$$\lambda = \frac{3x_1^2 + a}{2y_1}$$
+$$
+\displaystyle \lambda = \frac{3x_1^2 + a}{2y_1} \tag*{(doubling slope)}
+$$
 
 and the same formulas apply for $x_3$ and $y_3$.
+
+<svg viewBox="0 0 500 280" style={{display:"block",width:"100%",height:"auto",marginTop:"0.75rem",marginBottom:"0.25rem"}}>
+  <rect width="500" height="280" fill="#0f172a" rx="8"/>
+  <line x1="55" y1="150" x2="450" y2="150" stroke="#334155" strokeWidth="1" strokeDasharray="4,3"/>
+  <path d="M 100,150 C 103,132 110,108 120,94 C 130,80 146,77 158,84 C 169,91 180,97 215,105 C 235,110 258,91 274,52 C 287,25 304,12 322,5"
+        fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round"/>
+  <path d="M 100,150 C 103,168 110,192 120,206 C 130,220 146,223 158,216 C 169,209 180,203 215,195 C 235,190 255,208 270,240 C 280,260 292,265 305,265"
+        fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round"/>
+  <line x1="30" y1="26" x2="370" y2="179" stroke="#94a3b8" strokeWidth="1.5"/>
+  <line x1="197" y1="100" x2="197" y2="200" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="5,4"/>
+  <circle cx="182" cy="94" r="5" fill="#f97316"/>
+  <text x="167" y="82" fill="#e2e8f0" fontSize="15" fontFamily="serif" fontStyle="italic">P</text>
+  <circle cx="197" cy="100" r="5" fill="#ef4444"/>
+  <text x="202" y="94" fill="#ef4444" fontSize="14" fontFamily="serif" fontStyle="italic">R′</text>
+  <circle cx="197" cy="200" r="5" fill="#22c55e"/>
+  <text x="202" y="218" fill="#22c55e" fontSize="13" fontFamily="serif">2P</text>
+</svg>
+
+<p style={{textAlign:"center",fontSize:"0.85rem",color:"#94a3b8",fontStyle:"italic",marginTop:"0.5rem",marginBottom:"1.5rem"}}>Figure 2. Point doubling: the tangent at P meets the curve again at R′; 2P is the reflection of R′ over the x-axis.</p>
 
 **Special cases.**
 - $P + \mathcal{O} = P$ for all $P$ — $\mathcal{O}$ is the identity element.
@@ -74,11 +123,15 @@ Over $\mathbb{F}_p$, all divisions become modular inverses computed via the exte
 
 The cryptographically useful operation is **scalar multiplication**: given a point $P$ and a positive integer $k$, compute:
 
-$$kP = \underbrace{P + P + \cdots + P}_{k \text{ times}}$$
+$$
+\displaystyle kP = \underbrace{P + P + \cdots + P}_{k \text{ times}} \tag*{(scalar multiplication)}
+$$
 
 This is done efficiently using the **double-and-add algorithm**, analogous to fast exponentiation. Write $k$ in binary: $k = \sum_{i} k_i 2^i$. Then:
 
-$$kP = \sum_{i: k_i = 1} 2^i P$$
+$$
+\displaystyle kP = \sum_{i:\, k_i = 1} 2^i P \tag*{(double-and-add)}
+$$
 
 Starting from $P$, we repeatedly double and conditionally add, completing the computation in $O(\log k)$ point operations — roughly 256 steps for a 256-bit scalar.
 
@@ -92,13 +145,17 @@ Computing $Q$ from $k$ and $G$ is fast: $O(\log k)$ point additions. Finding $k$
 
 The best known algorithms for ECDLP — Pollard's rho algorithm and its variants (Pollard, 1978) — run in time:
 
-$$O\!\left(\sqrt{n}\right)$$
+$$
+\displaystyle O\!\left(\sqrt{n}\right) \tag*{(Pollard's rho)}
+$$
 
 where $n$ is the order of the group. This is fully exponential in the bit-length of $p$. There is no known sub-exponential algorithm that applies to a properly chosen elliptic curve over a prime field.
 
 Compare this to the integer factorization problem underlying RSA, where the **General Number Field Sieve (GNFS)** (Lenstra et al., 1993) runs in sub-exponential time:
 
-$$O\!\left(\exp\!\left(\left(\frac{64}{9}\right)^{1/3} (\ln n)^{1/3} (\ln \ln n)^{2/3}\right)\right)$$
+$$
+\displaystyle O\!\left(\exp\!\left(\left(\frac{64}{9}\right)^{1/3} (\ln n)^{1/3} (\ln \ln n)^{2/3}\right)\right) \tag*{(GNFS)}
+$$
 
 The GNFS breaks the exponential barrier; Pollard's rho for ECDLP does not. This gap is precisely why ECC provides more security per bit.
 

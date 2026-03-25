@@ -28,7 +28,13 @@ RSA key generation proceeds as follows (Rivest et al., 1978):
 
 The **public key** is $(n, e)$; the **private key** is $d$.
 
-Encryption: $c = m^e \bmod n$. Decryption: $m = c^d \bmod n$.
+$$
+\displaystyle c = m^e \bmod n \tag*{(Encryption)}
+$$
+
+$$
+\displaystyle m = c^d \bmod n \tag*{(Decryption)}
+$$
 
 The security reduces to the following: given only $n$ and $e$, an adversary cannot compute $d$ without knowing $\phi(n)$, and computing $\phi(n) = (p-1)(q-1)$ requires knowing $p$ and $q$, which requires factoring $n$.
 
@@ -42,7 +48,9 @@ Trial division — checking every integer up to $\sqrt{n}$ — runs in time $O(\
 
 The best known classical algorithm is the **General Number Field Sieve (GNFS)** (Lenstra et al., 1993), which runs in heuristic time:
 
-$$\exp\!\left(\left(\frac{64}{9}\right)^{1/3} (\ln n)^{1/3} (\ln \ln n)^{2/3}\right)$$
+$$
+\displaystyle \exp\!\left(\left(\frac{64}{9}\right)^{1/3} (\ln n)^{1/3} (\ln \ln n)^{2/3}\right) \tag*{(GNFS)}
+$$
 
 For a 2048-bit $n$, this is approximately $2^{112}$ operations — still astronomically large. The 768-bit RSA-768 challenge was factored in 2009 using the GNFS across thousands of machines over two years (Kleinjung et al., 2010); RSA-2048 remains unfactored.
 
@@ -54,13 +62,17 @@ The GNFS is sub-exponential but still super-polynomial. It does not break RSA in
 
 A classical bit is either 0 or 1. A **qubit** can be in a *superposition* (Nielsen & Chuang, 2010):
 
-$$|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$$
+$$
+\displaystyle |\psi\rangle = \alpha|0\rangle + \beta|1\rangle \tag*{(qubit superposition)}
+$$
 
 where $\alpha, \beta \in \mathbb{C}$ and $|\alpha|^2 + |\beta|^2 = 1$. Before measurement, the qubit exists in both states simultaneously. Upon measurement, it collapses to $|0\rangle$ with probability $|\alpha|^2$ and to $|1\rangle$ with probability $|\beta|^2$.
 
 A register of $n$ qubits can represent a superposition of all $2^n$ states simultaneously:
 
-$$|\psi\rangle = \frac{1}{\sqrt{2^n}} \sum_{x=0}^{2^n - 1} |x\rangle$$
+$$
+\displaystyle |\psi\rangle = \frac{1}{\sqrt{2^n}} \sum_{x=0}^{2^n - 1} |x\rangle \tag*{($n$-qubit register)}
+$$
 
 A quantum gate applied to this register acts on all $2^n$ states at once — this is **quantum parallelism**. But measurement collapses the superposition to a single outcome.
 
@@ -76,12 +88,18 @@ Shor's algorithm does not attempt to factor $n$ directly. Instead, it exploits a
 
 Here is why. If $r$ is even, write:
 
-$$a^r - 1 \equiv 0 \pmod{n}$$
-$$(a^{r/2} - 1)(a^{r/2} + 1) \equiv 0 \pmod{n}$$
+$$
+\begin{align*}
+a^r - 1 &\equiv 0 \pmod{n} \\
+(a^{r/2}-1)(a^{r/2}+1) &\equiv 0 \pmod{n}
+\end{align*}
+$$
 
 Since $n = pq$, either $p$ or $q$ (or both) divides one of the two factors. If $a^{r/2} \not\equiv \pm 1 \pmod{n}$, then:
 
-$$\gcd(a^{r/2} - 1,\; n) \in \{p, q\}$$
+$$
+\displaystyle \gcd(a^{r/2} - 1,\; n) \in \{p, q\} \tag*{(factor extraction)}
+$$
 
 This gives a non-trivial factor of $n$ using only one GCD computation — an $O((\log n)^2)$ classical operation.
 
@@ -99,13 +117,17 @@ Here is the structure of the quantum subroutine (Shor, 1997; Nielsen & Chuang, 2
 
 Create a quantum register of $t$ qubits, where $t \approx 2 \log_2 n$, initialized in uniform superposition:
 
-$$|s_0\rangle = \frac{1}{\sqrt{2^t}} \sum_{x=0}^{2^t - 1} |x\rangle$$
+$$
+\displaystyle |s_0\rangle = \frac{1}{\sqrt{2^t}} \sum_{x=0}^{2^t - 1} |x\rangle \tag*{(uniform superposition)}
+$$
 
 **Step 2: Compute $f(x)$ in superposition.**
 
 Using quantum circuits for modular exponentiation, compute $f(x) = a^x \bmod n$ and store the result in a second register:
 
-$$|s_1\rangle = \frac{1}{\sqrt{2^t}} \sum_{x=0}^{2^t - 1} |x\rangle |a^x \bmod n\rangle$$
+$$
+\displaystyle |s_1\rangle = \frac{1}{\sqrt{2^t}} \sum_{x=0}^{2^t - 1} |x\rangle |a^x \bmod n\rangle \tag*{(quantum parallelism)}
+$$
 
 All $2^t$ evaluations happen simultaneously through quantum parallelism.
 
@@ -113,7 +135,9 @@ All $2^t$ evaluations happen simultaneously through quantum parallelism.
 
 Suppose the measurement yields the value $u = a^{x_0} \bmod n$ for some $x_0$. The first register collapses to a superposition over all $x$ with $f(x) = u$ — exactly those $x$ congruent to $x_0 \bmod r$:
 
-$$|s_2\rangle = \frac{1}{\sqrt{m}} \sum_{j=0}^{m-1} |x_0 + jr\rangle$$
+$$
+\displaystyle |s_2\rangle = \frac{1}{\sqrt{m}} \sum_{j=0}^{m-1} |x_0 + jr\rangle \tag*{(post-measurement collapse)}
+$$
 
 where $m \approx 2^t / r$ is the number of such terms.
 
@@ -121,11 +145,15 @@ where $m \approx 2^t / r$ is the number of such terms.
 
 The first register now encodes a periodic function with period $r$. The **Quantum Fourier Transform (QFT)** is the quantum analogue of the discrete Fourier transform (Nielsen & Chuang, 2010):
 
-$$\text{QFT}|j\rangle = \frac{1}{\sqrt{2^t}} \sum_{k=0}^{2^t - 1} e^{2\pi i jk / 2^t} |k\rangle$$
+$$
+\displaystyle \text{QFT}|j\rangle = \frac{1}{\sqrt{2^t}} \sum_{k=0}^{2^t - 1} e^{2\pi i jk / 2^t} |k\rangle \tag*{(QFT definition)}
+$$
 
 Applied to $|s_2\rangle$, the QFT concentrates probability amplitude at multiples of $2^t / r$:
 
-$$|s_3\rangle \approx \frac{1}{\sqrt{r}} \sum_{l=0}^{r-1} e^{2\pi i l x_0 / r} \left|\frac{l \cdot 2^t}{r}\right\rangle$$
+$$
+\displaystyle |s_3\rangle \approx \frac{1}{\sqrt{r}} \sum_{l=0}^{r-1} e^{2\pi i l x_0 / r} \left|\frac{l \cdot 2^t}{r}\right\rangle \tag*{(after QFT)}
+$$
 
 The complex exponentials destructively interfere at non-multiples of $2^t/r$ and constructively reinforce at multiples.
 
@@ -133,7 +161,9 @@ The complex exponentials destructively interfere at non-multiples of $2^t/r$ and
 
 Measurement yields some value $k \approx l \cdot 2^t / r$ for a random integer $l$. Dividing by $2^t$:
 
-$$\frac{k}{2^t} \approx \frac{l}{r}$$
+$$
+\displaystyle \frac{k}{2^t} \approx \frac{l}{r} \tag*{(rational approximation)}
+$$
 
 By the **continued fraction algorithm**, we recover $r$ exactly from this rational approximation in polynomial time — the approximation is guaranteed to be within $1/(2r)$ with high probability.
 
@@ -145,7 +175,54 @@ The QFT deserves a closer look because it is the computational heart of the algo
 
 The classical Discrete Fourier Transform (DFT) on $N$ points takes $O(N \log N)$ time via the Fast Fourier Transform. The QFT on $n$ qubits (where $N = 2^n$) uses only $O(n^2)$ quantum gates — exponentially fewer operations in terms of $n$ (Nielsen & Chuang, 2010). It is implemented as a sequence of Hadamard gates and controlled phase rotations:
 
-$$R_k = \begin{pmatrix} 1 & 0 \\ 0 & e^{2\pi i / 2^k} \end{pmatrix}$$
+$$
+\displaystyle R_k = \begin{pmatrix} 1 & 0 \\ 0 & e^{2\pi i / 2^k} \end{pmatrix} \tag*{(phase gate)}
+$$
+
+<div style={{margin:'2rem auto',overflowX:'auto'}}>
+<svg viewBox="0 0 700 255" style={{maxWidth:'100%',display:'block',margin:'0 auto',borderRadius:'8px'}}>
+  <rect width="700" height="255" fill="#0f172a" rx="8"/>
+  <line x1="80" y1="82" x2="590" y2="82" stroke="#334155" strokeWidth="2"/>
+  <line x1="80" y1="152" x2="590" y2="152" stroke="#334155" strokeWidth="2"/>
+  <line x1="80" y1="222" x2="590" y2="222" stroke="#334155" strokeWidth="2"/>
+  <text x="74" y="87" fill="#94a3b8" fontSize="15" textAnchor="end" fontFamily="Georgia, serif">|j₁⟩</text>
+  <text x="74" y="157" fill="#94a3b8" fontSize="15" textAnchor="end" fontFamily="Georgia, serif">|j₂⟩</text>
+  <text x="74" y="227" fill="#94a3b8" fontSize="15" textAnchor="end" fontFamily="Georgia, serif">|j₃⟩</text>
+  <text x="190" y="42" fill="#cbd5e1" fontSize="10" textAnchor="middle" fontFamily="Arial, sans-serif">Stage 1</text>
+  <text x="365" y="42" fill="#cbd5e1" fontSize="10" textAnchor="middle" fontFamily="Arial, sans-serif">Stage 2</text>
+  <text x="470" y="42" fill="#cbd5e1" fontSize="10" textAnchor="middle" fontFamily="Arial, sans-serif">Stage 3</text>
+  <text x="543" y="42" fill="#cbd5e1" fontSize="10" textAnchor="middle" fontFamily="Arial, sans-serif">Swap</text>
+  <line x1="293" y1="48" x2="293" y2="245" stroke="#1e293b" strokeWidth="1" strokeDasharray="3,3"/>
+  <line x1="437" y1="48" x2="437" y2="245" stroke="#1e293b" strokeWidth="1" strokeDasharray="3,3"/>
+  <line x1="503" y1="48" x2="503" y2="245" stroke="#1e293b" strokeWidth="1" strokeDasharray="3,3"/>
+  <rect x="110" y="68" width="36" height="28" fill="#075985" rx="3" stroke="#0ea5e9" strokeWidth="1"/>
+  <text x="128" y="87" fill="#ffffff" fontSize="15" textAnchor="middle" fontWeight="bold" fontFamily="Arial, sans-serif">H</text>
+  <line x1="193" y1="96" x2="193" y2="152" stroke="#475569" strokeWidth="1.5"/>
+  <circle cx="193" cy="152" r="5" fill="#475569"/>
+  <rect x="175" y="68" width="36" height="28" fill="#075985" rx="3" stroke="#0ea5e9" strokeWidth="1"/>
+  <text x="193" y="87" fill="#ffffff" fontSize="14" textAnchor="middle" fontWeight="bold" fontFamily="Arial, sans-serif">R₂</text>
+  <line x1="258" y1="96" x2="258" y2="222" stroke="#475569" strokeWidth="1.5"/>
+  <circle cx="258" cy="152" r="6" fill="#0f172a"/>
+  <circle cx="258" cy="222" r="5" fill="#475569"/>
+  <rect x="240" y="68" width="36" height="28" fill="#075985" rx="3" stroke="#0ea5e9" strokeWidth="1"/>
+  <text x="258" y="87" fill="#ffffff" fontSize="14" textAnchor="middle" fontWeight="bold" fontFamily="Arial, sans-serif">R₃</text>
+  <rect x="320" y="138" width="36" height="28" fill="#075985" rx="3" stroke="#0ea5e9" strokeWidth="1"/>
+  <text x="338" y="157" fill="#ffffff" fontSize="15" textAnchor="middle" fontWeight="bold" fontFamily="Arial, sans-serif">H</text>
+  <line x1="403" y1="166" x2="403" y2="222" stroke="#475569" strokeWidth="1.5"/>
+  <circle cx="403" cy="222" r="5" fill="#475569"/>
+  <rect x="385" y="138" width="36" height="28" fill="#075985" rx="3" stroke="#0ea5e9" strokeWidth="1"/>
+  <text x="403" y="157" fill="#ffffff" fontSize="14" textAnchor="middle" fontWeight="bold" fontFamily="Arial, sans-serif">R₂</text>
+  <rect x="450" y="208" width="36" height="28" fill="#075985" rx="3" stroke="#0ea5e9" strokeWidth="1"/>
+  <text x="468" y="227" fill="#ffffff" fontSize="15" textAnchor="middle" fontWeight="bold" fontFamily="Arial, sans-serif">H</text>
+  <line x1="543" y1="82" x2="543" y2="222" stroke="#475569" strokeWidth="1.5"/>
+  <circle cx="543" cy="152" r="6" fill="#0f172a"/>
+  <line x1="533" y1="72" x2="553" y2="92" stroke="#cbd5e1" strokeWidth="2"/>
+  <line x1="553" y1="72" x2="533" y2="92" stroke="#cbd5e1" strokeWidth="2"/>
+  <line x1="533" y1="212" x2="553" y2="232" stroke="#cbd5e1" strokeWidth="2"/>
+  <line x1="553" y1="212" x2="533" y2="232" stroke="#cbd5e1" strokeWidth="2"/>
+</svg>
+</div>
+<p style={{textAlign:"center",fontSize:"0.85rem",color:"#94a3b8",fontStyle:"italic",marginTop:"0.5rem",marginBottom:"1.5rem"}}>Figure 1. Three-qubit QFT circuit. R_k = diag(1, e^(2πi/2^k)). Filled dot = control; × = SWAP. Dashed lines separate stages.</p>
 
 The total circuit depth is $O(n^2)$ gates for $n$ qubits, compared to the $O(n \cdot 2^n)$ operations of the classical FFT. The speedup is exponential.
 

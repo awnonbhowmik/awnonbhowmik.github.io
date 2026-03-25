@@ -77,6 +77,7 @@ const education: EducationEntry[] = [
     icon: <FaUniversity size={28} />,
     honors: [
       'University Math Olympiad Champion, 2011',
+      'Invited to set Olympiad questions for the 2014 and 2015 events',
     ],
   },
 ];
@@ -125,10 +126,11 @@ const experience: ExperienceEntry[] = [
   {
     title: 'Mathematics Educator',
     organization: 'CUNY Borough of Manhattan Community College',
-    date: 'Mar 2014 – Aug 2021',
+    date: '2014 – 2021',
     icon: <FaChalkboardTeacher size={28} />,
     bullets: [
-      'Taught college algebra, precalculus, calculus, and differential equations for seven years.',
+      'Served as College Assistant and mathematics tutor at the Math Lab, supporting students in algebra, precalculus, calculus, and differential equations.',
+      'Taught Maple (computer algebra system) lab sections as Adjunct Lab Instructor (Sep 2017 – May 2019).',
     ],
   },
 ];
@@ -140,73 +142,74 @@ export default function Resume() {
         <h2 className="text-4xl font-bold">Resume</h2>
       </div>
 
-      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 px-6 relative">
+      <div className="container mx-auto px-6 lg:px-16 relative">
 
-        {/* Education */}
-        <div>
-          <h3 className="flex items-center text-xl font-semibold text-accent mb-6 uppercase tracking-widest">
+        {/* Column headers */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-6">
+          <h3 className="flex items-center text-xl font-semibold text-accent uppercase tracking-widest">
             <FaGraduationCap className="mr-2" /> Education
           </h3>
-          <div className="space-y-6">
-            {education.map((item, index) => (
-              <div
-                key={index}
-                className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
-              >
-                <div className="text-accent mb-3">{item.icon}</div>
-                <h4 className="text-lg font-semibold text-white">{item.degree}</h4>
-                <p className="text-accent text-sm mt-0.5">{item.field}</p>
-                <p className="text-gray-300 mt-1">{item.institution}</p>
-                <p className="flex items-center text-gray-500 text-sm mt-2">
-                  <FaCalendarAlt className="mr-2 shrink-0" /> {item.date}
-                </p>
-                {item.honors && item.honors.length > 0 && (
-                  <ul className="mt-3 space-y-1">
-                    {item.honors.map((h, i) => (
-                      <li key={i} className="flex gap-2 text-sm text-gray-400 leading-relaxed">
-                        <span className="text-accent shrink-0 mt-0.5">—</span>
-                        <span>{h}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Experience */}
-        <div>
-          <h3 className="flex items-center text-xl font-semibold text-accent mb-6 uppercase tracking-widest">
+          <h3 className="flex items-center text-xl font-semibold text-accent uppercase tracking-widest">
             <FaBriefcase className="mr-2" /> Experience
           </h3>
-          <div className="space-y-6">
-            {experience.map((item, index) => (
-              <div
-                key={index}
-                className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
-              >
-                <div className="text-accent mb-3">{item.icon}</div>
-                <h4 className="text-lg font-semibold text-white">{item.title}</h4>
-                <p className="text-gray-300 mt-0.5">{item.organization}</p>
-                <p className="flex items-center text-gray-500 text-sm mt-2 mb-4">
-                  <FaCalendarAlt className="mr-2 shrink-0" /> {item.date}
-                </p>
-                <ul className="space-y-2">
-                  {item.bullets.map((bullet, i) => (
-                    <li key={i} className="flex gap-2 text-sm text-gray-400 leading-relaxed">
-                      <span className="text-accent mt-1 shrink-0">—</span>
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Subtle vertical divider for large screens */}
-          <div className="hidden lg:block absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-px bg-accent/10 z-0" />
         </div>
+
+        {/* Paired rows — cards in the same row stretch to match heights */}
+        <div className="space-y-6">
+          {Array.from({ length: Math.max(education.length, experience.length) }).map((_, index) => {
+            const edu = education[index];
+            const exp = experience[index];
+            return (
+              <div key={index} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+                {/* Education card */}
+                {edu ? (
+                  <div className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
+                    <div className="text-accent mb-3">{edu.icon}</div>
+                    <h4 className="text-lg font-semibold text-white">{edu.degree}</h4>
+                    <p className="text-accent text-sm mt-0.5">{edu.field}</p>
+                    <p className="text-gray-300 mt-1">{edu.institution}</p>
+                    <p className="flex items-center text-gray-500 text-sm mt-2">
+                      <FaCalendarAlt className="mr-2 shrink-0" /> {edu.date}
+                    </p>
+                    {edu.honors && edu.honors.length > 0 && (
+                      <ul className="mt-3 space-y-1">
+                        {edu.honors.map((h, i) => (
+                          <li key={i} className="flex gap-2 text-sm text-gray-400 leading-relaxed">
+                            <span className="text-accent shrink-0 mt-0.5">—</span>
+                            <span>{h}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ) : <div />}
+
+                {/* Experience card */}
+                {exp ? (
+                  <div className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
+                    <div className="text-accent mb-3">{exp.icon}</div>
+                    <h4 className="text-lg font-semibold text-white">{exp.title}</h4>
+                    <p className="text-gray-300 mt-0.5">{exp.organization}</p>
+                    <p className="flex items-center text-gray-500 text-sm mt-2 mb-4">
+                      <FaCalendarAlt className="mr-2 shrink-0" /> {exp.date}
+                    </p>
+                    <ul className="space-y-2">
+                      {exp.bullets.map((bullet, i) => (
+                        <li key={i} className="flex gap-2 text-sm text-gray-400 leading-relaxed">
+                          <span className="text-accent mt-1 shrink-0">—</span>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : <div />}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Subtle vertical divider for large screens */}
+        <div className="hidden lg:block absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-px bg-accent/10 z-0" />
 
       </div>
     </section>

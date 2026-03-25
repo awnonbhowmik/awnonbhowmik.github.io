@@ -94,6 +94,15 @@ export default function Research() {
             </p>
 
             <p className="text-lg text-gray-300 text-justify leading-relaxed">
+              A recurring theme across my research is the tension between{' '}
+              <span className="text-accent">formal privacy guarantees</span> and{' '}
+              <span className="text-accent">operational utility</span> — understanding when and
+              how theoretical frameworks translate into systems that remain effective under
+              real-world constraints. This line of inquiry draws on tools from probability
+              theory, statistical learning, and algorithm design.
+            </p>
+
+            <p className="text-lg text-gray-300 text-justify leading-relaxed">
               Alongside my dissertation work, I maintain an active program in{' '}
               <span className="text-accent">applied cryptography</span>, with peer-reviewed
               publications on novel encryption schemes, trapdoor function design, and
@@ -101,6 +110,16 @@ export default function Research() {
               extends to{' '}
               <span className="text-accent">mathematical modeling</span>, including
               interdisciplinary contributions to environmental transport dynamics.
+            </p>
+
+            <p className="text-lg text-gray-300 text-justify leading-relaxed">
+              Across all areas, I approach problems with the rigor of a mathematician and
+              the pragmatism of a working engineer. Whether designing{' '}
+              <span className="text-accent">adversarially robust</span> privacy-preserving
+              systems or examining how formal frameworks align with regulatory requirements
+              such as{' '}
+              <span className="text-accent">GDPR</span>, the throughline is a commitment to
+              work that is both theoretically sound and practically deployable.
             </p>
           </div>
         </div>

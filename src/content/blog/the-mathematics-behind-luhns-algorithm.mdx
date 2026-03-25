@@ -1,0 +1,206 @@
+---
+title: "The Mathematics Behind Luhn's Algorithm"
+date: "2026-03-24"
+category: "cryptography"
+tags: ["Luhn algorithm", "modular arithmetic", "checksum", "discrete mathematics", "number theory", "algorithms"]
+excerpt: "Every credit card number encodes a quiet mathematical guarantee. Here is the modular arithmetic that makes Luhn's checksum work — and the exact conditions under which it fails."
+---
+
+# The Mathematics Behind Luhn's Algorithm
+
+Every time you type a credit card number into a checkout form, before any network request is made, a seventy-year-old algorithm quietly determines whether those digits could possibly be valid. The check takes microseconds. If you transpose two adjacent digits — the most common transcription error — the algorithm catches it. Understanding why requires a small amount of modular arithmetic and one key observation about what happens when you double a digit.
+
+---
+
+## A Brief History
+
+Hans Peter Luhn, an engineer at IBM, filed U.S. Patent No. 2,950,048 on January 6, 1954; it was granted on August 23, 1960 (Luhn, 1960). The algorithm was designed to protect against accidental data-entry errors, not deliberate fraud. It is a *checksum*, not a cryptographic hash: an attacker who understands the algorithm can trivially construct numbers that pass it. Its value lies entirely in catching mistakes.
+
+The algorithm has since been adopted far beyond credit cards. It validates IMEI numbers (the hardware identifiers on mobile phones), National Provider Identifiers in the U.S. healthcare system, Canadian Social Insurance Numbers, and more. In every case, the last digit is a *check digit* computed from the others, and the complete sequence must satisfy a single divisibility condition modulo 10. For this reason, the algorithm is also called the **Mod 10 algorithm**.
+
+---
+
+## Anatomy of a Credit Card Number
+
+A standard credit card has 16 digits written in four blocks of four, though some cards use 13 to 19. Each segment carries a precise meaning:
+
+- **Digit 1 — Major Industry Identifier (MII):** Identifies the broad industry sector. Values 4 and 5 indicate banking (Visa and Mastercard respectively); 3 indicates travel and entertainment (American Express, Diners Club); 6 indicates merchandising and banking (Discover).
+- **Digits 1–6 — Issuer Identification Number (IIN):** Also called the Bank Identification Number (BIN). Identifies the card network and the specific issuing institution.
+- **Digits 7–15 — Account identifier:** The individual cardholder number assigned by the issuer.
+- **Digit 16 — Check digit:** Derived from the preceding fifteen digits via Luhn's algorithm.
+
+This structure is formalised in ISO/IEC 7812-1 (2017), the international standard governing the numbering system for payment card issuers.
+
+The check digit offers no security. Its sole purpose is to permit immediate rejection of numbers garbled by transcription errors, before any external verification is attempted.
+
+---
+
+## The Algorithm
+
+The procedure has four steps.
+
+1. Starting from the **second-to-last digit** and working left, **double every other digit**.
+2. If any doubled result exceeds 9, **subtract 9** from it. Equivalently: add the two decimal digits of the result.
+3. **Sum all digits** — the doubled-and-reduced ones and the untouched ones alike.
+4. The number is valid if and only if the total is **divisible by 10**.
+
+### Worked Example: Validation
+
+Is the 15-digit number 372185450453211 valid?
+
+The number begins with 3, identifying it as an American Express card. Number positions from right to left starting at 1; positions 2, 4, 6, ... are doubled.
+
+| Digit | 3 | 7 | 2 | 1 | 8 | 5 | 4 | 5 | 0 | 4 | 5 | 3 | 2 | 1 | 1 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Doubled? | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — |
+| After doubling | 3 | 14 | 2 | 2 | 8 | 10 | 4 | 10 | 0 | 8 | 5 | 6 | 2 | 2 | 1 |
+| Reduced (−9 if >9) | 3 | 5 | 2 | 2 | 8 | 1 | 4 | 1 | 0 | 8 | 5 | 6 | 2 | 2 | 1 |
+
+Sum = 3+5+2+2+8+1+4+1+0+8+5+6+2+2+1 = **50**. Since 50 is divisible by 10, the number is valid.
+
+### Worked Example: Computing a Check Digit
+
+What is the check digit for the 16-digit Visa number 478452358563556X?
+
+X occupies position 1 (rightmost, undoubled). Positions 2, 4, ... from the right are doubled.
+
+| Digit | 4 | 7 | 8 | 4 | 5 | 2 | 3 | 5 | 8 | 5 | 6 | 3 | 5 | 5 | 6 | X |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Doubled? | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — | ×2 | — |
+| After doubling | 8 | 7 | 16 | 4 | 10 | 2 | 6 | 5 | 16 | 5 | 12 | 3 | 10 | 5 | 12 | X |
+| Reduced (−9 if >9) | 8 | 7 | 7 | 4 | 1 | 2 | 6 | 5 | 7 | 5 | 3 | 3 | 1 | 5 | 3 | X |
+
+The known digits sum to 67. For the total to satisfy $67 + X \equiv 0 \pmod{10}$, we need $X = 3$. The check digit is **3**.
+
+---
+
+## Why the Algorithm Works
+
+The examples show *how* to apply Luhn's algorithm. The *why* requires understanding what the doubling-and-reduction step actually computes, and what modular structure makes error detection possible.
+
+### The Doubling Map
+
+Define $f : \{0, 1, \ldots, 9\} \to \{0, 1, \ldots, 9\}$ by:
+
+$$
+\displaystyle f(d) = \begin{cases} 2d & \text{if } 2d \leq 9 \\[4pt] 2d - 9 & \text{if } 2d \geq 10 \end{cases} \tag*{(doubling map)}
+$$
+
+The complete table:
+
+| $d$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|-----|---|---|---|---|---|---|---|---|---|---|
+| $f(d)$ | 0 | 2 | 4 | 6 | 8 | 1 | 3 | 5 | 7 | 9 |
+
+Two properties are immediately visible.
+
+**$f$ is a bijection.** It permutes the digits $\{0, \ldots, 9\}$, mapping evens to evens and odds to odds. This bijectivity is the key structural property behind single-digit error detection.
+
+**$f(d) \equiv 2d \pmod{9}$ for all $d$.** For $2d \leq 9$ this is immediate. For $2d \geq 10$: since $10 \leq 2d \leq 18$, we have $2d - 9 \equiv 2d \pmod{9}$. Alternatively, the subtraction of 9 is equivalent to computing the digit sum of $2d$, since when $2d$ is a two-digit number $\overline{1x}$, its digit sum is $1 + x = 1 + (2d - 10) = 2d - 9$. This is an instance of the classical *casting out nines* rule: the digit sum of any positive integer is congruent to that integer modulo 9 (Gallian & Winters, 1995).
+
+So $f$ computes doubling modulo 9, compressed back into a single decimal digit.
+
+### The Luhn Sum
+
+Index the digits $d_1, d_2, \ldots, d_n$ from right to left, so $d_1$ is the check digit. Even-indexed positions are doubled; odd-indexed positions are not. The Luhn sum is:
+
+$$
+\displaystyle L = \sum_{\substack{i=1,3,5,\ldots}} d_i \;+\; \sum_{\substack{i=2,4,6,\ldots}} f(d_i) \tag*{(Luhn sum)}
+$$
+
+The validity condition is:
+
+$$
+\displaystyle L \equiv 0 \pmod{10} \tag*{(validity condition)}
+$$
+
+This is a weighted checksum over $\mathbb{Z}_{10}$, where the weight of an even-indexed digit is the bijection $f$ and the weight of an odd-indexed digit is the identity.
+
+### Single-Digit Errors Are Always Caught
+
+Suppose digit $d_k$ is mistyped as $d_k' \neq d_k$. The change in $L$ is:
+
+$$
+\displaystyle \Delta L = \begin{cases} d_k' - d_k & \text{if position } k \text{ is odd (undoubled)} \\[4pt] f(d_k') - f(d_k) & \text{if position } k \text{ is even (doubled)} \end{cases}
+$$
+
+- **Undoubled position:** $d_k' - d_k \not\equiv 0 \pmod{10}$ for any two distinct digits in $\{0,\ldots,9\}$.
+- **Doubled position:** Since $f$ is a bijection, $d_k' \neq d_k$ implies $f(d_k') \neq f(d_k)$, so $f(d_k') - f(d_k) \not\equiv 0 \pmod{10}$.
+
+**Luhn's algorithm detects every single-digit substitution error.**
+
+### Adjacent Transpositions: Almost Always Caught
+
+Suppose two adjacent digits $a$ (in a doubled position) and $b$ (in an undoubled position) are swapped. The original contribution to $L$ is $f(a) + b$; after transposition it becomes $f(b) + a$. The error term is:
+
+$$
+\displaystyle \Delta L = \bigl[f(b) + a\bigr] - \bigl[f(a) + b\bigr] = \bigl[f(b) - b\bigr] - \bigl[f(a) - a\bigr] \tag*{(transposition error)}
+$$
+
+The transposition goes undetected precisely when $f(a) - a \equiv f(b) - b \pmod{10}$. Computing $f(d) - d$ for each digit:
+
+| $d$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|-----|---|---|---|---|---|---|---|---|---|---|
+| $f(d) - d \pmod{10}$ | 0 | 1 | 2 | 3 | 4 | 6 | 7 | 8 | 9 | 0 |
+
+All ten values are distinct — except that $d = 0$ and $d = 9$ both yield 0. Therefore the only adjacent transposition that evades detection is the swap of **0 and 9**.
+
+**Luhn's algorithm detects all adjacent transpositions except the swap of 0 and 9** (Gallian & Winters, 1995; Kirtland, 2001). In practice this is a negligible gap: transposing a 0 for a 9 is an unusual error, and most card numbers do not place 0 and 9 adjacent to each other across a parity boundary.
+
+---
+
+## What the Algorithm Does Not Guarantee
+
+The mathematical analysis makes the limitations precise:
+
+- **Non-adjacent transpositions.** Swapping digits several positions apart can leave $L$ unchanged by coincidence.
+- **Multiple simultaneous errors.** Two errors can cancel in $\mathbb{Z}_{10}$.
+- **Deliberate fraud.** An attacker who knows the algorithm can generate valid-looking numbers freely by choosing 15 arbitrary digits and computing the check digit to complete them.
+- **Existence of the account.** A number satisfying the Luhn condition may belong to a card that was never issued, has expired, or has been cancelled. Luhn verifies only structural plausibility.
+
+---
+
+## Implementation
+
+```python
+def luhn_check(number: str) -> bool:
+    """Return True if number passes the Luhn check."""
+    digits = [int(d) for d in number]
+    for i in range(len(digits) - 2, -1, -2):
+        digits[i] *= 2
+        if digits[i] > 9:
+            digits[i] -= 9
+    return sum(digits) % 10 == 0
+
+
+def luhn_check_digit(partial: str) -> int:
+    """Compute the check digit to append to a partial number."""
+    digits = [int(d) for d in partial]
+    # The missing check digit is at position 1 (undoubled).
+    # So double positions 1, 3, 5, ... from the right of the partial number.
+    for i in range(len(digits) - 1, -1, -2):
+        digits[i] *= 2
+        if digits[i] > 9:
+            digits[i] -= 9
+    return (10 - sum(digits) % 10) % 10
+```
+
+The final `% 10` in `luhn_check_digit` handles the edge case where the partial sum is already divisible by 10, yielding check digit 0 rather than 10.
+
+---
+
+## References
+
+Bhowmik, A. K. (2019). *Luhn's algorithm for checksum validation* [Software]. GitHub. https://github.com/awnonbhowmik/Luhn-s-Algorithm-for-checksum-validation
+
+Gallian, J. A. (2017). *Contemporary abstract algebra* (9th ed.). Cengage Learning.
+
+Gallian, J. A., & Winters, S. (1995). Modular arithmetic in the marketplace. *The American Mathematical Monthly*, *102*(4), 346–354.
+
+International Organization for Standardization. (2017). *Identification cards — Identification of issuers — Part 1: Numbering system* (ISO/IEC 7812-1:2017). https://www.iso.org/standard/70484.html
+
+Kirtland, J. (2001). *Identification numbers and check digit schemes*. Mathematical Association of America.
+
+Luhn, H. P. (1960). *Computer for verifying numbers* (U.S. Patent No. 2,950,048). U.S. Patent and Trademark Office. https://patents.google.com/patent/US2950048
+
+Verhoeff, J. (1969). *Error detecting decimal codes*. Mathematical Centre Tracts, 29. Mathematisch Centrum.

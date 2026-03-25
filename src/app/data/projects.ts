@@ -151,6 +151,7 @@ const projects: Project[] = [
       'Fully operational IDS with containerized deployment, automated alerting pipeline, ' +
       'web-based monitoring interface, and unit test coverage.',
     status: 'completed',
+    year: 2024,
     links: [
       {
         label: 'GitHub',
@@ -192,6 +193,7 @@ const projects: Project[] = [
       'Deployable host-based detection tool with configurable monitoring scope, ' +
       'multi-channel alerting, and comprehensive audit logging.',
     status: 'completed',
+    year: 2024,
     links: [
       {
         label: 'GitHub',
@@ -230,6 +232,7 @@ const projects: Project[] = [
       'Working Python implementation demonstrating the factoring pipeline and its implications ' +
       'for classical public-key cryptosystems. Relevant context for post-quantum cryptography research.',
     status: 'completed',
+    year: 2019,
     links: [
       {
         label: 'GitHub',

@@ -5,19 +5,22 @@ const communityContributions = [
     title: 'Quora',
     url: 'https://www.quora.com/profile/Awnon-Bhowmik',
     points: [
-      '3,500+ answers contributed in mathematics and computer science',
+      '3,500+ answers contributed spanning calculus, linear algebra, number theory, and computer science',
       'Top Writer in Calculus, Integration, Linear Algebra, and related subjects',
       'Featured in Quora Digest; over 4,000 followers worldwide',
       'Recognized as a subject-matter authority by platform and community',
+      'Answers consistently upvoted and cited as reference material by students and educators',
     ],
   },
   {
     title: 'Mathematics Stack Exchange',
     url: 'https://math.stackexchange.com',
     points: [
-      'Active contributor with 50+ answers in undergraduate and graduate mathematics',
-      'Provided explanations across analysis, algebra, number theory, and discrete mathematics',
-      'Received consistent positive feedback from students and researchers',
+      'Active contributor with 50+ answers spanning undergraduate and graduate mathematics',
+      'Addressed problems in real analysis, abstract algebra, number theory, and discrete mathematics',
+      'Engaged with both student and research-level questions, bridging theory and application',
+      'Received consistent upvotes and positive feedback from students and researchers worldwide',
+      'Contributions reflect depth aligned with academic research in pure and applied mathematics',
     ],
   },
 ];
@@ -25,10 +28,10 @@ const communityContributions = [
 export default function Achievements() {
   return (
     <section id="achievements" className="py-16 bg-[#1a1a1a] text-gray-300">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="container mx-auto px-6 lg:px-16">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-white">Community & Scholarly Outreach</h2>
-          <p className="text-gray-400 mt-3 max-w-xl mx-auto text-sm leading-relaxed text-justify">
+          <p className="text-gray-400 mt-3 max-w-xl mx-auto text-sm leading-relaxed text-center">
             Public contributions to mathematics and computer science education across online
             scholarly communities.
           </p>
