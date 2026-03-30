@@ -168,13 +168,12 @@ export default function Contact() {
       recordSubmission();
 
       clearTimeout(submissionTimeoutId);
-      console.log('EmailJS result:', result.text);
       setStatus('Message sent successfully!');
       setFormData({ name: '', email: '', message: '' });
       lastSubmissionTimeRef.current = Date.now();
     } catch (error) {
       clearTimeout(submissionTimeoutId);
-      console.error('EmailJS error:', error);
+      void error;
       setStatus('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -267,6 +266,7 @@ export default function Contact() {
               allowFullScreen={false}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
+              sandbox="allow-scripts allow-same-origin"
             ></iframe>
           </div>
         </div>

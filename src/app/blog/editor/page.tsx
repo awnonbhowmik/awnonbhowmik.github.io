@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import 'katex/dist/katex.css';
@@ -12,7 +12,77 @@ const MDEditor = dynamic(
     { ssr: false }
 );
 
-export default function BlogEditor() {
+// ── Auth gate ─────────────────────────────────────────────────
+
+function AuthGate({ children }: { children: React.ReactNode }) {
+    const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // null = checking
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const auth = localStorage.getItem('blog_admin_auth');
+        setIsAdmin(auth === 'awnon_authenticated');
+    }, []);
+
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        const adminPassword = process.env.NEXT_PUBLIC_BLOG_ADMIN_PASSWORD;
+        if (!adminPassword) {
+            setError('Admin authentication is not configured.');
+            return;
+        }
+        if (password === adminPassword) {
+            localStorage.setItem('blog_admin_auth', 'awnon_authenticated');
+            setIsAdmin(true);
+            setPassword('');
+        } else {
+            setError('Invalid password.');
+            setPassword('');
+        }
+    };
+
+    // Still checking localStorage
+    if (isAdmin === null) return null;
+
+    if (!isAdmin) {
+        return (
+            <div className="min-h-screen bg-[#1a1a1a] text-white flex items-center justify-center px-4">
+                <div className="w-full max-w-sm bg-gray-800 rounded-lg p-8 shadow-xl">
+                    <h1 className="text-xl font-bold mb-1">Admin Login</h1>
+                    <p className="text-gray-400 text-sm mb-6">Enter your password to access the editor.</p>
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                            placeholder="Password"
+                            autoFocus
+                            className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent"
+                        />
+                        {error && <p className="text-red-400 text-sm">{error}</p>}
+                        <button
+                            type="submit"
+                            className="w-full bg-accent hover:bg-accent-dark text-white py-2.5 rounded-lg font-semibold transition-colors"
+                        >
+                            Login
+                        </button>
+                    </form>
+                    <div className="mt-4">
+                        <Link href="/blog" className="text-sm text-gray-500 hover:text-accent transition-colors">
+                            ← Back to Blog
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return <>{children}</>;
+}
+
+// ── Editor ────────────────────────────────────────────────────
+
+function Editor() {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('research');
     const [tags, setTags] = useState('');
@@ -71,8 +141,7 @@ Happy writing! 🚀
 
     const generateMDXContent = () => {
         const currentDate = new Date().toISOString().split('T')[0];
-        
-        // Sanitize all inputs before generating MDX
+
         const sanitizedTitle = sanitizeTitle(title);
         const sanitizedCategory = sanitizeCategory(category);
         const sanitizedTags = sanitizeTags(tags);
@@ -107,6 +176,11 @@ ${content}`;
         alert('MDX content copied to clipboard!');
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('blog_admin_auth');
+        window.location.reload();
+    };
+
     return (
         <div className="min-h-screen bg-[#1a1a1a] text-white">
             <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -135,6 +209,12 @@ ${content}`;
                             ← Back to Blog
                         </Link>
                     </div>
+                    <button
+                        onClick={handleLogout}
+                        className="text-xs text-gray-500 hover:text-gray-300 transition-colors px-2 py-1"
+                    >
+                        Logout
+                    </button>
                 </div>
 
                 {/* Header */}
@@ -289,5 +369,15 @@ ${content}`;
                 </div>
             </div>
         </div>
+    );
+}
+
+// ── Page export ───────────────────────────────────────────────
+
+export default function BlogEditor() {
+    return (
+        <AuthGate>
+            <Editor />
+        </AuthGate>
     );
 }
