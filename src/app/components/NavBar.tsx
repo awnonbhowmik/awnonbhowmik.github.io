@@ -12,6 +12,7 @@ const NavBar = () => {
     { name: 'Home', id: 'home', type: 'scroll' },
     { name: 'About', id: 'about', type: 'scroll' },
     { name: 'Research', id: 'research', type: 'scroll' },
+    { name: 'Publications', id: '/publications', type: 'link' },
     { name: 'Resume', id: 'resume', type: 'scroll' },
     { name: 'Blog', id: '/blog', type: 'link' },
     { name: 'Contact', id: 'contact', type: 'scroll' },
