@@ -7,8 +7,10 @@
  *   - OpenAlex          (api.openalex.org)
  *   - Crossref          (api.crossref.org)
  *
- * For each paper, stores max(S2, OpenAlex, Crossref) in
- * src/app/data/publications.ts and updates CITATIONS_LAST_UPDATED.
+ * Stores max(S2, OpenAlex, Crossref) per paper. Only updates a value if the
+ * API result is HIGHER than what is currently in the file — this preserves
+ * any manual overrides entered from Google Scholar or ResearchGate, which
+ * have no public API and cannot be queried programmatically.
  *
  * Usage:
  *   node scripts/sync-citations.mjs
@@ -179,12 +181,13 @@ async function main() {
 
     const { maxCount, s2, oa, cr } = await fetchMaxCitations(doi);
 
-    const changed = maxCount !== current;
+    const shouldUpdate = maxCount > current;
     console.log(
-      `${maxCount} citations (S2:${s2} OA:${oa} CR:${cr})${changed ? `  ← was ${current}` : ''}`
+      `${maxCount} citations (S2:${s2} OA:${oa} CR:${cr})` +
+      (shouldUpdate ? `  ← updating from ${current}` : current > maxCount ? `  (keeping manual ${current})` : '')
     );
 
-    if (changed) {
+    if (shouldUpdate) {
       content = updateCitationsInFile(content, id, maxCount);
       totalChanged++;
     }

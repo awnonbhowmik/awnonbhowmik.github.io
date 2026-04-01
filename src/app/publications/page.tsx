@@ -295,15 +295,21 @@ export default function PublicationsPage() {
           <h1 className="text-4xl font-bold text-white mb-3">Publications</h1>
           <p className="text-gray-400 max-w-2xl leading-relaxed text-sm">
             Peer-reviewed journal articles and preprints spanning applied cryptography, cybersecurity,
-            epidemiology, and environmental science. Citation counts are the maximum of{' '}
-            <a href="https://scholar.google.com/citations?user=nEdZAFkAAAAJ&hl=en" target="_blank"
-              rel="noopener noreferrer" className="text-accent hover:underline">Google Scholar</a>,{' '}
+            epidemiology, and environmental science. Citation counts are automatically synced daily
+            from{' '}
             <a href="https://www.semanticscholar.org/author/Awnon-Bhowmik/1914790447" target="_blank"
               rel="noopener noreferrer" className="text-accent hover:underline">Semantic Scholar</a>,{' '}
             <a href="https://openalex.org/authors/A5007002383" target="_blank"
               rel="noopener noreferrer" className="text-accent hover:underline">OpenAlex</a>, and{' '}
             <a href="https://search.crossref.org/?q=awnon+bhowmik&from_ui=yes" target="_blank"
-              rel="noopener noreferrer" className="text-accent hover:underline">Crossref</a>.
+              rel="noopener noreferrer" className="text-accent hover:underline">Crossref</a>{' '}
+            (max of all three).{' '}
+            <a href="https://scholar.google.com/citations?user=nEdZAFkAAAAJ&hl=en" target="_blank"
+              rel="noopener noreferrer" className="text-accent hover:underline">Google Scholar</a>{' '}
+            and{' '}
+            <a href="https://www.researchgate.net/profile/Awnon-Bhowmik" target="_blank"
+              rel="noopener noreferrer" className="text-accent hover:underline">ResearchGate</a>{' '}
+            are checked manually and override automated counts when higher.
           </p>
 
           {/* External profile links */}
@@ -378,7 +384,7 @@ export default function PublicationsPage() {
             <StatCard value={stats.i10}    label="i10-index"        />
           </div>
           <p className="text-xs text-gray-600 mt-2">
-            Last synced {CITATIONS_LAST_UPDATED} · max(Google Scholar, Semantic Scholar, OpenAlex, Crossref) per work
+            Auto-synced {CITATIONS_LAST_UPDATED} via Semantic Scholar, OpenAlex &amp; Crossref · Google Scholar &amp; ResearchGate checked manually (no public API)
           </p>
         </div>
 
