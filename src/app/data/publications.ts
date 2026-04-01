@@ -52,7 +52,7 @@ export const cryptographyArticles: Publication[] = [
     year: 2021,
     doi: '10.7717/peerj-cs.637',
     url: 'https://doi.org/10.7717/peerj-cs.637',
-    citations: 9,
+    citations: 5,
     status: 'published',
     tags: ['cryptography', 'finite fields', 'Galois field', 'trapdoor functions'],
   },

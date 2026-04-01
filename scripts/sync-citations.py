@@ -228,8 +228,16 @@ def main() -> None:
                 oa = fetch_openalex(doi, client)
                 cr = fetch_crossref(doi, client)
 
-            best = max(gs, s2, oa, cr)
-            label = f'GS:{gs} S2:{s2} OA:{oa} CR:{cr} → max={best}'
+            # GS is authoritative when available — it correctly excludes
+            # peer-review documents, preprint self-references, etc. that
+            # OpenAlex and others can miscount as citations.
+            # Fall back to max(S2, OA, CR) only if Scholar was blocked.
+            if gs > 0:
+                best = gs
+            else:
+                best = max(s2, oa, cr)
+
+            label = f'GS:{gs} S2:{s2} OA:{oa} CR:{cr} → best={best}'
 
             if best > current:
                 print(f'{label}  ← updating from {current}')
