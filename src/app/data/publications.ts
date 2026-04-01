@@ -68,7 +68,7 @@ export const cryptographyArticles: Publication[] = [
     year: 2020,
     doi: '10.5120/ijca2020920320',
     url: 'https://doi.org/10.5120/ijca2020920320',
-    citations: 3,
+    citations: 7,
     status: 'published',
     tags: ['cryptography', 'NTRU', 'lattice-based cryptography', 'post-quantum'],
   },
@@ -117,7 +117,7 @@ export const cryptographyArticles: Publication[] = [
     year: 2020,
     doi: '10.5815/ijmsc.2020.06.02',
     url: 'https://doi.org/10.5815/ijmsc.2020.06.02',
-    citations: 1,
+    citations: 2,
     status: 'published',
     tags: ['cryptography', 'coordinate transformations', 'encoding'],
   },
@@ -171,7 +171,7 @@ export const cybersecurityArticles: Publication[] = [
     year: 2024,
     doi: '10.5815/ijmsc.2024.03.03',
     url: 'https://doi.org/10.5815/ijmsc.2024.03.03',
-    citations: 1,
+    citations: 2,
     status: 'published',
     tags: ['cybersecurity', 'FinTech', 'security awareness', 'defense mechanisms'],
   },
@@ -207,7 +207,7 @@ export const epidemiologyArticles: Publication[] = [
     year: 2025,
     doi: '10.1016/j.soh.2024.100103',
     url: 'https://doi.org/10.1016/j.soh.2024.100103',
-    citations: 14,
+    citations: 21,
     status: 'published',
     tags: ['epidemiology', 'Nipah virus', 'public health', 'Bangladesh', 'disease surveillance'],
   },
@@ -245,7 +245,7 @@ export const environmentalArticles: Publication[] = [
     year: 2024,
     doi: '10.3390/pollutants4040033',
     url: 'https://doi.org/10.3390/pollutants4040033',
-    citations: 13,
+    citations: 16,
     status: 'published',
     tags: ['microplastics', 'environmental science', 'public health'],
   },
@@ -261,7 +261,7 @@ export const environmentalArticles: Publication[] = [
     year: 2025,
     doi: '10.3390/microplastics4020024',
     url: 'https://doi.org/10.3390/microplastics4020024',
-    citations: 15,
+    citations: 20,
     status: 'published',
     tags: ['microplastics', 'water quality', 'systematic review', 'environmental science'],
   },
@@ -277,7 +277,7 @@ export const environmentalArticles: Publication[] = [
     year: 2026,
     doi: '10.3390/pollutants6010003',
     url: 'https://doi.org/10.3390/pollutants6010003',
-    citations: 1,
+    citations: 2,
     status: 'published',
     tags: ['microplastics', 'rural environment', 'environmental transport'],
   },
@@ -296,6 +296,25 @@ export const environmentalArticles: Publication[] = [
     citations: 0,
     status: 'published',
     tags: ['microplastics', 'mathematical modeling', 'river transport', 'environmental modeling'],
+  },
+];
+
+// ──────────────────────────────────────────────────────────────
+// JOURNAL ARTICLES — Data Analytics & Time Series
+// ──────────────────────────────────────────────────────────────
+export const dataAnalyticsArticles: Publication[] = [
+  {
+    id: 'nbcms-beyond-correlation-2025',
+    type: 'journal',
+    title: 'Beyond Correlation: A Comprehensive Review of Stationarity, Causality, and Volatility in Time Series Analysis',
+    authors: ['Swetadri Samadder', 'Awnon Bhowmik'],
+    venue: 'News Bulletin of Calcutta Mathematical Society',
+    pages: '33–63',
+    year: 2025,
+    url: 'https://www.researchgate.net/profile/Swetadri-Samadder/publication/393645866_Beyond_Correlation_A_Comprehensive_Review_of_Stationarity_Causality_and_Volatility_in_Time_Series_Analysis/links/67c4de11ece49e1e09419d64/Beyond-Correlation-A-Comprehensive-Review-of-Stationarity-Causality-and-Volatility-in-Time-Series-Analysis.pdf',
+    citations: 0,
+    status: 'published',
+    tags: ['data analytics', 'time series', 'stationarity', 'causality', 'volatility'],
   },
 ];
 
@@ -411,6 +430,7 @@ export const allJournalArticles: Publication[] = [
   ...cybersecurityArticles,
   ...epidemiologyArticles,
   ...environmentalArticles,
+  ...dataAnalyticsArticles,
 ];
 
 export const allPublications: Publication[] = [
