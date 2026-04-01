@@ -35,7 +35,7 @@ export interface Publication {
 }
 
 // Last date citations were synced from Google Scholar
-export const CITATIONS_LAST_UPDATED = '2026-03-30';
+export const CITATIONS_LAST_UPDATED = '2026-04-01';
 
 // ──────────────────────────────────────────────────────────────
 // JOURNAL ARTICLES — Applied Cryptography
@@ -52,7 +52,7 @@ export const cryptographyArticles: Publication[] = [
     year: 2021,
     doi: '10.7717/peerj-cs.637',
     url: 'https://doi.org/10.7717/peerj-cs.637',
-    citations: 5,
+    citations: 9,
     status: 'published',
     tags: ['cryptography', 'finite fields', 'Galois field', 'trapdoor functions'],
   },
@@ -68,7 +68,7 @@ export const cryptographyArticles: Publication[] = [
     year: 2020,
     doi: '10.5120/ijca2020920320',
     url: 'https://doi.org/10.5120/ijca2020920320',
-    citations: 7,
+    citations: 3,
     status: 'published',
     tags: ['cryptography', 'NTRU', 'lattice-based cryptography', 'post-quantum'],
   },
@@ -117,7 +117,7 @@ export const cryptographyArticles: Publication[] = [
     year: 2020,
     doi: '10.5815/ijmsc.2020.06.02',
     url: 'https://doi.org/10.5815/ijmsc.2020.06.02',
-    citations: 2,
+    citations: 1,
     status: 'published',
     tags: ['cryptography', 'coordinate transformations', 'encoding'],
   },
@@ -171,7 +171,7 @@ export const cybersecurityArticles: Publication[] = [
     year: 2024,
     doi: '10.5815/ijmsc.2024.03.03',
     url: 'https://doi.org/10.5815/ijmsc.2024.03.03',
-    citations: 2,
+    citations: 1,
     status: 'published',
     tags: ['cybersecurity', 'FinTech', 'security awareness', 'defense mechanisms'],
   },
@@ -207,7 +207,7 @@ export const epidemiologyArticles: Publication[] = [
     year: 2025,
     doi: '10.1016/j.soh.2024.100103',
     url: 'https://doi.org/10.1016/j.soh.2024.100103',
-    citations: 21,
+    citations: 14,
     status: 'published',
     tags: ['epidemiology', 'Nipah virus', 'public health', 'Bangladesh', 'disease surveillance'],
   },
@@ -245,7 +245,7 @@ export const environmentalArticles: Publication[] = [
     year: 2024,
     doi: '10.3390/pollutants4040033',
     url: 'https://doi.org/10.3390/pollutants4040033',
-    citations: 16,
+    citations: 13,
     status: 'published',
     tags: ['microplastics', 'environmental science', 'public health'],
   },
@@ -261,7 +261,7 @@ export const environmentalArticles: Publication[] = [
     year: 2025,
     doi: '10.3390/microplastics4020024',
     url: 'https://doi.org/10.3390/microplastics4020024',
-    citations: 20,
+    citations: 15,
     status: 'published',
     tags: ['microplastics', 'water quality', 'systematic review', 'environmental science'],
   },
@@ -277,7 +277,7 @@ export const environmentalArticles: Publication[] = [
     year: 2026,
     doi: '10.3390/pollutants6010003',
     url: 'https://doi.org/10.3390/pollutants6010003',
-    citations: 2,
+    citations: 1,
     status: 'published',
     tags: ['microplastics', 'rural environment', 'environmental transport'],
   },

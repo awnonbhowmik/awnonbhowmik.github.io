@@ -23,7 +23,7 @@ export default function Footer() {
 
       {/* Footer Content */}
       <div className="text-center text-sm">
-        <p className="mb-1">Made with Next.js & Tailwind CSS</p>
+        <p className="mb-1">Made with Next.js</p>
         <p className="text-gray-500">© 2026 Awnon Bhowmik. All Rights Reserved.</p>
       </div>
     </footer>
