@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Footer from '@/app/components/Footer';
 import {
   cryptographyArticles,
   cybersecurityArticles,
@@ -424,5 +425,6 @@ export default function PublicationsPage() {
 
       </div>
     </div>
+    <Footer />
   );
 }

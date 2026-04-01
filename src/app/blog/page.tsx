@@ -1,6 +1,7 @@
 import { getBlogPosts, type BlogPost } from '@/lib/blog';
 import Link from 'next/link';
 import AdminControls from './components/AdminControls';
+import Footer from '@/app/components/Footer';
 
 export default async function BlogPage() {
     const posts = await getBlogPosts();
@@ -172,5 +173,6 @@ export default async function BlogPage() {
                 </div>
             </div>
         </div>
+        <Footer />
     );
 }
