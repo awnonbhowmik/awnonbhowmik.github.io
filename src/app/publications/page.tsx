@@ -274,6 +274,7 @@ export default function PublicationsPage() {
   const stats        = useMemo(() => computeStats(allWorks), [allWorks]);
 
   return (
+    <>
     <div className="min-h-screen bg-[#1a1a1a] text-white">
       <div className="container mx-auto px-4 max-w-5xl py-16">
 
@@ -426,5 +427,6 @@ export default function PublicationsPage() {
       </div>
     </div>
     <Footer />
+    </>
   );
 }

@@ -17,6 +17,7 @@ export default async function BlogPage() {
     };
 
     return (
+        <>
         <div className="min-h-screen bg-[#1a1a1a] text-white py-16">
             <div className="container mx-auto px-4 max-w-6xl">
                 {/* Navigation - Top */}
@@ -174,5 +175,6 @@ export default async function BlogPage() {
             </div>
         </div>
         <Footer />
+        </>
     );
 }
