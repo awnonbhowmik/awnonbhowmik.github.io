@@ -295,7 +295,7 @@ export default function PublicationsPage() {
         {/* Page header */}
         <div className="mb-10">
           <h1 className="text-4xl font-bold text-white mb-3">Publications</h1>
-          <p className="text-gray-400 max-w-2xl leading-relaxed text-sm">
+          <p className="text-gray-400 max-w-2xl leading-relaxed text-sm text-justify">
             Peer-reviewed journal articles and preprints spanning applied cryptography, cybersecurity,
             epidemiology, and environmental science. Citation counts are automatically synced daily
             from{' '}
