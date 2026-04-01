@@ -300,25 +300,6 @@ export const environmentalArticles: Publication[] = [
 ];
 
 // ──────────────────────────────────────────────────────────────
-// JOURNAL ARTICLES — Data Analytics & Time Series
-// ──────────────────────────────────────────────────────────────
-export const dataAnalyticsArticles: Publication[] = [
-  {
-    id: 'nbcms-beyond-correlation-2025',
-    type: 'journal',
-    title: 'Beyond Correlation: A Comprehensive Review of Stationarity, Causality, and Volatility in Time Series Analysis',
-    authors: ['Swetadri Samadder', 'Awnon Bhowmik'],
-    venue: 'News Bulletin of Calcutta Mathematical Society',
-    pages: '33–63',
-    year: 2025,
-    url: 'https://www.researchgate.net/profile/Swetadri-Samadder/publication/393645866_Beyond_Correlation_A_Comprehensive_Review_of_Stationarity_Causality_and_Volatility_in_Time_Series_Analysis/links/67c4de11ece49e1e09419d64/Beyond-Correlation-A-Comprehensive-Review-of-Stationarity-Causality-and-Volatility-in-Time-Series-Analysis.pdf',
-    citations: 0,
-    status: 'published',
-    tags: ['data analytics', 'time series', 'stationarity', 'causality', 'volatility'],
-  },
-];
-
-// ──────────────────────────────────────────────────────────────
 // PREPRINTS (arXiv / preprint servers — no published journal version)
 // ──────────────────────────────────────────────────────────────
 export const preprints: Publication[] = [
@@ -430,7 +411,6 @@ export const allJournalArticles: Publication[] = [
   ...cybersecurityArticles,
   ...epidemiologyArticles,
   ...environmentalArticles,
-  ...dataAnalyticsArticles,
 ];
 
 export const allPublications: Publication[] = [

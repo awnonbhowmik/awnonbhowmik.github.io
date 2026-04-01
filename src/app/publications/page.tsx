@@ -7,7 +7,6 @@ import {
   cybersecurityArticles,
   epidemiologyArticles,
   environmentalArticles,
-  dataAnalyticsArticles,
   preprints,
   allJournalArticles,
   CITATIONS_LAST_UPDATED,
@@ -42,7 +41,6 @@ function buildJournalList(): CategorizedPublication[] {
     ...cybersecurityArticles.map(p =>  ({ ...p, category: CATEGORIES.cyber.label,  categoryKey: 'cyber'  })),
     ...epidemiologyArticles.map(p =>   ({ ...p, category: CATEGORIES.epi.label,    categoryKey: 'epi'    })),
     ...environmentalArticles.map(p =>  ({ ...p, category: CATEGORIES.env.label,    categoryKey: 'env'    })),
-    ...dataAnalyticsArticles.map(p =>  ({ ...p, category: CATEGORIES.data.label,   categoryKey: 'data'   })),
   ];
 }
 
