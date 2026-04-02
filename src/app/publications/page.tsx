@@ -114,6 +114,219 @@ function computeStats(pubs: Publication[]) {
   return { total, h, i10, count: pubs.length };
 }
 
+interface YearBucket { year: number; papers: number; citations: number }
+interface CatBucket  { key: string; label: string; papers: number; citations: number }
+
+function computeChartData(pubs: CategorizedPublication[]) {
+  const byYear: Record<number, YearBucket> = {};
+  const byCat:  Record<string, CatBucket>  = {};
+
+  for (const p of pubs) {
+    const y = p.year ?? 0;
+    if (!byYear[y]) byYear[y] = { year: y, papers: 0, citations: 0 };
+    byYear[y].papers++;
+    byYear[y].citations += p.citations ?? 0;
+
+    const ck = p.categoryKey;
+    if (!byCat[ck]) byCat[ck] = { key: ck, label: CATEGORIES[ck]?.label ?? ck, papers: 0, citations: 0 };
+    byCat[ck].papers++;
+    byCat[ck].citations += p.citations ?? 0;
+  }
+
+  const years = Object.values(byYear).sort((a, b) => a.year - b.year);
+  const cats  = Object.values(byCat).sort((a, b) => b.citations - a.citations);
+  return { years, cats };
+}
+
+// ── Chart colours per category key ───────────────────────────
+const CAT_HEX: Record<string, string> = {
+  crypto:   '#a78bfa', // purple-400
+  cyber:    '#f87171', // red-400
+  epi:      '#34d399', // emerald-400
+  env:      '#2dd4bf', // teal-400
+  data:     '#60a5fa', // blue-400
+  preprint: '#facc15', // yellow-400
+};
+
+// ── Chart sub-components ──────────────────────────────────────
+
+function CitationsByYearChart({ years }: { years: YearBucket[] }) {
+  const W = 540, H = 140, PAD = { t: 10, r: 8, b: 30, l: 36 };
+  const innerW = W - PAD.l - PAD.r;
+  const innerH = H - PAD.t - PAD.b;
+  const maxCites = Math.max(...years.map(y => y.citations), 1);
+  const barW = Math.min(36, innerW / years.length - 6);
+
+  return (
+    <div>
+      <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Citations by publication year</p>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" aria-label="Citations by year bar chart">
+        {/* Y-axis grid lines + labels */}
+        {[0, 0.25, 0.5, 0.75, 1].map(frac => {
+          const val = Math.round(maxCites * frac);
+          const y   = PAD.t + innerH * (1 - frac);
+          return (
+            <g key={frac}>
+              <line x1={PAD.l} x2={W - PAD.r} y1={y} y2={y}
+                stroke="#374151" strokeWidth={0.5} strokeDasharray={frac === 0 ? undefined : '3 3'} />
+              <text x={PAD.l - 4} y={y + 4} textAnchor="end"
+                fontSize={9} fill="#6b7280">{val}</text>
+            </g>
+          );
+        })}
+
+        {/* Bars */}
+        {years.map((b, i) => {
+          const x      = PAD.l + (i + 0.5) * (innerW / years.length) - barW / 2;
+          const barH   = (b.citations / maxCites) * innerH;
+          const y      = PAD.t + innerH - barH;
+          return (
+            <g key={b.year}>
+              <rect x={x} y={y} width={barW} height={barH}
+                fill="#149ddd" fillOpacity={0.75} rx={2} />
+              {/* Year label */}
+              <text x={x + barW / 2} y={H - PAD.b + 12}
+                textAnchor="middle" fontSize={9} fill="#6b7280">{b.year}</text>
+              {/* Value on top if bar is tall enough */}
+              {barH > 16 && (
+                <text x={x + barW / 2} y={y + 11}
+                  textAnchor="middle" fontSize={9} fill="#e5e7eb" fontWeight="600">
+                  {b.citations}
+                </text>
+              )}
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+function CategoryBreakdownChart({ cats, total }: { cats: CatBucket[]; total: number }) {
+  const barH = 14, gap = 10;
+  const H    = cats.length * (barH + gap) - gap;
+  const W    = 540, labelW = 160, valW = 36, barMaxW = W - labelW - valW - 8;
+
+  return (
+    <div>
+      <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Citations by research area</p>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" aria-label="Citations by category">
+        {cats.map((c, i) => {
+          const y      = i * (barH + gap);
+          const filled = total > 0 ? (c.citations / total) * barMaxW : 0;
+          const hex    = CAT_HEX[c.key] ?? '#149ddd';
+          return (
+            <g key={c.key}>
+              {/* Label */}
+              <text x={0} y={y + barH - 2} fontSize={10} fill="#9ca3af"
+                className="truncate">{c.label}</text>
+              {/* Track */}
+              <rect x={labelW} y={y} width={barMaxW} height={barH}
+                fill="#1f2937" rx={3} />
+              {/* Fill */}
+              <rect x={labelW} y={y} width={filled} height={barH}
+                fill={hex} fillOpacity={0.7} rx={3} />
+              {/* Citation count */}
+              <text x={labelW + barMaxW + 6} y={y + barH - 2}
+                fontSize={10} fill="#9ca3af" textAnchor="start">
+                {c.citations}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+// ── Co-author network ─────────────────────────────────────────
+
+interface CoauthorNode { name: string; papers: number; x: number; y: number }
+interface CoauthorEdge { target: string; papers: number }
+
+function computeCoauthorGraph(pubs: Publication[]) {
+  const counts: Record<string, number> = {};
+  for (const p of pubs) {
+    const coauthors = p.authors.filter(a => !a.toLowerCase().includes('bhowmik'));
+    for (const a of coauthors) {
+      counts[a] = (counts[a] ?? 0) + 1;
+    }
+  }
+  const coauthors = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const n = coauthors.length;
+  const cx = 200, cy = 190, r = 140;
+  const nodes: CoauthorNode[] = coauthors.map(([name, papers], i) => ({
+    name,
+    papers,
+    x: cx + r * Math.cos((2 * Math.PI * i) / n - Math.PI / 2),
+    y: cy + r * Math.sin((2 * Math.PI * i) / n - Math.PI / 2),
+  }));
+  const edges: CoauthorEdge[] = coauthors.map(([name, papers]) => ({ target: name, papers }));
+  return { nodes, edges, cx, cy };
+}
+
+function CoauthorNetworkChart({ pubs }: { pubs: Publication[] }) {
+  const { nodes, edges, cx, cy } = computeCoauthorGraph(pubs);
+  const maxPapers = Math.max(...nodes.map(n => n.papers), 1);
+
+  // shorten long names for display
+  const displayName = (name: string) => {
+    const parts = name.trim().split(' ');
+    if (parts.length === 1) return name;
+    return parts[0][0] + '. ' + parts[parts.length - 1];
+  };
+
+  return (
+    <div>
+      <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Co-author network</p>
+      <svg viewBox="0 0 400 380" className="w-full" aria-label="Co-author network graph">
+        {/* Edges */}
+        {edges.map(edge => {
+          const node = nodes.find(n => n.name === edge.target);
+          if (!node) return null;
+          const opacity = 0.15 + 0.55 * (edge.papers / maxPapers);
+          const strokeW = 0.8 + 2.2 * (edge.papers / maxPapers);
+          return (
+            <line key={edge.target}
+              x1={cx} y1={cy} x2={node.x} y2={node.y}
+              stroke="#149ddd" strokeWidth={strokeW} strokeOpacity={opacity} />
+          );
+        })}
+
+        {/* Co-author nodes */}
+        {nodes.map(node => {
+          const nodeR = 5 + 7 * (node.papers / maxPapers);
+          // label placement: push away from center
+          const dx = node.x - cx, dy = node.y - cy;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const lx = node.x + (dx / dist) * (nodeR + 8);
+          const ly = node.y + (dy / dist) * (nodeR + 8);
+          const anchor = dx > 10 ? 'start' : dx < -10 ? 'end' : 'middle';
+          const hex = CAT_HEX.crypto; // neutral accent, could vary per coauthor later
+          return (
+            <g key={node.name}>
+              <circle cx={node.x} cy={node.y} r={nodeR}
+                fill={hex} fillOpacity={0.25} stroke={hex} strokeWidth={1.2} />
+              <text x={lx} y={ly} textAnchor={anchor} fontSize={9.5} fill="#9ca3af"
+                dominantBaseline="middle">
+                {displayName(node.name)}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* Center node — Awnon */}
+        <circle cx={cx} cy={cy} r={18} fill="#149ddd" fillOpacity={0.2}
+          stroke="#149ddd" strokeWidth={2} />
+        <text x={cx} y={cy - 1} textAnchor="middle" fontSize={9} fill="#149ddd"
+          fontWeight="700" dominantBaseline="middle">Awnon</text>
+        <text x={cx} y={cy + 10} textAnchor="middle" fontSize={8} fill="#149ddd"
+          dominantBaseline="middle">Bhowmik</text>
+      </svg>
+    </div>
+  );
+}
+
 // ── Formatting helpers ────────────────────────────────────────
 
 function AuthorList({ authors }: { authors: string[] }) {
@@ -311,6 +524,8 @@ export default function PublicationsPage() {
   const preprintList = useMemo(() => buildPreprintList(), []);
   const allWorks     = useMemo(() => [...allJournalArticles, ...preprints], []);
   const stats        = useMemo(() => computeStats(allWorks), [allWorks]);
+  const allCat       = useMemo(() => [...journalList, ...preprintList], [journalList, preprintList]);
+  const chartData    = useMemo(() => computeChartData(allCat), [allCat]);
 
   const filteredJournals  = useMemo(() =>
     filterKey === 'all' || filterKey === 'preprints'
@@ -428,15 +643,31 @@ export default function PublicationsPage() {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="mb-8">
-          <div className="flex flex-wrap gap-3 mb-2">
-            <StatCard value={stats.count}  label="Publications"     />
-            <StatCard value={stats.total}  label="Total Citations"  />
-            <StatCard value={stats.h}      label="h-index"          />
-            <StatCard value={stats.i10}    label="i10-index"        />
+        {/* Stats + Charts */}
+        <div className="mb-10 space-y-6">
+          {/* Stat cards */}
+          <div className="flex flex-wrap gap-3">
+            <StatCard value={stats.count}  label="Publications"    />
+            <StatCard value={stats.total}  label="Total Citations" />
+            <StatCard value={stats.h}      label="h-index"         />
+            <StatCard value={stats.i10}    label="i10-index"       />
           </div>
-          <p className="text-xs text-gray-600 mt-2">
+
+          {/* Visual charts */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2 bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+              <CitationsByYearChart years={chartData.years} />
+            </div>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+              <CategoryBreakdownChart cats={chartData.cats} total={stats.total} />
+            </div>
+          </div>
+
+          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+            <CoauthorNetworkChart pubs={allWorks} />
+          </div>
+
+          <p className="text-xs text-gray-600">
             Auto-synced {CITATIONS_LAST_UPDATED} via Semantic Scholar, OpenAlex &amp; Crossref · Google Scholar &amp; ResearchGate checked manually (no public API)
           </p>
         </div>
