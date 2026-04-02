@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const navLinks = [
     { name: 'Home', id: 'home', type: 'scroll' },
@@ -70,7 +72,7 @@ const NavBar = () => {
               <Link
                 key={link.name}
                 href={link.id}
-                className="hover:text-accent transition"
+                className={`transition ${pathname === link.id ? 'text-accent font-semibold' : 'hover:text-accent'}`}
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
@@ -97,7 +99,7 @@ const NavBar = () => {
                 <Link
                   key={link.name}
                   href={link.id}
-                  className="block w-full text-left py-2 text-gray-300 hover:text-accent transition"
+                  className={`block w-full text-left py-2 transition ${pathname === link.id ? 'text-accent font-semibold' : 'text-gray-300 hover:text-accent'}`}
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
