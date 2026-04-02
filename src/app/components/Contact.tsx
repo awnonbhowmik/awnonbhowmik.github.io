@@ -20,7 +20,6 @@ export default function Contact() {
 
   const [status, setStatus] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionCount, setSubmissionCount] = useState(0);
   const lastSubmissionTimeRef = useRef(0);
   const submissionTimesRef = useRef<number[]>([]);
 
@@ -157,7 +156,7 @@ export default function Contact() {
 
     try {
       // EmailJS configuration - you'll need to replace these with your actual values
-      const result = await emailjs.sendForm(
+      await emailjs.sendForm(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID',
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID',
         form.current,

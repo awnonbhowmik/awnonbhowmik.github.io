@@ -18,6 +18,7 @@ Next.js 16 · TypeScript 5 · Tailwind CSS 4 · MDX + KaTeX · EmailJS · Netlif
 npm install
 npm run dev    # uses --webpack (Turbopack incompatible with @next/mdx)
 npm run build
+npm run lint
 ```
 
 ---
