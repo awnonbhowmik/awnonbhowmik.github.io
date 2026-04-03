@@ -35,7 +35,7 @@ export interface Publication {
 }
 
 // Last date citations were synced from Google Scholar
-export const CITATIONS_LAST_UPDATED = '2026-04-01';
+export const CITATIONS_LAST_UPDATED = '2026-04-03';
 
 // ──────────────────────────────────────────────────────────────
 // JOURNAL ARTICLES — Applied Cryptography
@@ -52,7 +52,7 @@ export const cryptographyArticles: Publication[] = [
     year: 2021,
     doi: '10.7717/peerj-cs.637',
     url: 'https://doi.org/10.7717/peerj-cs.637',
-    citations: 5,
+    citations: 9,
     status: 'published',
     tags: ['cryptography', 'finite fields', 'Galois field', 'trapdoor functions'],
   },
@@ -223,7 +223,7 @@ export const epidemiologyArticles: Publication[] = [
     year: 2025,
     doi: '10.3390/sexes6030034',
     url: 'https://doi.org/10.3390/sexes6030034',
-    citations: 2,
+    citations: 3,
     status: 'published',
     tags: ['epidemiology', 'HIV', 'public health', 'Bangladesh', 'data-driven analysis'],
   },
