@@ -35,7 +35,7 @@ export interface Publication {
 }
 
 // Last date citations were synced from Google Scholar
-export const CITATIONS_LAST_UPDATED = '2026-04-03';
+export const CITATIONS_LAST_UPDATED = '2026-04-04';
 
 // ──────────────────────────────────────────────────────────────
 // JOURNAL ARTICLES — Applied Cryptography
@@ -245,7 +245,7 @@ export const environmentalArticles: Publication[] = [
     year: 2024,
     doi: '10.3390/pollutants4040033',
     url: 'https://doi.org/10.3390/pollutants4040033',
-    citations: 16,
+    citations: 17,
     status: 'published',
     tags: ['microplastics', 'environmental science', 'public health'],
   },
