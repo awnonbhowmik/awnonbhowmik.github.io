@@ -29,7 +29,7 @@ const components = {
     ),
     a: (props: React.HTMLProps<HTMLAnchorElement>) => (
         <a
-            className="text-blue-400 hover:text-blue-300 underline transition-colors"
+            className="text-accent hover:text-accent-dark underline transition-colors"
             target={props.href?.startsWith('http') ? '_blank' : undefined}
             rel={props.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
             {...props}
@@ -100,22 +100,21 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                     <div className="flex items-center gap-4">
                         <Link
                             href="/"
-                            className="inline-flex items-center text-gray-400 hover:text-accent transition-colors group"
+                            className="inline-flex items-center text-accent hover:text-white border border-accent/60 hover:border-accent px-3 py-1.5 rounded-full transition-colors group bg-transparent text-sm"
                         >
                             <svg
-                                className="w-4 h-4 mr-1 transform group-hover:-translate-x-1 transition-transform"
+                                className="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
                             >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
-                            Home
+                            Back to Home
                         </Link>
-                        <span className="text-gray-600">•</span>
                         <Link
                             href="/blog"
-                            className="inline-flex items-center text-accent hover:text-accent-dark transition-colors"
+                            className="inline-flex items-center text-accent hover:text-white border border-accent/60 hover:border-accent px-3 py-1.5 rounded-full transition-colors text-sm"
                         >
                             ← Back to Blog
                         </Link>
@@ -206,7 +205,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(frontmatter.title)}&url=${encodeURIComponent(`https://awnonbhowmik.github.io/blog/${resolvedParams.slug}`)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded text-sm transition-colors"
+                                    className="bg-accent hover:bg-accent-dark text-white px-3 py-2 rounded text-sm transition-colors"
                                 >
                                     Twitter
                                 </a>
@@ -214,7 +213,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://awnonbhowmik.github.io/blog/${resolvedParams.slug}`)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="bg-blue-700 hover:bg-blue-800 text-white px-3 py-2 rounded text-sm transition-colors"
+                                    className="border border-accent text-accent hover:bg-accent hover:text-white px-3 py-2 rounded text-sm transition-colors"
                                 >
                                     LinkedIn
                                 </a>

@@ -48,26 +48,30 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex flex-col justify-center items-center px-4 text-center bg-[#1a1a1a] text-white"
+      className="relative overflow-hidden min-h-screen flex flex-col justify-center items-center px-4 text-center bg-[#1a1a1a] text-white"
     >
+      <div className="relative z-10 inline-flex items-center gap-2 border border-accent/35 bg-accent/10 text-accent px-3 py-1 rounded-full text-[11px] uppercase tracking-[0.18em] mb-5">
+        Doctoral Researcher • Software Engineer
+      </div>
+
       {/* Name */}
-      <h1 className="text-5xl sm:text-6xl font-bold mb-3 tracking-tight">
+      <h1 className="relative z-10 text-5xl sm:text-6xl font-bold mb-3 tracking-tight">
         Awnon Bhowmik
       </h1>
 
       {/* Typed role */}
-      <h2 className="text-xl sm:text-2xl text-accent mt-1 min-h-[2rem]">
+      <h2 className="relative z-10 text-xl sm:text-2xl text-accent mt-1 min-h-[2rem]">
         <span ref={typedWordsRef}></span>
         <span className="animate-pulse">|</span>
       </h2>
 
       {/* Positioning line */}
-      <p className="mt-4 max-w-4xl text-gray-400 text-sm sm:text-base tracking-wide uppercase leading-relaxed px-2">
+      <p className="relative z-10 mt-4 max-w-4xl text-gray-400 text-sm sm:text-base tracking-wide uppercase leading-relaxed px-2">
         Cybersecurity · Data Analytics · Software Engineering · Applied Mathematics
       </p>
 
       {/* Social Icons */}
-      <div className="flex space-x-6 mt-8 justify-center">
+      <div className="relative z-10 flex space-x-6 mt-8 justify-center">
         <a
           href="https://linkedin.com/in/awnon-bhowmik"
           target="_blank"
@@ -107,7 +111,7 @@ export default function Hero() {
       </div>
 
       {/* CTA Buttons */}
-      <div className="flex flex-wrap gap-4 mt-8 justify-center">
+      <div className="relative z-10 flex flex-wrap gap-4 mt-8 justify-center">
         <button
           onClick={() => scrollTo('research')}
           className="bg-accent text-white px-6 py-2.5 rounded hover:bg-accent-dark transition-colors text-sm font-medium"

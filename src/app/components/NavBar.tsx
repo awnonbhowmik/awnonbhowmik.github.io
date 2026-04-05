@@ -34,8 +34,8 @@ const NavBar = () => {
     { name: 'About', id: 'about', type: 'scroll', icon: <FaUser size={15} /> },
     { name: 'Research', id: 'research', type: 'scroll', icon: <FaFlask size={15} /> },
     { name: 'Projects', id: 'projects', type: 'scroll', icon: <FaCode size={15} /> },
-    { name: 'Publications', id: '/publications', type: 'link', icon: <FaBook size={15} /> },
     { name: 'Resume', id: 'resume', type: 'scroll', icon: <FaFileAlt size={15} /> },
+    { name: 'Publications', id: '/publications', type: 'link', icon: <FaBook size={15} /> },
     { name: 'Blog', id: '/blog', type: 'link', icon: <FaPenNib size={15} /> },
     { name: 'Contact', id: 'contact', type: 'scroll', icon: <FaEnvelope size={15} /> },
   ];

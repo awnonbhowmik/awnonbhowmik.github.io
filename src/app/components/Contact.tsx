@@ -20,7 +20,6 @@ export default function Contact() {
 
   const [status, setStatus] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const lastSubmissionTimeRef = useRef(0);
   const submissionTimesRef = useRef<number[]>([]);
 
   // Initialize rate limiting from localStorage
@@ -169,7 +168,6 @@ export default function Contact() {
       clearTimeout(submissionTimeoutId);
       setStatus('Message sent successfully!');
       setFormData({ name: '', email: '', message: '' });
-      lastSubmissionTimeRef.current = Date.now();
     } catch (error) {
       clearTimeout(submissionTimeoutId);
       void error;
@@ -198,7 +196,7 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
 
@@ -212,7 +210,7 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
 
@@ -225,7 +223,7 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="w-full h-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full h-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent resize-none"
                 />
               </div>
 
@@ -242,7 +240,7 @@ export default function Contact() {
               <p className={`mt-4 text-center text-sm ${status.includes('success') || status.includes('sent successfully')
                 ? 'text-green-400'
                 : status.includes('Sending')
-                  ? 'text-blue-400'
+                  ? 'text-accent'
                   : 'text-red-400'
                 }`}>
                 {status}

@@ -298,13 +298,13 @@ export default function PublicationsPage() {
   return (
     <>
       <div className="min-h-screen bg-[#1a1a1a] text-white">
-        <div className="container mx-auto px-4 max-w-5xl py-16">
+        <div className="container mx-auto px-4 max-w-6xl py-16">
 
           {/* Back nav */}
           <div className="mb-10">
             <Link
               href="/"
-              className="inline-flex items-center text-accent hover:text-white border border-accent/40 hover:border-accent px-3 py-1.5 rounded transition-colors group text-sm"
+              className="inline-flex items-center text-accent hover:text-white border border-accent/60 hover:border-accent px-3 py-1.5 rounded-full transition-colors group text-sm"
             >
               <svg className="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform"
                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -315,16 +315,35 @@ export default function PublicationsPage() {
           </div>
 
           {/* Page header */}
-          <div className="mb-10">
-            <h1 className="text-4xl font-bold text-white mb-3">Publications</h1>
-            <p className="text-gray-400 leading-relaxed text-sm sm:text-[15px]">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 border border-accent/30 bg-accent/10 text-accent px-3 py-1 rounded-full text-xs uppercase tracking-[0.22em] mb-5">
+              Research Output
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-3 tracking-tight">Publications</h1>
+            <p className="text-gray-400 leading-relaxed text-sm sm:text-[15px] max-w-3xl mx-auto">
               Peer-reviewed journal articles and preprints spanning applied cryptography, cybersecurity,
               epidemiology, and environmental science.
             </p>
           </div>
 
+          {/* Summary Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 text-center">
+              <h3 className="text-2xl font-bold text-accent">{journalList.length + preprintList.length}</h3>
+              <p className="text-gray-400">Total Works</p>
+            </div>
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 text-center">
+              <h3 className="text-2xl font-bold text-accent">{journalList.length}</h3>
+              <p className="text-gray-400">Journal Articles</p>
+            </div>
+            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 text-center">
+              <h3 className="text-2xl font-bold text-accent">{preprintList.length}</h3>
+              <p className="text-gray-400">Preprints</p>
+            </div>
+          </div>
+
           {/* Filter controls */}
-          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-8">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-8 bg-gray-800/35 border border-gray-700 rounded-xl p-4">
             {/* Search */}
             <div className="flex flex-col gap-1.5 min-w-0 md:flex-1 md:max-w-[420px]">
               <span className="text-xs text-gray-500 uppercase tracking-wider">Search</span>
