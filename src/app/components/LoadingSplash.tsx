@@ -2,20 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
-const SESSION_SEEN_KEY = 'splash_seen';
-const DEFAULT_MIN_DURATION_MS = 360;
-const REDUCED_MOTION_MIN_DURATION_MS = 140;
-const SAFETY_TIMEOUT_MS = 1000;
+const DEFAULT_MIN_DURATION_MS = 520;
+const REDUCED_MOTION_MIN_DURATION_MS = 220;
+const SAFETY_TIMEOUT_MS = 1500;
 
 export default function LoadingSplash({ children }: { children: React.ReactNode }) {
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
-        if (sessionStorage.getItem(SESSION_SEEN_KEY) === '1') {
-            setIsVisible(false);
-            return;
-        }
-
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const minDuration = prefersReducedMotion
             ? REDUCED_MOTION_MIN_DURATION_MS
@@ -28,7 +22,6 @@ export default function LoadingSplash({ children }: { children: React.ReactNode 
         const hideSplash = () => {
             if (hasHidden) return;
             hasHidden = true;
-            sessionStorage.setItem(SESSION_SEEN_KEY, '1');
             setIsVisible(false);
         };
 
