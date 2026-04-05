@@ -83,10 +83,7 @@ export default function Research() {
           {/* Text */}
           <div className="w-full lg:w-2/3 space-y-6">
             <p className="text-lg text-gray-300 text-justify leading-relaxed">
-              My doctoral work, conducted as part of the Doctor of Computer Science program
-              (Cybersecurity and Information Assurance) at{' '}
-              <span className="text-accent">Colorado Technical University</span>, investigates
-              the application of{' '}
+              My doctoral work investigates the application of{' '}
               <span className="text-accent">differential privacy</span> and{' '}
               <span className="text-accent">privacy-preserving machine learning</span> to
               problems in cybersecurity. The research is grounded in formal mathematical
@@ -94,12 +91,12 @@ export default function Research() {
             </p>
 
             <p className="text-lg text-gray-300 text-justify leading-relaxed">
-              A recurring theme across my research is the tension between{' '}
+              A central question in this work is the tension between{' '}
               <span className="text-accent">formal privacy guarantees</span> and{' '}
-              <span className="text-accent">operational utility</span> — understanding when and
-              how theoretical frameworks translate into systems that remain effective under
-              real-world constraints. This line of inquiry draws on tools from probability
-              theory, statistical learning, and algorithm design.
+              <span className="text-accent">operational utility</span>: when and how
+              theoretical frameworks translate into systems that remain effective in real
+              environments. This line of inquiry draws on probability theory, statistical
+              learning, and algorithm design.
             </p>
 
             <p className="text-lg text-gray-300 text-justify leading-relaxed">
@@ -113,13 +110,11 @@ export default function Research() {
             </p>
 
             <p className="text-lg text-gray-300 text-justify leading-relaxed">
-              Across all areas, I approach problems with the rigor of a mathematician and
-              the pragmatism of a working engineer. Whether designing{' '}
-              <span className="text-accent">adversarially robust</span> privacy-preserving
-              systems or examining how formal frameworks align with regulatory requirements
-              such as{' '}
-              <span className="text-accent">GDPR</span>, the throughline is a commitment to
-              work that is both theoretically sound and practically deployable.
+              This agenda also includes{' '}
+              <span className="text-accent">adversarial robustness</span> and governance:
+              evaluating how privacy-preserving systems hold up under attack and how formal
+              privacy frameworks map to regulatory requirements such as{' '}
+              <span className="text-accent">GDPR</span>.
             </p>
           </div>
         </div>

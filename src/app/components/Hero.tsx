@@ -62,8 +62,8 @@ export default function Hero() {
       </h2>
 
       {/* Positioning line */}
-      <p className="mt-4 text-gray-400 text-sm sm:text-base tracking-widest uppercase">
-        Cybersecurity &nbsp;·&nbsp; Data Analytics &nbsp;·&nbsp; Software Engineering &nbsp;·&nbsp; Applied Mathematics
+      <p className="mt-4 max-w-4xl text-gray-400 text-sm sm:text-base tracking-wide uppercase leading-relaxed px-2">
+        Cybersecurity · Data Analytics · Software Engineering · Applied Mathematics
       </p>
 
       {/* Social Icons */}

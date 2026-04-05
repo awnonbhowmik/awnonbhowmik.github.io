@@ -14,10 +14,11 @@ export default function Footer() {
       <div className="text-center mb-4">
         <button
           onClick={scrollToTop}
-          className="flex items-center justify-center mx-auto p-4 bg-accent text-white rounded-full shadow-lg hover:bg-accent-dark transition-colors"
-          aria-label="Back to Top"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-accent text-accent hover:bg-accent hover:text-white transition-colors"
+          aria-label="Back to top"
+          title="Back to top"
         >
-          <FaArrowUp size={20} />
+          <FaArrowUp size={16} />
         </button>
       </div>
 

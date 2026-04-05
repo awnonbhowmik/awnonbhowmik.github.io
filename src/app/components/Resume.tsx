@@ -136,80 +136,114 @@ const experience: ExperienceEntry[] = [
 ];
 
 export default function Resume() {
+  const renderEducationCard = (edu: EducationEntry, key: string | number) => (
+    <div key={key} className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
+      <div className="text-accent mb-3">{edu.icon}</div>
+      <h4 className="text-lg font-semibold text-white">{edu.degree}</h4>
+      <p className="text-accent text-sm mt-0.5">{edu.field}</p>
+      <p className="text-gray-300 mt-1">{edu.institution}</p>
+      <p className="flex items-center text-gray-500 text-sm mt-2">
+        <FaCalendarAlt className="mr-2 shrink-0" /> {edu.date}
+      </p>
+      {edu.honors && edu.honors.length > 0 && (
+        <ul className="mt-3 space-y-1">
+          {edu.honors.map((h, i) => (
+            <li key={i} className="flex gap-2 text-sm text-gray-400 leading-relaxed">
+              <span className="text-accent shrink-0 mt-0.5">—</span>
+              <span>{h}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+
+  const renderExperienceCard = (exp: ExperienceEntry, key: string | number) => (
+    <div key={key} className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
+      <div className="text-accent mb-3">{exp.icon}</div>
+      <h4 className="text-lg font-semibold text-white">{exp.title}</h4>
+      <p className="text-gray-300 mt-0.5">{exp.organization}</p>
+      <p className="flex items-center text-gray-500 text-sm mt-2 mb-4">
+        <FaCalendarAlt className="mr-2 shrink-0" /> {exp.date}
+      </p>
+      <ul className="space-y-2">
+        {exp.bullets.map((bullet, i) => (
+          <li key={i} className="flex gap-2 text-sm text-gray-400 leading-relaxed">
+            <span className="text-accent mt-1 shrink-0">—</span>
+            <span>{bullet}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
   return (
     <section id="resume" className="py-16 bg-[#1a1a1a] text-white">
-      <div className="text-center mb-12 px-4">
+      <div className="text-center mb-14 px-4">
         <h2 className="text-4xl font-bold">Resume</h2>
       </div>
 
       <div className="container mx-auto px-6 lg:px-16 relative">
 
-        {/* Column headers */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-6">
-          <h3 className="flex items-center text-xl font-semibold text-accent uppercase tracking-widest">
-            <FaGraduationCap className="mr-2" /> Education
-          </h3>
-          <h3 className="flex items-center text-xl font-semibold text-accent uppercase tracking-widest">
-            <FaBriefcase className="mr-2" /> Experience
-          </h3>
+        {/* Mobile layout: stacked sections for better reading flow */}
+        <div className="lg:hidden space-y-10">
+          <div>
+            <h3 className="flex items-center text-xl font-semibold text-accent uppercase tracking-widest mb-4">
+              <FaGraduationCap className="mr-2" /> Education
+            </h3>
+            <div className="space-y-6">
+              {education.map((edu, index) => renderEducationCard(edu, `edu-mobile-${index}`))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="flex items-center text-xl font-semibold text-accent uppercase tracking-widest mb-4">
+              <FaBriefcase className="mr-2" /> Experience
+            </h3>
+            <div className="space-y-6">
+              {experience.map((exp, index) => renderExperienceCard(exp, `exp-mobile-${index}`))}
+            </div>
+          </div>
         </div>
 
-        {/* Paired rows — cards in the same row stretch to match heights */}
-        <div className="space-y-6">
-          {Array.from({ length: Math.max(education.length, experience.length) }).map((_, index) => {
-            const edu = education[index];
-            const exp = experience[index];
-            return (
-              <div key={index} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
-                {/* Education card */}
-                {edu ? (
-                  <div className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-                    <div className="text-accent mb-3">{edu.icon}</div>
-                    <h4 className="text-lg font-semibold text-white">{edu.degree}</h4>
-                    <p className="text-accent text-sm mt-0.5">{edu.field}</p>
-                    <p className="text-gray-300 mt-1">{edu.institution}</p>
-                    <p className="flex items-center text-gray-500 text-sm mt-2">
-                      <FaCalendarAlt className="mr-2 shrink-0" /> {edu.date}
-                    </p>
-                    {edu.honors && edu.honors.length > 0 && (
-                      <ul className="mt-3 space-y-1">
-                        {edu.honors.map((h, i) => (
-                          <li key={i} className="flex gap-2 text-sm text-gray-400 leading-relaxed">
-                            <span className="text-accent shrink-0 mt-0.5">—</span>
-                            <span>{h}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ) : <div />}
+        {/* Desktop layout: paired timeline columns */}
+        <div className="hidden lg:block">
 
-                {/* Experience card */}
-                {exp ? (
-                  <div className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-                    <div className="text-accent mb-3">{exp.icon}</div>
-                    <h4 className="text-lg font-semibold text-white">{exp.title}</h4>
-                    <p className="text-gray-300 mt-0.5">{exp.organization}</p>
-                    <p className="flex items-center text-gray-500 text-sm mt-2 mb-4">
-                      <FaCalendarAlt className="mr-2 shrink-0" /> {exp.date}
-                    </p>
-                    <ul className="space-y-2">
-                      {exp.bullets.map((bullet, i) => (
-                        <li key={i} className="flex gap-2 text-sm text-gray-400 leading-relaxed">
-                          <span className="text-accent mt-1 shrink-0">—</span>
-                          <span>{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : <div />}
-              </div>
-            );
-          })}
+          {/* Column headers */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-6">
+            <h3 className="flex items-center text-xl font-semibold text-accent uppercase tracking-widest">
+              <FaGraduationCap className="mr-2" /> Education
+            </h3>
+            <h3 className="flex items-center text-xl font-semibold text-accent uppercase tracking-widest">
+              <FaBriefcase className="mr-2" /> Experience
+            </h3>
+          </div>
+
+          {/* Paired rows — cards in the same row stretch to match heights */}
+          <div className="space-y-6">
+            {Array.from({ length: Math.max(education.length, experience.length) }).map((_, index) => {
+              const edu = education[index];
+              const exp = experience[index];
+              return (
+                <div key={index} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+                  {/* Education card */}
+                  {edu ? (
+                    renderEducationCard(edu, `edu-desktop-${index}`)
+                  ) : <div />}
+
+                  {/* Experience card */}
+                  {exp ? (
+                    renderExperienceCard(exp, `exp-desktop-${index}`)
+                  ) : <div />}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Subtle vertical divider for large screens */}
+          <div className="hidden lg:block absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-px bg-accent/10 z-0" />
+
         </div>
-
-        {/* Subtle vertical divider for large screens */}
-        <div className="hidden lg:block absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-px bg-accent/10 z-0" />
 
       </div>
     </section>

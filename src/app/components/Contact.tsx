@@ -182,7 +182,7 @@ export default function Contact() {
   return (
     <section id="contact" className="py-16 bg-[#1a1a1a] text-white">
       <div className="container mx-auto px-6 lg:px-16">
-        <h2 className="text-4xl font-bold text-center text-white mb-12">Contact Me</h2>
+        <h2 className="text-4xl font-bold text-center text-white mb-14">Contact Me</h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
@@ -257,10 +257,10 @@ export default function Contact() {
             </h3> */}
             <iframe
               title="My Location - Paterson, NJ"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96884.16691981242!2d-74.21440107135363!3d40.916751033779756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2ef4096786dc9%3A0xa02889844b22b6e6!2sPaterson%2C%20NJ%2C%20USA!5e0!3m2!1sen!2sbd!4v1693521128697!5m2!1sen!2sbd"
+              src="https://www.google.com/maps?q=Paterson%2C%20NJ&z=13&output=embed"
               width="100%"
               height="400"
-              style={{ filter: 'invert(1)' }}
+              style={{ filter: 'invert(90%) hue-rotate(180deg) brightness(0.85) contrast(1.05)' }}
               className="rounded-lg shadow-lg border-none transition-transform hover:scale-105"
               allowFullScreen={false}
               loading="lazy"

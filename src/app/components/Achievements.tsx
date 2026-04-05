@@ -29,7 +29,7 @@ export default function Achievements() {
   return (
     <section id="achievements" className="py-16 bg-[#1a1a1a] text-gray-300">
       <div className="container mx-auto px-6 lg:px-16">
-        <div className="text-center mb-12">
+        <div className="text-center mb-14">
           <h2 className="text-4xl font-bold text-white">Community & Scholarly Outreach</h2>
           <p className="text-gray-400 mt-3 max-w-xl mx-auto text-sm leading-relaxed text-center">
             Public contributions to mathematics and computer science education across online

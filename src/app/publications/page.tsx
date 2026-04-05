@@ -324,21 +324,21 @@ export default function PublicationsPage() {
           </div>
 
           {/* Filter controls */}
-          <div className="flex flex-col gap-3 xl:flex-row xl:flex-wrap xl:items-center mb-8">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-8">
             {/* Search */}
-            <div className="flex flex-col gap-1.5 min-w-0">
+            <div className="flex flex-col gap-1.5 min-w-0 md:flex-1 md:max-w-[420px]">
               <span className="text-xs text-gray-500 uppercase tracking-wider">Search</span>
               <input
                 type="search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Title, author, venue, DOI..."
-                className="w-full xl:max-w-[420px] bg-gray-900/70 border border-gray-700 rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500 focus:outline-none focus:border-accent/70"
+                className="w-full bg-gray-900/70 border border-gray-700 rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500 focus:outline-none focus:border-accent/70"
               />
             </div>
 
             {/* Category filter */}
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2 md:justify-end">
               <span className="text-xs text-gray-500 uppercase tracking-wider">Filter</span>
               {Object.entries(FILTER_LABELS).map(([key, label]) => (
                 <button

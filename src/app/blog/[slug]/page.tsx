@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import Link from 'next/link';
 import 'katex/dist/katex.css';
+import BackToTopButton from '../components/BackToTopButton';
 
 // Custom components for MDX
 const components = {
@@ -219,6 +220,16 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                 </a>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="mt-8 pt-6 border-t border-gray-800/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <Link
+                            href="/blog"
+                            className="inline-flex items-center text-gray-400 hover:text-accent transition-colors"
+                        >
+                            ← Back to Blog Index
+                        </Link>
+                        <BackToTopButton />
                     </div>
                 </footer>
             </div>

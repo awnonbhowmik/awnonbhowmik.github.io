@@ -6,7 +6,7 @@ export default function About() {
   return (
     <section id="about" className="py-16 bg-[#1a1a1a] text-white">
       {/* Section Heading */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-14">
         <h2 className="text-4xl font-bold text-white">About</h2>
       </div>
 
@@ -30,12 +30,10 @@ export default function About() {
         <div className="w-full lg:w-2/3 space-y-6">
           <p className="text-lg text-justify leading-relaxed text-gray-300">
             I am <strong className="text-white">Awnon Bhowmik</strong>, a doctoral researcher
-            and software engineer working at the intersection of{' '}
+            and software engineer focused on{' '}
             <span className="text-accent">cybersecurity</span>,{' '}
-            <span className="text-accent">privacy-preserving machine learning</span>, and{' '}
-            <span className="text-accent">applied mathematical modeling</span>. My work combines
-            formal quantitative methods with engineering practice to address security and privacy
-            problems with real deployment implications.
+            <span className="text-accent">privacy-preserving systems</span>, and{' '}
+            <span className="text-accent">applied mathematical modeling</span>.
           </p>
 
           <p className="text-lg text-justify leading-relaxed text-gray-300">
@@ -43,11 +41,7 @@ export default function About() {
             <strong className="text-white">
               Doctor of Computer Science, specializing in Cybersecurity and Information Assurance
             </strong>
-            , at Colorado Technical University. My doctoral research sits at the intersection of{' '}
-            <span className="text-accent">cybersecurity</span> and{' '}
-            <span className="text-accent">privacy-preserving machine learning</span>, with a
-            focus on developing systems that provide formal mathematical privacy guarantees
-            while remaining operationally useful in real security environments.
+            , at Colorado Technical University.
           </p>
 
           <p className="text-lg text-justify leading-relaxed text-gray-300">
@@ -65,10 +59,8 @@ export default function About() {
             My published research spans{' '}
             <span className="text-accent">applied cryptography</span> — including novel
             encryption schemes, trapdoor function design, and post-quantum approaches — as well
-            as <span className="text-accent">cybersecurity</span> and interdisciplinary work on{' '}
-            <span className="text-accent">environmental modeling</span>. I approach research
-            problems with the rigor of a mathematician and the pragmatism of a working engineer,
-            aiming for work that is both theoretically sound and practically relevant.
+            as interdisciplinary work on{' '}
+            <span className="text-accent">environmental modeling</span>.
           </p>
         </div>
       </div>
