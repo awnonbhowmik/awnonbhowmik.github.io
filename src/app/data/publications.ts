@@ -35,7 +35,7 @@ export interface Publication {
 }
 
 // Last date citations were synced from Google Scholar
-export const CITATIONS_LAST_UPDATED = '2026-04-04';
+export const CITATIONS_LAST_UPDATED = '2026-04-05';
 
 // ──────────────────────────────────────────────────────────────
 // JOURNAL ARTICLES — Applied Cryptography
