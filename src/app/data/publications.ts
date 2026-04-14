@@ -197,6 +197,27 @@ export const cybersecurityArticles: Publication[] = [
 // ──────────────────────────────────────────────────────────────
 export const epidemiologyArticles: Publication[] = [
   {
+    id: 'dengue-bangladesh-2026',
+    type: 'journal',
+    title:
+      'Two Decades of Dengue in Bangladesh (2001–2024): Epidemiologic Trends, Geographic Spread and Climatic Drivers',
+    authors: ['Awnon Bhowmik', 'Mahmudul Hasan', 'Goutam Saha', 'Huaiping Zhu'],
+    venue: 'Tropical Medicine & International Health',
+    year: 2026,
+    doi: '10.1111/tmi.70136',
+    url: 'https://doi.org/10.1111/tmi.70136',
+    citations: 0,
+    status: 'published',
+    tags: [
+      'epidemiology',
+      'dengue',
+      'Bangladesh',
+      'geographic spread',
+      'climatic drivers',
+      'narrative review',
+    ],
+  },
+  {
     id: 'nipah-bangladesh-2025',
     type: 'journal',
     title: 'Nipah virus outbreak trends in Bangladesh during the period 2001 to 2024: a brief review',
@@ -233,20 +254,6 @@ export const epidemiologyArticles: Publication[] = [
 // JOURNAL ARTICLES — Environmental Science
 // ──────────────────────────────────────────────────────────────
 export const environmentalArticles: Publication[] = [
-  {
-    id: 'scholar-latest-cluster-2026',
-    type: 'journal',
-    title: 'Latest article (metadata pending verification)',
-    authors: ['Awnon Bhowmik'],
-    venue: 'Google Scholar',
-    year: 2026,
-    url: 'https://scholar.google.com/scholar?oi=bibs&hl=en&cluster=2468804615258136845',
-    citations: 0,
-    status: 'published',
-    tags: ['latest', 'google scholar'],
-    note: 'Replace with official title, venue, DOI, and co-authors after Scholar metadata verification.',
-    placeholder: true,
-  },
   {
     id: 'pollutants-microplastics-animals-2024',
     type: 'journal',
