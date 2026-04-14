@@ -44,6 +44,22 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     // Still checking localStorage
     if (isAdmin === null) return null;
 
+    if (process.env.NODE_ENV === 'production') {
+        return (
+            <div className="min-h-screen bg-[#1a1a1a] text-white flex items-center justify-center px-4">
+                <div className="w-full max-w-lg bg-gray-800 rounded-lg p-8 shadow-xl">
+                    <h1 className="text-xl font-bold mb-2">Editor Disabled in Production</h1>
+                    <p className="text-gray-400 text-sm mb-6">
+                        For security, the client-side editor is only available in development environments.
+                    </p>
+                    <Link href="/blog" className="text-sm text-accent hover:text-white transition-colors">
+                        ← Back to Blog
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
     if (!isAdmin) {
         return (
             <div className="min-h-screen bg-[#1a1a1a] text-white flex items-center justify-center px-4">

@@ -35,7 +35,7 @@ export interface Publication {
 }
 
 // Last date citations were synced from Google Scholar
-export const CITATIONS_LAST_UPDATED = '2026-04-05';
+export const CITATIONS_LAST_UPDATED = '2026-04-14';
 
 // ──────────────────────────────────────────────────────────────
 // JOURNAL ARTICLES — Applied Cryptography
@@ -233,6 +233,20 @@ export const epidemiologyArticles: Publication[] = [
 // JOURNAL ARTICLES — Environmental Science
 // ──────────────────────────────────────────────────────────────
 export const environmentalArticles: Publication[] = [
+  {
+    id: 'scholar-latest-cluster-2026',
+    type: 'journal',
+    title: 'Latest article (metadata pending verification)',
+    authors: ['Awnon Bhowmik'],
+    venue: 'Google Scholar',
+    year: 2026,
+    url: 'https://scholar.google.com/scholar?oi=bibs&hl=en&cluster=2468804615258136845',
+    citations: 0,
+    status: 'published',
+    tags: ['latest', 'google scholar'],
+    note: 'Replace with official title, venue, DOI, and co-authors after Scholar metadata verification.',
+    placeholder: true,
+  },
   {
     id: 'pollutants-microplastics-animals-2024',
     type: 'journal',
