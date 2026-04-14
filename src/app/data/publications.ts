@@ -35,7 +35,7 @@ export interface Publication {
 }
 
 // Last date citations were synced from Google Scholar
-export const CITATIONS_LAST_UPDATED = '2026-04-05';
+export const CITATIONS_LAST_UPDATED = '2026-04-14';
 
 // ──────────────────────────────────────────────────────────────
 // JOURNAL ARTICLES — Applied Cryptography
@@ -196,6 +196,27 @@ export const cybersecurityArticles: Publication[] = [
 // JOURNAL ARTICLES — Epidemiology & Public Health
 // ──────────────────────────────────────────────────────────────
 export const epidemiologyArticles: Publication[] = [
+  {
+    id: 'dengue-bangladesh-2026',
+    type: 'journal',
+    title:
+      'Two Decades of Dengue in Bangladesh (2001–2024): Epidemiologic Trends, Geographic Spread and Climatic Drivers',
+    authors: ['Awnon Bhowmik', 'Mahmudul Hasan', 'Goutam Saha', 'Huaiping Zhu'],
+    venue: 'Tropical Medicine & International Health',
+    year: 2026,
+    doi: '10.1111/tmi.70136',
+    url: 'https://doi.org/10.1111/tmi.70136',
+    citations: 0,
+    status: 'published',
+    tags: [
+      'epidemiology',
+      'dengue',
+      'Bangladesh',
+      'geographic spread',
+      'climatic drivers',
+      'narrative review',
+    ],
+  },
   {
     id: 'nipah-bangladesh-2025',
     type: 'journal',

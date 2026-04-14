@@ -16,7 +16,7 @@
     "@uiw/react-md-editor": "^4.0.8",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.22",
-    "next": "^16.2.0",
+    "next": "^16.2.3",
     "next-mdx-remote": "^6.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -33,7 +33,7 @@
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
-    "eslint-config-next": "15.2.4",
+    "eslint-config-next": "^15.2.4",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.2",
     "typescript": "^5"
