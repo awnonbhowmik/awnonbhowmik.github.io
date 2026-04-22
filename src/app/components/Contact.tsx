@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import { sanitizeEmail, isValidEmail } from '@/lib/sanitize';
-// import { FaMapMarkerAlt } from 'react-icons/fa';
 
 // Rate limiting constants
 const RATE_LIMIT_WINDOW = 60 * 1000; // 60 seconds
@@ -250,9 +249,6 @@ export default function Contact() {
 
           {/* Google Map */}
           <div className="relative">
-            {/* <h3 className="text-xl font-bold text-blue-400 mb-4 flex items-center justify-center">
-              <FaMapMarkerAlt className="mr-2" /> My Location
-            </h3> */}
             <iframe
               title="My Location - Paterson, NJ"
               src="https://www.google.com/maps?q=Paterson%2C%20NJ&z=13&output=embed"

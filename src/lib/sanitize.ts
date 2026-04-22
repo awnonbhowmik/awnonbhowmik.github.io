@@ -7,7 +7,7 @@
  * @param str - The string to sanitize
  * @returns Sanitized string safe for HTML insertion
  */
-export function escapeHtml(str: string): string {
+function escapeHtml(str: string): string {
   if (!str) return '';
   
   const htmlEscapeMap: Record<string, string> = {

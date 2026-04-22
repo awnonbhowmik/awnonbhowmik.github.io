@@ -5,12 +5,9 @@
 // and update all fields. Set placeholder: true if the entry
 // still needs information filled in, and add a note explaining
 // what is missing.
-//
-// citations: sourced from Google Scholar (authoritative)
-// See CITATIONS_LAST_UPDATED below.
 // ============================================================
 
-export type PublicationType = 'journal' | 'conference' | 'preprint' | 'manuscript' | 'dissertation';
+export type PublicationType = 'journal' | 'conference' | 'preprint';
 export type PublicationStatus = 'published' | 'in-press' | 'under-review' | 'in-progress';
 
 export interface Publication {
@@ -27,15 +24,9 @@ export interface Publication {
   url?: string;
   arxivId?: string;     // arXiv paper ID, e.g. '2008.12645'
   preprintUrl?: string; // URL to non-arXiv preprint server
-  citations?: number;   // from Google Scholar as of CITATIONS_LAST_UPDATED
   status: PublicationStatus;
   tags?: string[];
-  note?: string;
-  placeholder?: boolean;
 }
-
-// Last date citations were synced from Google Scholar
-export const CITATIONS_LAST_UPDATED = '2026-04-14';
 
 // ──────────────────────────────────────────────────────────────
 // JOURNAL ARTICLES — Applied Cryptography
@@ -52,7 +43,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2021,
     doi: '10.7717/peerj-cs.637',
     url: 'https://doi.org/10.7717/peerj-cs.637',
-    citations: 9,
     status: 'published',
     tags: ['cryptography', 'finite fields', 'Galois field', 'trapdoor functions'],
   },
@@ -68,7 +58,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2020,
     doi: '10.5120/ijca2020920320',
     url: 'https://doi.org/10.5120/ijca2020920320',
-    citations: 7,
     status: 'published',
     tags: ['cryptography', 'NTRU', 'lattice-based cryptography', 'post-quantum'],
   },
@@ -85,7 +74,6 @@ export const cryptographyArticles: Publication[] = [
     doi: '10.5120/ijca2020920331',
     url: 'https://doi.org/10.5120/ijca2020920331',
     arxivId: '2008.12645',
-    citations: 3,
     status: 'published',
     tags: ['cryptography', 'fractal geometry', 'dragon curve', 'trapdoor functions'],
   },
@@ -101,7 +89,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2020,
     doi: '10.5120/ijca2020920479',
     url: 'https://doi.org/10.5120/ijca2020920479',
-    citations: 0,
     status: 'published',
     tags: ['cryptography', 'block cipher', 'number theory', 'AES alternative'],
   },
@@ -117,7 +104,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2020,
     doi: '10.5815/ijmsc.2020.06.02',
     url: 'https://doi.org/10.5815/ijmsc.2020.06.02',
-    citations: 2,
     status: 'published',
     tags: ['cryptography', 'coordinate transformations', 'encoding'],
   },
@@ -133,7 +119,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2023,
     doi: '10.5815/ijmsc.2023.02.01',
     url: 'https://doi.org/10.5815/ijmsc.2023.02.01',
-    citations: 0,
     status: 'published',
     tags: ['cryptography', 'coordinate transformation', 'key generation'],
   },
@@ -149,7 +134,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2024,
     doi: '10.5815/ijmsc.2024.01.04',
     url: 'https://doi.org/10.5815/ijmsc.2024.01.04',
-    citations: 1,
     status: 'published',
     tags: ['cryptography', 'trapdoor functions', 'one-way functions'],
   },
@@ -171,7 +155,6 @@ export const cybersecurityArticles: Publication[] = [
     year: 2024,
     doi: '10.5815/ijmsc.2024.03.03',
     url: 'https://doi.org/10.5815/ijmsc.2024.03.03',
-    citations: 2,
     status: 'published',
     tags: ['cybersecurity', 'FinTech', 'security awareness', 'defense mechanisms'],
   },
@@ -186,7 +169,6 @@ export const cybersecurityArticles: Publication[] = [
     pages: '1–17',
     year: 2025,
     url: 'https://www.researchgate.net/publication/393729816_Integrating_Blockchain_and_ECC_for_Secure_Authentication_Comprehensive_Survey_for_IoT_WSN_Environment_News_Bulletin_Calcutta_Mathematical_Society',
-    citations: 0,
     status: 'published',
     tags: ['cybersecurity', 'blockchain', 'elliptic curve cryptography', 'IoT', 'authentication'],
   },
@@ -206,7 +188,6 @@ export const epidemiologyArticles: Publication[] = [
     year: 2026,
     doi: '10.1111/tmi.70136',
     url: 'https://doi.org/10.1111/tmi.70136',
-    citations: 0,
     status: 'published',
     tags: [
       'epidemiology',
@@ -228,7 +209,6 @@ export const epidemiologyArticles: Publication[] = [
     year: 2025,
     doi: '10.1016/j.soh.2024.100103',
     url: 'https://doi.org/10.1016/j.soh.2024.100103',
-    citations: 21,
     status: 'published',
     tags: ['epidemiology', 'Nipah virus', 'public health', 'Bangladesh', 'disease surveillance'],
   },
@@ -244,7 +224,6 @@ export const epidemiologyArticles: Publication[] = [
     year: 2025,
     doi: '10.3390/sexes6030034',
     url: 'https://doi.org/10.3390/sexes6030034',
-    citations: 3,
     status: 'published',
     tags: ['epidemiology', 'HIV', 'public health', 'Bangladesh', 'data-driven analysis'],
   },
@@ -266,7 +245,6 @@ export const environmentalArticles: Publication[] = [
     year: 2024,
     doi: '10.3390/pollutants4040033',
     url: 'https://doi.org/10.3390/pollutants4040033',
-    citations: 17,
     status: 'published',
     tags: ['microplastics', 'environmental science', 'public health'],
   },
@@ -282,7 +260,6 @@ export const environmentalArticles: Publication[] = [
     year: 2025,
     doi: '10.3390/microplastics4020024',
     url: 'https://doi.org/10.3390/microplastics4020024',
-    citations: 20,
     status: 'published',
     tags: ['microplastics', 'water quality', 'systematic review', 'environmental science'],
   },
@@ -298,7 +275,6 @@ export const environmentalArticles: Publication[] = [
     year: 2026,
     doi: '10.3390/pollutants6010003',
     url: 'https://doi.org/10.3390/pollutants6010003',
-    citations: 2,
     status: 'published',
     tags: ['microplastics', 'rural environment', 'environmental transport'],
   },
@@ -314,7 +290,6 @@ export const environmentalArticles: Publication[] = [
     year: 2026,
     doi: '10.3390/pollutants6010018',
     url: 'https://doi.org/10.3390/pollutants6010018',
-    citations: 0,
     status: 'published',
     tags: ['microplastics', 'mathematical modeling', 'river transport', 'environmental modeling'],
   },
@@ -334,7 +309,6 @@ export const preprints: Publication[] = [
     arxivId: '2510.02383',
     doi: '10.48550/arXiv.2510.02383',
     url: 'https://arxiv.org/abs/2510.02383',
-    citations: 0,
     status: 'published',
     tags: ['cryptography', 'elliptic curves', 'number theory'],
   },
@@ -348,7 +322,6 @@ export const preprints: Publication[] = [
     arxivId: '2208.06002',
     doi: '10.48550/arXiv.2208.06002',
     url: 'https://arxiv.org/abs/2208.06002',
-    citations: 1,
     status: 'published',
     tags: ['cryptography', 'chaotic mappings', 'review'],
   },
@@ -362,7 +335,6 @@ export const preprints: Publication[] = [
     arxivId: '2212.12300',
     doi: '10.48550/arXiv.2212.12300',
     url: 'https://arxiv.org/abs/2212.12300',
-    citations: 0,
     status: 'published',
     tags: ['cryptography', 'block cipher', 'matrix operations'],
   },
@@ -376,67 +348,9 @@ export const preprints: Publication[] = [
     doi: '10.20944/preprints202508.1297.v1',
     url: 'https://www.preprints.org/manuscript/202508.1297/v1',
     preprintUrl: 'https://www.preprints.org/manuscript/202508.1297/v1',
-    citations: 0,
     status: 'published',
     tags: ['epidemiology', 'mortality', 'SAARC', 'public health', 'data-driven analysis'],
   },
 ];
 
-// ──────────────────────────────────────────────────────────────
-// MANUSCRIPTS IN PROGRESS
-// ──────────────────────────────────────────────────────────────
-export const manuscripts: Publication[] = [
-  {
-    id: 'manuscript-dp-ids',
-    type: 'manuscript',
-    title:
-      '[PLACEHOLDER — Working title of dissertation manuscript, e.g., "Privacy-Preserving Intrusion Detection with Differential Privacy: A Privacy-Utility Analysis"]',
-    authors: ['Awnon Bhowmik'],
-    venue:
-      '[PLACEHOLDER — Target venue, e.g., "IEEE Transactions on Information Forensics and Security"]',
-    status: 'in-progress',
-    tags: ['differential privacy', 'intrusion detection', 'privacy-preserving machine learning'],
-    note: 'Update title, venue, and status as dissertation work progresses.',
-    placeholder: true,
-  },
-];
 
-// ──────────────────────────────────────────────────────────────
-// DISSERTATION
-// ──────────────────────────────────────────────────────────────
-export const dissertationEntry: Publication = {
-  id: 'dissertation-ctu-2030',
-  type: 'dissertation',
-  title:
-    '[PLACEHOLDER — Official dissertation title once confirmed with committee]',
-  authors: ['Awnon Bhowmik'],
-  venue: 'Colorado Technical University',
-  year: 2030,
-  status: 'in-progress',
-  tags: [
-    'differential privacy',
-    'cybersecurity',
-    'intrusion detection',
-    'adversarial machine learning',
-    'privacy-preserving machine learning',
-  ],
-  note: 'Update with official title once finalized with dissertation committee.',
-  placeholder: true,
-};
-
-// ──────────────────────────────────────────────────────────────
-// CONVENIENCE AGGREGATES
-// ──────────────────────────────────────────────────────────────
-export const allJournalArticles: Publication[] = [
-  ...cryptographyArticles,
-  ...cybersecurityArticles,
-  ...epidemiologyArticles,
-  ...environmentalArticles,
-];
-
-export const allPublications: Publication[] = [
-  ...allJournalArticles,
-  ...preprints,
-  ...manuscripts,
-  dissertationEntry,
-];
