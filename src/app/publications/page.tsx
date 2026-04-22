@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Footer from '@/app/components/Footer';
 import {
+  CITATIONS_LAST_UPDATED,
   cryptographyArticles,
   cybersecurityArticles,
   epidemiologyArticles,
@@ -323,6 +324,9 @@ export default function PublicationsPage() {
             <p className="text-gray-400 leading-relaxed text-sm sm:text-[15px] max-w-3xl mx-auto">
               Peer-reviewed journal articles and preprints spanning applied cryptography, cybersecurity,
               epidemiology, and environmental science.
+            </p>
+            <p className="text-[11px] sm:text-xs text-gray-500 mt-2 uppercase tracking-wider">
+              Google Scholar sync: {CITATIONS_LAST_UPDATED}
             </p>
           </div>
 
