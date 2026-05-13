@@ -255,24 +255,20 @@ function SectionTable({
 // ── Page ──────────────────────────────────────────────────────
 
 export default function PublicationsPage() {
-  const [filterKey, setFilterKey] = useState<string>('all');
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [urlStateReady, setUrlStateReady] = useState(false);
+  const [filterKey, setFilterKey] = useState<string>(() => {
+    if (typeof window === 'undefined') return 'all';
+    const params = new URLSearchParams(window.location.search);
+    const candidate = params.get('filter') ?? 'all';
+    return candidate in FILTER_LABELS ? candidate : 'all';
+  });
+  const [searchTerm, setSearchTerm] = useState<string>(
+    () => typeof window === 'undefined' ? '' : new URLSearchParams(window.location.search).get('q') ?? ''
+  );
 
   const journalList = useMemo(() => buildJournalList(), []);
   const preprintList = useMemo(() => buildPreprintList(), []);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const candidateFilter = params.get('filter') ?? 'all';
-    setFilterKey(candidateFilter in FILTER_LABELS ? candidateFilter : 'all');
-    setSearchTerm(params.get('q') ?? '');
-    setUrlStateReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!urlStateReady) return;
-
     const next = new URLSearchParams();
     if (filterKey !== 'all') next.set('filter', filterKey);
     const trimmedSearch = searchTerm.trim();
@@ -281,7 +277,7 @@ export default function PublicationsPage() {
     const query = next.toString();
     const nextUrl = query ? `${window.location.pathname}?${query}` : window.location.pathname;
     window.history.replaceState(null, '', nextUrl);
-  }, [filterKey, searchTerm, urlStateReady]);
+  }, [filterKey, searchTerm]);
 
   const filteredJournals = useMemo(() =>
     filterKey === 'all' || filterKey === 'preprints'

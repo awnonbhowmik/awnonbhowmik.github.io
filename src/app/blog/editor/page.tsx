@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import 'katex/dist/katex.css';
@@ -15,14 +15,11 @@ const MDEditor = dynamic(
 // ── Auth gate ─────────────────────────────────────────────────
 
 function AuthGate({ children }: { children: React.ReactNode }) {
-    const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // null = checking
+    const [isAdmin, setIsAdmin] = useState<boolean | null>(
+        () => typeof window === 'undefined' ? null : localStorage.getItem('blog_admin_auth') === 'awnon_authenticated'
+    );
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
-    useEffect(() => {
-        const auth = localStorage.getItem('blog_admin_auth');
-        setIsAdmin(auth === 'awnon_authenticated');
-    }, []);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();

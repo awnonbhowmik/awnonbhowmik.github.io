@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { FaLock } from 'react-icons/fa';
 
@@ -10,17 +10,11 @@ interface AdminControlsProps {
 }
 
 export default function AdminControls({ showWhenEmpty = false, minimal = false }: AdminControlsProps) {
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(
+        () => typeof window !== 'undefined' && localStorage.getItem('blog_admin_auth') === 'awnon_authenticated'
+    );
     const [showLogin, setShowLogin] = useState(false);
     const [password, setPassword] = useState('');
-
-    useEffect(() => {
-        // Check if admin is already authenticated
-        const adminAuth = localStorage.getItem('blog_admin_auth');
-        if (adminAuth === 'awnon_authenticated') {
-            setIsAdmin(true);
-        }
-    }, []);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();

@@ -12,7 +12,7 @@
     "@emailjs/browser": "^4.4.1",
     "@mdx-js/loader": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
-    "@next/mdx": "^15.4.6",
+    "@next/mdx": "^16.2.6",
     "@uiw/react-md-editor": "^4.0.8",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.22",
@@ -36,7 +36,7 @@
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
-    "eslint-config-next": "^15.2.4",
+    "eslint-config-next": "^16.2.6",
     "postcss": "^8.5.14",
     "tailwindcss": "^4.1.2",
     "typescript": "^5"
