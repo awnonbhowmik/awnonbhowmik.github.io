@@ -65,7 +65,7 @@ export default async function BlogPage() {
                     </div>
 
                     {featuredPost && (
-                        <div className="mb-12 bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-6 sm:p-8 shadow-xl">
+                        <div className="mb-12 bg-linear-to-br from-gray-800 via-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-6 sm:p-8 shadow-xl">
                             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                                 <div className="max-w-2xl">
                                     <div className="inline-flex items-center gap-2 border border-accent/40 text-accent px-3 py-1 rounded-full text-xs uppercase tracking-[0.2em] mb-4">
