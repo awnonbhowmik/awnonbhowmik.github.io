@@ -154,12 +154,15 @@ export default function Contact() {
 
     try {
       // EmailJS configuration - you'll need to replace these with your actual values
-      await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID',
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID',
-        form.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY'
-      );
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('Contact form is not configured. Please try another method.');
+      }
+
+      await emailjs.sendForm(serviceId, templateId, form.current, publicKey);
 
       // Record successful submission for rate limiting
       recordSubmission();
@@ -169,7 +172,7 @@ export default function Contact() {
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       clearTimeout(submissionTimeoutId);
-      void error;
+      console.error('Contact form submission failed:', error);
       setStatus('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -183,7 +186,7 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <div className="bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105 h-[400px] flex flex-col">
+          <div className="bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105 h-100 flex flex-col">
             <form ref={form} onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
               <div>
                 <label htmlFor="name" className="sr-only">Your Name</label>

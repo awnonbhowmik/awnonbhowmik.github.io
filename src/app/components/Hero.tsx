@@ -14,15 +14,16 @@ export default function Hero() {
     const erasingSpeed = 65;
     const delayBetweenWords = 1800;
     const el = typedWordsRef.current;
+    let timerId: ReturnType<typeof setTimeout>;
 
     function type() {
       if (!el) return;
       if (letterIndex < words[wordIndex].length) {
         el.textContent = words[wordIndex].substring(0, letterIndex + 1);
         letterIndex++;
-        setTimeout(type, typingSpeed);
+        timerId = setTimeout(type, typingSpeed);
       } else {
-        setTimeout(erase, delayBetweenWords);
+        timerId = setTimeout(erase, delayBetweenWords);
       }
     }
 
@@ -31,14 +32,15 @@ export default function Hero() {
       if (letterIndex > 0) {
         el.textContent = words[wordIndex].substring(0, letterIndex - 1);
         letterIndex--;
-        setTimeout(erase, erasingSpeed);
+        timerId = setTimeout(erase, erasingSpeed);
       } else {
         wordIndex = (wordIndex + 1) % words.length;
-        setTimeout(type, typingSpeed);
+        timerId = setTimeout(type, typingSpeed);
       }
     }
 
     type();
+    return () => clearTimeout(timerId);
   }, []);
 
   const scrollTo = (id: string) => {
@@ -60,7 +62,7 @@ export default function Hero() {
       </h1>
 
       {/* Typed role */}
-      <h2 className="relative z-10 text-xl sm:text-2xl text-accent mt-1 min-h-[2rem]">
+      <h2 className="relative z-10 text-xl sm:text-2xl text-accent mt-1 min-h-8">
         <span ref={typedWordsRef}></span>
         <span className="animate-pulse">|</span>
       </h2>
