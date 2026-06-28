@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
+import { load as loadYaml } from 'js-yaml';
 
 export interface BlogPostFrontmatter {
   title: string;
@@ -24,6 +24,30 @@ const calculateReadingTime = (content: string): string => {
   return `${readingTime} min read`;
 };
 
+const parseMdxFrontmatter = (
+  fileContents: string
+): { frontmatter: BlogPostFrontmatter; content: string } => {
+  const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/;
+  const match = fileContents.match(frontmatterRegex);
+
+  if (!match) {
+    return {
+      frontmatter: {} as BlogPostFrontmatter,
+      content: fileContents,
+    };
+  }
+
+  const [, rawFrontmatter] = match;
+  const parsed = loadYaml(rawFrontmatter);
+  const frontmatter =
+    parsed && typeof parsed === 'object' ? (parsed as BlogPostFrontmatter) : ({} as BlogPostFrontmatter);
+
+  return {
+    frontmatter,
+    content: fileContents.slice(match[0].length),
+  };
+};
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const blogDirectory = path.join(process.cwd(), 'src/content/blog');
   
@@ -38,7 +62,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       const slug = filename.replace(/\.mdx$/, '');
       const fullPath = path.join(blogDirectory, filename);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
-      const { data: frontmatter, content } = matter(fileContents);
+      const { frontmatter, content } = parseMdxFrontmatter(fileContents);
       const readingTime = calculateReadingTime(content);
 
       return {
@@ -84,7 +108,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   }
 
   const fileContents = fs.readFileSync(fullPath, 'utf8');
-  const { data: frontmatter, content } = matter(fileContents);
+  const { frontmatter, content } = parseMdxFrontmatter(fileContents);
   const readingTime = calculateReadingTime(content);
 
   return {
