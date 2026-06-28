@@ -13,7 +13,7 @@
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@uiw/react-md-editor": "^4.1.1",
-    "gray-matter": "^4.0.3",
+    "js-yaml": "^5.2.0",
     "katex": "^0.17.0",
     "next": "^16.2.6",
     "next-mdx-remote": "^6.0.0",
@@ -25,6 +25,7 @@
     "remark-math": "^6.0.0"
   },
   "overrides": {
+    "@babel/core": "^7.29.7",
     "postcss": "^8.5.15"
   },
   "devDependencies": {
