@@ -38,16 +38,6 @@ Set the same variables under **Site settings → Environment variables** on Netl
 
 ---
 
-## CV
-
-Auto-downloaded from GitHub Releases — no code changes needed to update:
-
-```
-https://github.com/awnonbhowmik/Awnon-CV/releases/download/latest/Awnon-Bhowmik-General-CV.pdf
-```
-
----
-
 ## Structure
 
 ```

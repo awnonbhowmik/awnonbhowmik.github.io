@@ -184,31 +184,6 @@ const experience: ExperienceEntry[] = [
     ],
   },
   {
-    organization: 'University of Central Florida',
-    icon: <FaChalkboardTeacher size={28} />,
-    roles: [
-      {
-        title: 'Graduate Teaching Grader',
-        date: 'Jan 2022 – May 2022',
-        bullets: [
-          'Assisted a faculty member with the non-instructional aspects of course teaching.',
-          'Graded quizzes and tests and provided feedback to students.',
-          'Held virtual office hours and entered grades into WebcoursesUCF.',
-        ],
-      },
-      {
-        title: 'Graduate Teaching Assistant — Mathematics Assistance & Learning Lab',
-        date: 'Jan 2022 – May 2022',
-        bullets: [
-          'Assisted students with ALEKS, WebAssign, and other learning platforms.',
-          'Answered questions during open-lab sessions and delivered short lectures when requested.',
-          'Recommended supplementary videos, books, and online resources.',
-          'Performed proctoring duties during examinations.',
-        ],
-      },
-    ],
-  },
-  {
     organization: 'CUNY Borough of Manhattan Community College',
     icon: <FaChalkboardTeacher size={28} />,
     roles: [

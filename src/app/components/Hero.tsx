@@ -120,14 +120,6 @@ export default function Hero() {
         >
           View Research
         </button>
-        <a
-          href="https://github.com/awnonbhowmik/Awnon-CV/releases/download/latest/Awnon-Bhowmik-General-CV.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-11 w-full items-center justify-center border border-accent text-accent px-6 py-2.5 rounded hover:bg-accent/10 transition-colors text-sm font-medium sm:w-auto"
-        >
-          Download CV
-        </a>
         <button
           onClick={() => scrollTo('contact')}
           className="inline-flex min-h-11 w-full items-center justify-center border border-gray-600 text-gray-300 px-6 py-2.5 rounded bg-transparent hover:border-accent hover:text-accent transition-colors text-sm font-medium sm:w-auto"
