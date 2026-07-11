@@ -255,7 +255,7 @@ const projects: Project[] = [
     approach:
       'Built with Next.js (static export), TypeScript, and Tailwind CSS. The blog system uses MDX ' +
       'with KaTeX for mathematical notation. The contact form includes rate limiting, HTML sanitization, ' +
-      'and EmailJS integration. Deployed to GitHub Pages.',
+      'and EmailJS integration. Deployed to Netlify.',
     technologies: [
       'Next.js',
       'TypeScript',
@@ -275,7 +275,7 @@ const projects: Project[] = [
       },
       {
         label: 'Live Site',
-        url: 'https://awnonbhowmik.github.io',
+        url: 'https://awnon.netlify.app',
       },
     ],
   },

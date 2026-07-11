@@ -63,10 +63,10 @@ const NavBar = () => {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#1a1a1a]/30 backdrop-blur-md shadow-md text-gray-100">
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-4">
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
 
         {/* Logo */}
-        <button onClick={handleScrollToTop} className="flex items-center" aria-label="Scroll to top" title="Home">
+        <button onClick={handleScrollToTop} className="inline-flex h-11 w-11 items-center justify-center" aria-label="Scroll to top" title="Home">
           <Image
             src="/image_modified_high_contrast.webp"
             alt="Awnon Bhowmik"
@@ -79,9 +79,11 @@ const NavBar = () => {
 
         {/* Hamburger Menu (Mobile) */}
         <button
-          className="text-2xl lg:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center text-2xl lg:hidden"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle Menu"
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation-menu"
         >
           {isOpen ? <FaTimes /> : <FaBars />}
         </button>
@@ -93,7 +95,7 @@ const NavBar = () => {
               <Link
                 key={link.name}
                 href={link.id}
-                className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition ${pathname === link.id ? 'border-accent bg-accent/10 text-accent' : 'border-gray-600 text-gray-300 hover:border-accent hover:text-accent'}`}
+                className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition ${pathname === link.id ? 'border-accent bg-accent/10 text-accent' : 'border-gray-600 text-gray-300 hover:border-accent hover:text-accent'}`}
                 onClick={() => setIsOpen(false)}
                 aria-label={link.name}
                 title={link.name}
@@ -104,7 +106,7 @@ const NavBar = () => {
               <Link
                 key={link.name}
                 href={`/#${link.id}`}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-600 text-gray-300 hover:border-accent hover:text-accent transition"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-600 text-gray-300 hover:border-accent hover:text-accent transition"
                 onClick={() => setIsOpen(false)}
                 aria-label={link.name}
                 title={link.name}
@@ -115,7 +117,7 @@ const NavBar = () => {
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-600 text-gray-300 hover:border-accent hover:text-accent transition"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-600 text-gray-300 hover:border-accent hover:text-accent transition"
                 aria-label={link.name}
                 title={link.name}
               >
@@ -128,14 +130,14 @@ const NavBar = () => {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="lg:hidden px-4 pb-4 bg-[#1a1a1a]/90">
+        <div id="mobile-navigation-menu" className="max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain lg:hidden px-4 pb-4 bg-[#1a1a1a]/95">
           <div className="space-y-2">
             {navLinks.map((link) => (
               link.type === 'link' ? (
                 <Link
                   key={link.name}
                   href={link.id}
-                  className={`block w-full text-left py-2 transition ${pathname === link.id ? 'text-accent font-semibold' : 'text-gray-300 hover:text-accent'}`}
+                  className={`flex min-h-11 w-full items-center px-1 text-left transition ${pathname === link.id ? 'text-accent font-semibold' : 'text-gray-300 hover:text-accent'}`}
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
@@ -144,7 +146,7 @@ const NavBar = () => {
                 <Link
                   key={link.name}
                   href={`/#${link.id}`}
-                  className="block w-full text-left py-2 text-gray-300 hover:text-accent transition"
+                  className="flex min-h-11 w-full items-center px-1 text-left text-gray-300 hover:text-accent transition"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
@@ -153,7 +155,7 @@ const NavBar = () => {
                 <button
                   key={link.name}
                   onClick={() => handleNavClick(link)}
-                  className="block w-full text-left py-2 text-gray-300 hover:text-accent transition"
+                  className="flex min-h-11 w-full items-center px-1 text-left text-gray-300 hover:text-accent transition"
                 >
                   {link.name}
                 </button>

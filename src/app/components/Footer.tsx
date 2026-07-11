@@ -9,7 +9,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#1a1a1a] text-gray-300 py-8">
+    <footer className="bg-[#1a1a1a] text-gray-300 px-4 py-8">
       {/* Circular Back to Top Button */}
       <div className="text-center mb-4">
         <button

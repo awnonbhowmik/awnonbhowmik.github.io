@@ -26,16 +26,16 @@ const statusColors: Record<string, string> = {
 function ProjectCard({ project }: { project: Project }) {
   return (
     <div
-      className="bg-gray-800 rounded-lg p-6 flex flex-col shadow-lg hover:shadow-xl transition-shadow"
+      className="min-w-0 bg-gray-800 rounded-lg p-4 sm:p-6 flex flex-col shadow-lg hover:shadow-xl motion-safe:transition-shadow"
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-xs font-semibold uppercase tracking-widest text-gray-400 border border-gray-600 rounded px-2 py-0.5">
+        <div className="min-w-0 flex flex-wrap gap-2 items-center">
+          <span className="break-words text-xs font-semibold uppercase tracking-widest text-gray-400 border border-gray-600 rounded px-2 py-0.5">
             {categoryLabels[project.category] ?? project.category}
           </span>
           <span
-            className={`text-xs font-semibold uppercase tracking-widest border rounded px-2 py-0.5 ${
+            className={`break-words text-xs font-semibold uppercase tracking-widest border rounded px-2 py-0.5 ${
               statusColors[project.status]
             }`}
           >
@@ -48,12 +48,12 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
 
       {/* Title */}
-      <h3 className="text-xl font-semibold text-white mb-2 leading-snug">
+      <h3 className="text-xl font-semibold text-white mb-2 leading-snug break-words">
         {project.title}
       </h3>
 
       {/* Summary */}
-      <p className="text-gray-300 text-sm leading-relaxed mb-4 flex-grow text-justify">
+      <p className="text-gray-300 text-[15px] sm:text-base leading-relaxed mb-4 flex-grow text-left md:text-justify">
         {project.summary}
       </p>
 
@@ -63,19 +63,19 @@ function ProjectCard({ project }: { project: Project }) {
           <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">
             Problem
           </p>
-          <p className="text-gray-400 text-sm leading-relaxed text-justify">{project.problem}</p>
+          <p className="text-gray-400 text-[15px] sm:text-base leading-relaxed text-left md:text-justify">{project.problem}</p>
         </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">
             Approach
           </p>
-          <p className="text-gray-400 text-sm leading-relaxed text-justify">{project.approach}</p>
+          <p className="text-gray-400 text-[15px] sm:text-base leading-relaxed text-left md:text-justify">{project.approach}</p>
         </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">
             Outcome
           </p>
-          <p className="text-gray-400 text-sm leading-relaxed text-justify">{project.outcome}</p>
+          <p className="text-gray-400 text-[15px] sm:text-base leading-relaxed text-left md:text-justify">{project.outcome}</p>
         </div>
       </div>
 
@@ -100,7 +100,7 @@ function ProjectCard({ project }: { project: Project }) {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm border border-accent text-accent px-4 py-1.5 rounded hover:bg-accent hover:text-white transition-colors"
+              className="inline-flex min-h-11 items-center text-sm border border-accent text-accent px-4 py-1.5 rounded hover:bg-accent hover:text-white transition-colors"
             >
               {link.label}
             </a>
@@ -114,19 +114,19 @@ function ProjectCard({ project }: { project: Project }) {
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-16 bg-[#1a1a1a] text-white">
-      <div className="container mx-auto px-6 lg:px-16">
+    <section id="projects" aria-labelledby="projects-heading" className="py-12 sm:py-16 bg-[#1a1a1a] text-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-16">
         {/* Heading */}
-        <div className="text-center mb-14">
-          <h2 className="text-4xl font-bold text-white">Selected Projects</h2>
-          <p className="text-gray-400 mt-4 max-w-2xl mx-auto leading-relaxed">
+        <div className="text-center mb-10 sm:mb-14">
+          <h2 id="projects-heading" className="text-3xl sm:text-4xl font-bold text-white">Selected Projects</h2>
+          <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-[15px] sm:text-base leading-relaxed">
             Research prototypes, published implementations, and engineering work spanning
             privacy-preserving systems, applied cryptography, and full-stack development.
           </p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
@@ -138,7 +138,7 @@ export default function Projects() {
             href="https://github.com/awnonbhowmik"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block border border-accent text-accent px-6 py-2.5 rounded hover:bg-accent hover:text-white transition-colors"
+            className="inline-flex min-h-11 max-w-full items-center justify-center border border-accent text-accent px-6 py-2.5 rounded hover:bg-accent hover:text-white transition-colors"
           >
             View All Repositories on GitHub
           </a>

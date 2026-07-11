@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FaLock } from 'react-icons/fa';
 
@@ -10,11 +10,17 @@ interface AdminControlsProps {
 }
 
 export default function AdminControls({ showWhenEmpty = false, minimal = false }: AdminControlsProps) {
-    const [isAdmin, setIsAdmin] = useState(
-        () => typeof window !== 'undefined' && localStorage.getItem('blog_admin_auth') === 'awnon_authenticated'
-    );
+    const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
     const [showLogin, setShowLogin] = useState(false);
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        const authCheck = window.setTimeout(() => {
+            setIsAdmin(localStorage.getItem('blog_admin_auth') === 'awnon_authenticated');
+        }, 0);
+
+        return () => window.clearTimeout(authCheck);
+    }, []);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -42,9 +48,11 @@ export default function AdminControls({ showWhenEmpty = false, minimal = false }
         setIsAdmin(false);
     };
 
+    if (isAdmin === null) return null;
+
     if (!isAdmin) {
         return (
-            <div>
+            <div className="w-full sm:w-auto">
                 {!showLogin ? (
                     <button
                         onClick={() => setShowLogin(true)}
@@ -58,7 +66,7 @@ export default function AdminControls({ showWhenEmpty = false, minimal = false }
                         {minimal ? <><FaLock size={12} /> Admin Login</> : 'Admin'}
                     </button>
                 ) : (
-                    <div className="bg-gray-800 p-4 rounded-xl mt-4 border border-gray-700 shadow-lg">
+                    <div className="w-full sm:min-w-72 bg-gray-800 p-4 rounded-xl border border-gray-700 shadow-lg">
                         <form onSubmit={handleLogin} className="space-y-3">
                             <div>
                                 <label htmlFor="admin-password" className="block text-sm font-medium mb-1">
@@ -77,14 +85,14 @@ export default function AdminControls({ showWhenEmpty = false, minimal = false }
                             <div className="flex gap-2">
                                 <button
                                     type="submit"
-                                    className="bg-accent hover:bg-accent-dark text-white px-3 py-1 rounded text-sm transition-colors"
+                                    className="min-h-11 bg-accent hover:bg-accent-dark text-white px-3 py-1 rounded text-sm transition-colors"
                                 >
                                     Login
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setShowLogin(false)}
-                                    className="bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm transition-colors"
+                                    className="min-h-11 bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -97,7 +105,7 @@ export default function AdminControls({ showWhenEmpty = false, minimal = false }
     }
 
     return (
-        <div className={minimal ? "flex items-center gap-3" : "space-y-4"}>
+        <div className={minimal ? "flex flex-wrap items-center gap-3" : "space-y-4"}>
             {/* Admin Write Buttons */}
             {showWhenEmpty ? (
                 <div className={minimal ? "" : "text-center"}>

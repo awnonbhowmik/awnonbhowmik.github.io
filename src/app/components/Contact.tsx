@@ -172,7 +172,9 @@ export default function Contact() {
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       clearTimeout(submissionTimeoutId);
-      console.error('Contact form submission failed:', error);
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('Contact form submission failed:', error);
+      }
       setStatus('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -180,13 +182,13 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-16 bg-[#1a1a1a] text-white">
-      <div className="container mx-auto px-6 lg:px-16">
-        <h2 className="text-4xl font-bold text-center text-white mb-14">Contact Me</h2>
+    <section id="contact" aria-labelledby="contact-heading" className="py-12 sm:py-16 bg-[#1a1a1a] text-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-16">
+        <h2 id="contact-heading" className="text-3xl sm:text-4xl font-bold text-center text-white mb-10 sm:mb-14">Contact Me</h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
           {/* Contact Form */}
-          <div className="bg-gray-800 p-8 rounded-lg shadow-lg transition-transform hover:scale-105 h-100 flex flex-col">
+          <div className="bg-gray-800 p-4 sm:p-8 rounded-lg shadow-lg min-h-[430px] sm:min-h-[400px] flex flex-col">
             <form ref={form} onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
               <div>
                 <label htmlFor="name" className="sr-only">Your Name</label>
@@ -232,19 +234,24 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-accent hover:bg-accent-dark disabled:bg-gray-600 disabled:cursor-not-allowed text-white py-3 rounded-lg transition-all duration-200 shadow-lg focus:ring-2 focus:ring-accent focus:outline-none"
+                className="w-full min-h-11 bg-accent hover:bg-accent-dark disabled:bg-gray-600 disabled:cursor-not-allowed text-white py-3 rounded-lg transition-colors duration-200 shadow-lg focus:ring-2 focus:ring-accent focus:outline-none"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
 
             {status && (
-              <p className={`mt-4 text-center text-sm ${status.includes('success') || status.includes('sent successfully')
+              <p
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                className={`mt-4 break-words text-center text-sm ${status.includes('success') || status.includes('sent successfully')
                 ? 'text-green-400'
                 : status.includes('Sending')
                   ? 'text-accent'
                   : 'text-red-400'
-                }`}>
+                }`}
+              >
                 {status}
               </p>
             )}
@@ -258,7 +265,7 @@ export default function Contact() {
               width="100%"
               height="400"
               style={{ filter: 'invert(90%) hue-rotate(180deg) brightness(0.85) contrast(1.05)' }}
-              className="rounded-lg shadow-lg border-none transition-transform hover:scale-105"
+              className="w-full h-72 sm:h-100 rounded-lg shadow-lg border-none"
               allowFullScreen={false}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

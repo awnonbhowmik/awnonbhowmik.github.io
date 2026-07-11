@@ -14,7 +14,7 @@ const communityContributions = [
   },
   {
     title: 'Mathematics Stack Exchange',
-    url: 'https://math.stackexchange.com',
+    url: 'https://math.stackexchange.com/users/515900/awnon-bhowmik',
     points: [
       'Active contributor with 50+ answers spanning undergraduate and graduate mathematics',
       'Addressed problems in real analysis, abstract algebra, number theory, and discrete mathematics',
@@ -27,11 +27,11 @@ const communityContributions = [
 
 export default function Achievements() {
   return (
-    <section id="achievements" className="py-16 bg-[#1a1a1a] text-gray-300">
-      <div className="container mx-auto px-6 lg:px-16">
-        <div className="text-center mb-14">
-          <h2 className="text-4xl font-bold text-white">Community & Scholarly Outreach</h2>
-          <p className="text-gray-400 mt-3 max-w-xl mx-auto text-sm leading-relaxed text-center">
+    <section id="achievements" aria-labelledby="achievements-heading" className="py-12 sm:py-16 bg-[#1a1a1a] text-gray-300">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-16">
+        <div className="text-center mb-10 sm:mb-14">
+          <h2 id="achievements-heading" className="text-3xl sm:text-4xl font-bold text-white">Community & Scholarly Outreach</h2>
+          <p className="text-gray-400 mt-3 max-w-xl mx-auto text-[15px] sm:text-base leading-relaxed text-center">
             Public contributions to mathematics and computer science education across online
             scholarly communities.
           </p>
@@ -40,14 +40,14 @@ export default function Achievements() {
           {communityContributions.map((item) => (
             <div
               key={item.title}
-              className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
+              className="min-w-0 bg-gray-800 p-4 sm:p-6 rounded-lg shadow hover:shadow-lg motion-safe:transition-shadow"
             >
               <h3 className="text-xl font-semibold text-accent mb-3">{item.title}</h3>
               <ul className="space-y-2">
                 {item.points.map((point, i) => (
-                  <li key={i} className="flex gap-2 text-sm text-gray-400 leading-relaxed">
-                    <span className="text-accent mt-1 shrink-0">—</span>
-                    <span>{point}</span>
+                  <li key={i} className="flex gap-2 text-[15px] sm:text-base text-gray-400 leading-relaxed">
+                    <span className="text-accent mt-1 shrink-0" aria-hidden="true">—</span>
+                    <span className="min-w-0 break-words">{point}</span>
                   </li>
                 ))}
               </ul>
@@ -56,7 +56,7 @@ export default function Achievements() {
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block mt-4 border border-accent text-accent px-4 py-1.5 rounded text-sm hover:bg-accent hover:text-white transition-colors"
+                  className="inline-flex min-h-11 items-center mt-4 border border-accent text-accent px-4 py-1.5 rounded text-sm hover:bg-accent hover:text-white transition-colors"
                 >
                   View Profile
                 </a>

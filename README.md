@@ -8,7 +8,7 @@ Personal Portfolio and Technical Blog of Awnon Bhowmik — Doctoral Researcher i
 
 ## Stack
 
-Next.js 16 · TypeScript 5 · Tailwind CSS 4 · MDX + KaTeX · EmailJS · Netlify
+Next.js 16 · TypeScript 6 · Tailwind CSS 4 · MDX + KaTeX · EmailJS · Netlify
 
 ---
 
@@ -16,8 +16,8 @@ Next.js 16 · TypeScript 5 · Tailwind CSS 4 · MDX + KaTeX · EmailJS · Netlif
 
 ```bash
 npm install
-npm run dev    # uses --webpack (Turbopack incompatible with @next/mdx)
-npm run build
+npm run dev    # Turbopack (Next.js 16 default)
+npm run build  # Turbopack production build
 npm run lint
 ```
 
@@ -43,7 +43,7 @@ Set the same variables under **Site settings → Environment variables** on Netl
 Auto-downloaded from GitHub Releases — no code changes needed to update:
 
 ```
-https://github.com/awnonbhowmik/Awnon-CV/releases/download/latest/main.pdf
+https://github.com/awnonbhowmik/Awnon-CV/releases/download/latest/Awnon-Bhowmik-General-CV.pdf
 ```
 
 ---

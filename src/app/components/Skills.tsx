@@ -106,20 +106,20 @@ const specializations = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-16 bg-[#1a1a1a] text-white">
-      <div className="container mx-auto px-6 lg:px-16">
-        <div className="text-center mb-14">
-          <h2 className="text-4xl font-bold text-white">Technical Specializations</h2>
+    <section id="skills" aria-labelledby="skills-heading" className="py-12 sm:py-16 bg-[#1a1a1a] text-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-16">
+        <div className="text-center mb-10 sm:mb-14">
+          <h2 id="skills-heading" className="text-3xl sm:text-4xl font-bold text-white">Technical Specializations</h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {specializations.map((cat) => (
             <div
               key={cat.title}
-              className="bg-gray-800 rounded-lg p-6 shadow-lg flex flex-col hover:shadow-xl transition-shadow"
+              className="min-w-0 bg-gray-800 rounded-lg p-4 sm:p-6 shadow-lg flex flex-col hover:shadow-xl motion-safe:transition-shadow"
             >
-              <div className="flex items-center gap-3 mb-4">
-                {cat.icon}
-                <h3 className="text-lg font-semibold text-white">{cat.title}</h3>
+              <div className="flex items-start gap-3 mb-4">
+                <div className="shrink-0" aria-hidden="true">{cat.icon}</div>
+                <h3 className="min-w-0 break-words text-lg font-semibold leading-snug text-white">{cat.title}</h3>
               </div>
               <div className="flex flex-wrap gap-2">
                 {cat.skills.map((skill) => (

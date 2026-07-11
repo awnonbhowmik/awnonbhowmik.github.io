@@ -60,6 +60,8 @@ body.site-atmosphere {
 
 html {
   font-family: "Arial", sans-serif;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 section[id] {
@@ -69,7 +71,35 @@ section[id] {
 /* Center KaTeX block (display) equations in blog posts */
 .katex-display {
   display: block;
+  max-width: 100%;
   text-align: center;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   margin: 1.5em 0;
+  padding-bottom: 0.25rem;
+}
+
+.mdx-content {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.mdx-content svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.mdx-content pre {
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 639px) {
+  body.site-atmosphere {
+    background-attachment: scroll;
+  }
+
+  .katex-display {
+    font-size: 0.9em;
+  }
 }

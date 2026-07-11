@@ -234,6 +234,21 @@ export const epidemiologyArticles: Publication[] = [
 // ──────────────────────────────────────────────────────────────
 export const environmentalArticles: Publication[] = [
   {
+    id: 'microplastics-one-health-fish-2026',
+    type: 'journal',
+    title:
+      'Microplastics as Emerging One Health Threats: A Molecular and Ecotoxicological Review Across Aquatic Life with Emphasis on Fish',
+    authors: ['H. Sarker', 'Goutam Saha', 'Awnon Bhowmik', 'A. Ganguly'],
+    venue: 'Microplastics',
+    volume: '5',
+    issue: '2',
+    pages: '102',
+    year: 2026,
+    url: 'https://scholar.google.com/citations?view_op=view_citation&hl=en&user=nEdZAFkAAAAJ&sortby=pubdate&citation_for_view=nEdZAFkAAAAJ:Wp0gIr-vW9MC',
+    status: 'published',
+    tags: ['microplastics', 'One Health', 'aquatic life', 'fish', 'ecotoxicology'],
+  },
+  {
     id: 'pollutants-microplastics-animals-2024',
     type: 'journal',
     title: 'Microplastics in Animals: The Silent Invasion',
@@ -352,5 +367,4 @@ export const preprints: Publication[] = [
     tags: ['epidemiology', 'mortality', 'SAARC', 'public health', 'data-driven analysis'],
   },
 ];
-
 
