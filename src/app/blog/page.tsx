@@ -1,7 +1,22 @@
+import type { Metadata } from 'next';
 import { getBlogPosts, type BlogPost } from '@/lib/blog';
 import Link from 'next/link';
 import AdminControls from './components/AdminControls';
 import Footer from '@/app/components/Footer';
+
+export const metadata: Metadata = {
+    title: 'Academic Blog | Awnon Bhowmik',
+    description:
+        'Research notes, tutorials, and practical insights on privacy, cryptography, cybersecurity, and applied mathematics.',
+    alternates: { canonical: '/blog' },
+    openGraph: {
+        title: 'Academic Blog | Awnon Bhowmik',
+        description:
+            'Research notes, tutorials, and practical insights on privacy, cryptography, cybersecurity, and applied mathematics.',
+        url: '/blog',
+        type: 'website',
+    },
+};
 
 export default async function BlogPage() {
     const posts = await getBlogPosts();
@@ -28,12 +43,12 @@ export default async function BlogPage() {
 
     return (
         <>
-            <div className="min-h-screen bg-[#1a1a1a] text-white py-16">
+            <div className="min-h-screen bg-[#1a1a1a] text-white py-12 sm:py-16">
                 <div className="container mx-auto px-4 max-w-6xl">
-                    <div className="flex justify-between items-center gap-4 mb-8">
+                    <div className="flex flex-col items-start gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
                         <Link
                             href="/"
-                            className="inline-flex items-center text-accent hover:text-white border border-accent/60 hover:border-accent px-3 py-1.5 rounded-full transition-colors group bg-transparent"
+                            className="inline-flex min-h-11 items-center text-accent hover:text-white border border-accent/60 hover:border-accent px-3 py-1.5 rounded-full transition-colors group bg-transparent"
                         >
                             <svg
                                 className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform"
@@ -65,7 +80,7 @@ export default async function BlogPage() {
                     </div>
 
                     {featuredPost && (
-                        <div className="mb-12 bg-linear-to-br from-gray-800 via-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-6 sm:p-8 shadow-xl">
+                        <div className="mb-12 bg-linear-to-br from-gray-800 via-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-4 sm:p-8 shadow-xl">
                             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                                 <div className="max-w-2xl">
                                     <div className="inline-flex items-center gap-2 border border-accent/40 text-accent px-3 py-1 rounded-full text-xs uppercase tracking-[0.2em] mb-4">
@@ -94,7 +109,7 @@ export default async function BlogPage() {
                                 </div>
                                 <Link
                                     href={`/blog/${featuredPost.slug}`}
-                                    className="inline-flex items-center justify-center border border-accent text-accent hover:bg-accent hover:text-white px-5 py-3 rounded-lg transition-colors self-start lg:self-auto"
+                                    className="inline-flex min-h-11 items-center justify-center border border-accent text-accent hover:bg-accent hover:text-white px-5 py-3 rounded-lg transition-colors self-start lg:self-auto"
                                 >
                                     Read Featured Post
                                 </Link>
@@ -102,36 +117,36 @@ export default async function BlogPage() {
                         </div>
                     )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 text-center">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-12">
+                        <div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700 text-center">
                             <h3 className="text-2xl font-bold text-accent">{sortedPosts.length}</h3>
                             <p className="text-gray-400">Total Posts</p>
                         </div>
-                        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 text-center">
+                        <div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700 text-center">
                             <h3 className="text-2xl font-bold text-accent">{categories.length}</h3>
                             <p className="text-gray-400">Categories</p>
                         </div>
-                        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 text-center">
+                        <div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700 text-center">
                             <h3 className="text-2xl font-bold text-accent">{tags.length}</h3>
                             <p className="text-gray-400">Tags</p>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                         {sortedPosts.length > 0 ? (
                             sortedPosts.map((post) => (
                                 <article
                                     key={post.slug}
-                                    className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                                    className="min-w-0 bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl motion-safe:transition-all motion-safe:duration-300 motion-safe:hover:-translate-y-1"
                                 >
-                                    <div className="p-6">
+                                    <div className="p-4 sm:p-6">
                                         <div className="mb-3">
                                             <span className="inline-block px-3 py-1 text-xs font-semibold border border-accent text-accent rounded-full bg-transparent">
                                                 {post.frontmatter?.category?.replace('-', ' ') || 'Uncategorized'}
                                             </span>
                                         </div>
 
-                                        <h2 className="text-xl font-bold mb-3 hover:text-accent transition-colors leading-snug">
+                                        <h2 className="break-words text-xl font-bold mb-3 hover:text-accent transition-colors leading-snug">
                                             <Link href={`/blog/${post.slug}`}>{post.frontmatter?.title || 'Untitled'}</Link>
                                         </h2>
 
@@ -155,7 +170,7 @@ export default async function BlogPage() {
                                             )}
                                         </div>
 
-                                        <div className="flex justify-between items-center text-sm text-gray-500">
+                                        <div className="flex flex-wrap justify-between items-center gap-2 text-sm text-gray-500">
                                             <span>{formatDate(post.frontmatter?.date || '')}</span>
                                             <span>{post.readingTime}</span>
                                         </div>
@@ -163,7 +178,7 @@ export default async function BlogPage() {
                                         <div className="mt-4">
                                             <Link
                                                 href={`/blog/${post.slug}`}
-                                                className="inline-block border border-accent text-accent hover:bg-accent hover:text-white px-4 py-2 rounded-lg transition-colors bg-transparent"
+                                                className="inline-flex min-h-11 items-center border border-accent text-accent hover:bg-accent hover:text-white px-4 py-2 rounded-lg transition-colors bg-transparent"
                                             >
                                                 Read More
                                             </Link>
@@ -184,8 +199,8 @@ export default async function BlogPage() {
                         )}
                     </div>
 
-                    <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+                    <div className="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                        <div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700">
                             <h3 className="text-xl font-semibold mb-4">Categories</h3>
                             <div className="flex flex-wrap gap-2">
                                 {categories.map((category) => (
@@ -199,7 +214,7 @@ export default async function BlogPage() {
                             </div>
                         </div>
 
-                        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+                        <div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700">
                             <h3 className="text-xl font-semibold mb-4">All Tags</h3>
                             <div className="flex flex-wrap gap-2">
                                 {tags.slice(0, 20).map((tag) => (

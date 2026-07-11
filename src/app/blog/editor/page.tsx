@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import 'katex/dist/katex.css';
@@ -15,11 +15,17 @@ const MDEditor = dynamic(
 // ── Auth gate ─────────────────────────────────────────────────
 
 function AuthGate({ children }: { children: React.ReactNode }) {
-    const [isAdmin, setIsAdmin] = useState<boolean | null>(
-        () => typeof window === 'undefined' ? null : localStorage.getItem('blog_admin_auth') === 'awnon_authenticated'
-    );
+    const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        const authCheck = window.setTimeout(() => {
+            setIsAdmin(localStorage.getItem('blog_admin_auth') === 'awnon_authenticated');
+        }, 0);
+
+        return () => window.clearTimeout(authCheck);
+    }, []);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -43,8 +49,8 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 
     if (process.env.NODE_ENV === 'production') {
         return (
-            <div className="min-h-screen bg-[#1a1a1a] text-white flex items-center justify-center px-4">
-                <div className="w-full max-w-lg bg-gray-800 rounded-lg p-8 shadow-xl">
+            <div className="min-h-svh bg-[#1a1a1a] text-white flex items-center justify-center px-4 py-8">
+                <div className="w-full max-w-lg bg-gray-800 rounded-lg p-4 sm:p-8 shadow-xl">
                     <h1 className="text-xl font-bold mb-2">Editor Disabled in Production</h1>
                     <p className="text-gray-400 text-sm mb-6">
                         For security, the client-side editor is only available in development environments.
@@ -59,12 +65,16 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 
     if (!isAdmin) {
         return (
-            <div className="min-h-screen bg-[#1a1a1a] text-white flex items-center justify-center px-4">
-                <div className="w-full max-w-sm bg-gray-800 rounded-lg p-8 shadow-xl">
+            <div className="min-h-svh bg-[#1a1a1a] text-white flex items-center justify-center px-4 py-8">
+                <div className="w-full max-w-sm bg-gray-800 rounded-lg p-4 sm:p-8 shadow-xl">
                     <h1 className="text-xl font-bold mb-1">Admin Login</h1>
                     <p className="text-gray-400 text-sm mb-6">Enter your password to access the editor.</p>
                     <form onSubmit={handleLogin} className="space-y-4">
+                        <label htmlFor="editor-admin-password" className="sr-only">
+                            Admin Password
+                        </label>
                         <input
+                            id="editor-admin-password"
                             type="password"
                             value={password}
                             onChange={(e) => { setPassword(e.target.value); setError(''); }}
@@ -75,7 +85,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
                         {error && <p className="text-red-400 text-sm">{error}</p>}
                         <button
                             type="submit"
-                            className="w-full bg-accent hover:bg-accent-dark text-white py-2.5 rounded-lg font-semibold transition-colors"
+                            className="w-full min-h-11 bg-accent hover:bg-accent-dark text-white py-2.5 rounded-lg font-semibold transition-colors"
                         >
                             Login
                         </button>
@@ -198,11 +208,11 @@ ${content}`;
         <div className="min-h-screen bg-[#1a1a1a] text-white">
             <div className="container mx-auto px-4 py-8 max-w-6xl">
                 {/* Navigation */}
-                <div className="flex justify-between items-center mb-8">
-                    <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                         <Link
                             href="/"
-                            className="inline-flex items-center text-accent hover:text-white border border-accent px-3 py-1 rounded transition-colors group bg-transparent"
+                            className="inline-flex min-h-11 items-center text-accent hover:text-white border border-accent px-3 py-1 rounded transition-colors group bg-transparent"
                         >
                             <svg
                                 className="w-4 h-4 mr-1 transform group-hover:-translate-x-1 transition-transform"
@@ -214,17 +224,17 @@ ${content}`;
                             </svg>
                             Home
                         </Link>
-                        <span className="text-gray-600">•</span>
+                        <span className="hidden text-gray-600 sm:inline">•</span>
                         <Link
                             href="/blog"
-                            className="inline-flex items-center text-accent hover:text-white border border-accent px-3 py-1 rounded transition-colors bg-transparent"
+                            className="inline-flex min-h-11 items-center text-accent hover:text-white border border-accent px-3 py-1 rounded transition-colors bg-transparent"
                         >
                             ← Back to Blog
                         </Link>
                     </div>
                     <button
                         onClick={handleLogout}
-                        className="text-xs text-gray-500 hover:text-gray-300 transition-colors px-2 py-1"
+                        className="inline-flex min-h-11 items-center text-xs text-gray-500 hover:text-gray-300 transition-colors px-2 py-1"
                     >
                         Logout
                     </button>
@@ -232,14 +242,14 @@ ${content}`;
 
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-4xl font-bold mb-4">Blog Post Editor</h1>
+                    <h1 className="text-3xl sm:text-4xl font-bold mb-4">Blog Post Editor</h1>
                     <p className="text-gray-400">
                         Create and edit your blog posts with live preview, LaTeX support, and syntax highlighting.
                     </p>
                 </div>
 
                 {/* Metadata Form */}
-                <div className="bg-gray-800 p-6 rounded-lg mb-6">
+                <div className="bg-gray-800 p-4 sm:p-6 rounded-lg mb-6">
                     <h2 className="text-xl font-semibold mb-4">Post Metadata</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -300,7 +310,7 @@ ${content}`;
                             <label className="block text-sm font-medium mb-2">
                                 URL Slug (auto-generated)
                             </label>
-                            <div className="w-full p-3 bg-gray-900 border border-gray-600 rounded-lg text-gray-400">
+                            <div className="w-full break-all p-3 bg-gray-900 border border-gray-600 rounded-lg text-gray-400">
                                 /blog/{generateSlug(title) || 'new-post'}
                             </div>
                         </div>
@@ -331,7 +341,7 @@ ${content}`;
                         </p>
                     </div>
 
-                    <div className="p-4">
+                    <div className="max-w-full overflow-x-auto p-2 sm:p-4">
                         <MDEditor
                             value={content}
                             onChange={(val) => setContent(val || '')}
@@ -344,11 +354,11 @@ ${content}`;
                 </div>
 
                 {/* Action Buttons */}
-                <div className="mt-6 flex flex-wrap gap-4">
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
                     <button
                         onClick={downloadMDX}
                         disabled={!title.trim()}
-                        className="border border-accent text-accent hover:bg-accent hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed bg-transparent disabled:border-gray-600 disabled:text-gray-600"
+                        className="min-h-11 w-full border border-accent text-accent hover:bg-accent hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed bg-transparent disabled:border-gray-600 disabled:text-gray-600 sm:w-auto"
                     >
                         📥 Download MDX File
                     </button>
@@ -356,23 +366,23 @@ ${content}`;
                     <button
                         onClick={copyToClipboard}
                         disabled={!title.trim()}
-                        className="border border-accent text-accent hover:bg-accent hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed bg-transparent disabled:border-gray-600 disabled:text-gray-600"
+                        className="min-h-11 w-full border border-accent text-accent hover:bg-accent hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed bg-transparent disabled:border-gray-600 disabled:text-gray-600 sm:w-auto"
                     >
                         📋 Copy to Clipboard
                     </button>
 
                     <Link
                         href="/blog"
-                        className="border border-accent text-accent hover:bg-accent hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors bg-transparent"
+                        className="inline-flex min-h-11 w-full items-center justify-center border border-accent text-accent hover:bg-accent hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors bg-transparent sm:w-auto"
                     >
                         ← Back to Blog
                     </Link>
                 </div>
 
                 {/* Instructions */}
-                <div className="mt-8 border border-accent rounded-lg p-6 bg-transparent">
+                <div className="mt-8 border border-accent rounded-lg p-4 sm:p-6 bg-transparent">
                     <h3 className="text-lg font-semibold mb-3 text-accent">How to Publish Your Post</h3>
-                    <ol className="list-decimal list-inside space-y-2 text-gray-300">
+                    <ol className="ml-5 list-decimal list-outside space-y-2 text-gray-300 leading-relaxed">
                         <li>Fill in the post metadata (title, category, tags, excerpt)</li>
                         <li>Write your content using Markdown syntax in the editor</li>
                         <li>Click &quot;Download MDX File&quot; to save the post to your computer</li>

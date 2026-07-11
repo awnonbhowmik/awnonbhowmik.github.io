@@ -57,32 +57,32 @@ const researchAreas = [
 
 export default function Research() {
   return (
-    <section id="research" className="py-16 bg-[#1a1a1a] text-white">
-      <div className="container mx-auto px-6 lg:px-16">
+    <section id="research" aria-labelledby="research-heading" className="py-12 sm:py-16 bg-[#1a1a1a] text-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-16">
         {/* Heading */}
-        <div className="text-center mb-14">
-          <h2 className="text-4xl font-bold text-white">Research Focus</h2>
+        <div className="text-center mb-10 sm:mb-14">
+          <h2 id="research-heading" className="text-3xl sm:text-4xl font-bold text-white">Research Focus</h2>
         </div>
 
         {/* Dissertation Overview — image + text */}
-        <div className="flex flex-col lg:flex-row items-start justify-between mb-16 space-y-12 lg:space-y-0 lg:space-x-16">
+        <div className="flex flex-col lg:flex-row items-start justify-between mb-12 sm:mb-16 space-y-8 sm:space-y-12 lg:space-y-0 lg:space-x-16">
           {/* Image */}
-          <div className="w-full lg:w-1/3 flex justify-center transition-transform hover:scale-105 duration-300">
-            <div className="rounded-full overflow-hidden shadow-xl">
+          <div className="w-full lg:w-1/3 flex justify-center">
+            <div className="w-56 sm:w-72 max-w-full rounded-full overflow-hidden shadow-xl">
               <Image
                 src="/research.webp"
                 alt="Research overview"
                 width={300}
                 height={300}
-                className="rounded-full"
+                className="w-full h-auto rounded-full"
                 priority
               />
             </div>
           </div>
 
           {/* Text */}
-          <div className="w-full lg:w-2/3 space-y-6">
-            <p className="text-lg text-gray-300 text-justify leading-relaxed">
+          <div className="w-full lg:w-2/3 space-y-4 sm:space-y-6">
+            <p className="text-base sm:text-lg text-gray-300 text-left md:text-justify leading-relaxed">
               My doctoral work investigates the application of{' '}
               <span className="text-accent">differential privacy</span> and{' '}
               <span className="text-accent">privacy-preserving machine learning</span> to
@@ -90,7 +90,7 @@ export default function Research() {
               methods and evaluated against practical deployment constraints.
             </p>
 
-            <p className="text-lg text-gray-300 text-justify leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-300 text-left md:text-justify leading-relaxed">
               A central question in this work is the tension between{' '}
               <span className="text-accent">formal privacy guarantees</span> and{' '}
               <span className="text-accent">operational utility</span>: when and how
@@ -99,7 +99,7 @@ export default function Research() {
               learning, and algorithm design.
             </p>
 
-            <p className="text-lg text-gray-300 text-justify leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-300 text-left md:text-justify leading-relaxed">
               Alongside my dissertation work, I maintain an active program in{' '}
               <span className="text-accent">applied cryptography</span>, with peer-reviewed
               publications on novel encryption schemes, trapdoor function design, and
@@ -109,7 +109,7 @@ export default function Research() {
               interdisciplinary contributions to environmental transport dynamics.
             </p>
 
-            <p className="text-lg text-gray-300 text-justify leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-300 text-left md:text-justify leading-relaxed">
               This agenda also includes{' '}
               <span className="text-accent">adversarial robustness</span> and governance:
               evaluating how privacy-preserving systems hold up under attack and how formal
@@ -120,15 +120,15 @@ export default function Research() {
         </div>
 
         {/* Research Areas Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {researchAreas.map((area) => (
             <div
               key={area.title}
-              className="flex flex-col items-start bg-gray-800 p-7 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+              className="min-w-0 flex flex-col items-start bg-gray-800 p-4 sm:p-7 rounded-lg shadow-lg hover:shadow-xl motion-safe:transition-shadow"
             >
-              <div className="mb-4 text-accent">{area.icon}</div>
-              <h3 className="text-lg font-semibold text-white mb-2">{area.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed text-justify">{area.description}</p>
+              <div className="mb-4 text-accent" aria-hidden="true">{area.icon}</div>
+              <h3 className="text-lg font-semibold leading-snug break-words text-white mb-2">{area.title}</h3>
+              <p className="text-gray-400 text-[15px] sm:text-base leading-relaxed text-left md:text-justify">{area.description}</p>
             </div>
           ))}
         </div>

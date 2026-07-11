@@ -20,6 +20,12 @@ interface CategorizedPublication extends Publication {
   categoryKey: string;
 }
 
+interface PublicationFilters {
+  filterKey: string;
+  searchTerm: string;
+  isUrlHydrated: boolean;
+}
+
 // ── Category config ───────────────────────────────────────────
 
 const CATEGORIES: Record<string, { label: string; color: string; bg: string; border: string }> = {
@@ -119,7 +125,7 @@ function CategoryBadge({ categoryKey }: { categoryKey: string }) {
   const cat = CATEGORIES[categoryKey];
   if (!cat) return null;
   return (
-    <span className={`inline-flex h-6 items-center text-[11px] font-medium px-2.5 rounded border whitespace-nowrap ${cat.color} ${cat.bg} ${cat.border}`}>
+    <span className={`inline-flex min-h-6 max-w-full items-center text-[11px] font-medium px-2.5 rounded border whitespace-normal sm:whitespace-nowrap ${cat.color} ${cat.bg} ${cat.border}`}>
       {cat.label}
     </span>
   );
@@ -133,7 +139,7 @@ function PublicationRow({ pub, rank }: { pub: CategorizedPublication; rank: numb
 
   return (
     <div className={`border-b border-gray-800 last:border-0 py-4 sm:py-5 px-4 sm:px-5 ${rowTone} hover:bg-gray-800/60 transition-colors`}>
-      <div className="flex gap-3 sm:gap-4 items-start">
+      <div className="flex gap-2 sm:gap-4 items-start">
         {/* Rank */}
         <span className="hidden sm:block text-gray-700 text-sm font-mono pt-0.5 w-6 shrink-0 text-right select-none">
           {rank}
@@ -146,19 +152,19 @@ function PublicationRow({ pub, rank }: { pub: CategorizedPublication; rank: numb
             href={pub.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-accent hover:text-white font-medium leading-snug transition-colors text-[15px] sm:text-[17px] block mb-1"
+            className="break-words text-accent hover:text-white font-medium leading-snug transition-colors text-[15px] sm:text-[17px] block mb-1"
           >
             {pub.title}
           </a>
 
           {/* Authors */}
-          <p className="text-[13px] sm:text-sm leading-relaxed mb-0.5">
+          <p className="text-sm sm:text-[15px] leading-relaxed mb-0.5">
             <AuthorList authors={pub.authors} />
           </p>
 
           {/* Venue — truncated on mobile, full on sm+ */}
           {venueLine && (
-            <p className="text-[13px] sm:text-sm text-gray-400 italic mb-1.5 leading-relaxed">{venueLine}</p>
+            <p className="break-words text-sm sm:text-[15px] text-gray-400 italic mb-1.5 leading-relaxed">{venueLine}</p>
           )}
 
           {/* Badges + links */}
@@ -207,8 +213,8 @@ function PublicationRow({ pub, rank }: { pub: CategorizedPublication; rank: numb
         </div>
 
         {/* Year */}
-        <div className="shrink-0 flex flex-col items-end gap-1 pt-0.5 min-w-[48px]">
-          <span className="text-[13px] sm:text-sm text-gray-300 font-mono tabular-nums">{pub.year}</span>
+        <div className="shrink-0 flex flex-col items-end gap-1 pt-0.5 min-w-10 sm:min-w-12">
+          <span className="text-sm text-gray-300 font-mono tabular-nums">{pub.year}</span>
         </div>
       </div>
     </div>
@@ -229,8 +235,8 @@ function SectionTable({
 
   return (
     <div className="mb-12">
-      <div className="flex items-baseline gap-3 mb-4 pb-3 border-b border-gray-700/80">
-        <h2 className="text-lg font-semibold text-accent uppercase tracking-widest">{title}</h2>
+      <div className="flex flex-wrap items-baseline gap-2 sm:gap-3 mb-4 pb-3 border-b border-gray-700/80">
+        <h2 className="break-words text-base sm:text-lg font-semibold text-accent uppercase tracking-[0.14em] sm:tracking-widest">{title}</h2>
         <span className="text-gray-500 text-sm">
           {pubs.length} {pubs.length === 1 ? 'work' : 'works'}
         </span>
@@ -240,7 +246,7 @@ function SectionTable({
       <div className="hidden sm:flex gap-4 px-4 pb-1 text-[11px] text-gray-600 uppercase tracking-wider border-b border-gray-800 mb-1">
         <span className="w-6 shrink-0" />
         <span className="flex-1">Title / Authors / Venue</span>
-        <span className="shrink-0 min-w-[48px] text-right">Year</span>
+        <span className="shrink-0 min-w-12 text-right">Year</span>
       </div>
 
       <div className="rounded-xl border border-gray-800 overflow-hidden">
@@ -255,20 +261,32 @@ function SectionTable({
 // ── Page ──────────────────────────────────────────────────────
 
 export default function PublicationsPage() {
-  const [filterKey, setFilterKey] = useState<string>(() => {
-    if (typeof window === 'undefined') return 'all';
+  const [{ filterKey, searchTerm, isUrlHydrated }, setFilters] = useState<PublicationFilters>({
+    filterKey: 'all',
+    searchTerm: '',
+    isUrlHydrated: false,
+  });
+
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const candidate = params.get('filter') ?? 'all';
-    return candidate in FILTER_LABELS ? candidate : 'all';
-  });
-  const [searchTerm, setSearchTerm] = useState<string>(
-    () => typeof window === 'undefined' ? '' : new URLSearchParams(window.location.search).get('q') ?? ''
-  );
+    const hydratedFilterKey = candidate in FILTER_LABELS ? candidate : 'all';
+
+    // URL parameters are an external browser state that is only available after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFilters({
+      filterKey: hydratedFilterKey,
+      searchTerm: params.get('q') ?? '',
+      isUrlHydrated: true,
+    });
+  }, []);
 
   const journalList = useMemo(() => buildJournalList(), []);
   const preprintList = useMemo(() => buildPreprintList(), []);
 
   useEffect(() => {
+    if (!isUrlHydrated) return;
+
     const next = new URLSearchParams();
     if (filterKey !== 'all') next.set('filter', filterKey);
     const trimmedSearch = searchTerm.trim();
@@ -277,7 +295,7 @@ export default function PublicationsPage() {
     const query = next.toString();
     const nextUrl = query ? `${window.location.pathname}?${query}` : window.location.pathname;
     window.history.replaceState(null, '', nextUrl);
-  }, [filterKey, searchTerm]);
+  }, [filterKey, searchTerm, isUrlHydrated]);
 
   const filteredJournals = useMemo(() =>
     filterKey === 'all' || filterKey === 'preprints'
@@ -294,13 +312,13 @@ export default function PublicationsPage() {
   return (
     <>
       <div className="min-h-screen bg-[#1a1a1a] text-white">
-        <div className="container mx-auto px-4 max-w-6xl py-16">
+        <div className="container mx-auto px-4 max-w-6xl py-12 sm:py-16">
 
           {/* Back nav */}
           <div className="mb-10">
             <Link
               href="/"
-              className="inline-flex items-center text-accent hover:text-white border border-accent/60 hover:border-accent px-3 py-1.5 rounded-full transition-colors group text-sm"
+              className="inline-flex min-h-11 items-center text-accent hover:text-white border border-accent/60 hover:border-accent px-3 py-1.5 rounded-full transition-colors group text-sm"
             >
               <svg className="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform"
                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -316,23 +334,23 @@ export default function PublicationsPage() {
               Research Output
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-white mb-3 tracking-tight">Publications</h1>
-            <p className="text-gray-400 leading-relaxed text-sm sm:text-[15px] max-w-3xl mx-auto">
+            <p className="text-gray-400 leading-relaxed text-[15px] sm:text-base max-w-3xl mx-auto">
               Peer-reviewed journal articles and preprints spanning applied cryptography, cybersecurity,
               epidemiology, and environmental science.
             </p>
           </div>
 
           {/* Summary Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-10">
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700 text-center">
               <h3 className="text-2xl font-bold text-accent">{journalList.length + preprintList.length}</h3>
               <p className="text-gray-400">Total Works</p>
             </div>
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 text-center">
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700 text-center">
               <h3 className="text-2xl font-bold text-accent">{journalList.length}</h3>
               <p className="text-gray-400">Journal Articles</p>
             </div>
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 text-center">
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700 text-center">
               <h3 className="text-2xl font-bold text-accent">{preprintList.length}</h3>
               <p className="text-gray-400">Preprints</p>
             </div>
@@ -341,25 +359,36 @@ export default function PublicationsPage() {
           {/* Filter controls */}
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-8 bg-gray-800/35 border border-gray-700 rounded-xl p-4">
             {/* Search */}
-            <div className="flex flex-col gap-1.5 min-w-0 md:flex-1 md:max-w-[420px]">
-              <span className="text-xs text-gray-500 uppercase tracking-wider">Search</span>
+            <div className="flex flex-col gap-1.5 min-w-0 md:flex-1 md:max-w-105">
+              <label htmlFor="publication-search" className="text-xs text-gray-500 uppercase tracking-wider">
+                Search
+              </label>
               <input
+                id="publication-search"
                 type="search"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => setFilters(current => ({ ...current, searchTerm: e.target.value }))}
                 placeholder="Title, author, venue, DOI..."
-                className="w-full bg-gray-900/70 border border-gray-700 rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500 focus:outline-none focus:border-accent/70"
+                className="w-full min-h-11 bg-gray-900/70 border border-gray-700 rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500 focus:outline-none focus:border-accent/70"
               />
             </div>
 
             {/* Category filter */}
-            <div className="flex flex-wrap items-center gap-2 md:justify-end">
-              <span className="text-xs text-gray-500 uppercase tracking-wider">Filter</span>
+            <div
+              role="group"
+              aria-labelledby="publication-filter-label"
+              className="flex flex-wrap items-center gap-2 md:justify-end"
+            >
+              <span id="publication-filter-label" className="text-xs text-gray-500 uppercase tracking-wider">
+                Filter
+              </span>
               {Object.entries(FILTER_LABELS).map(([key, label]) => (
                 <button
                   key={key}
-                  onClick={() => setFilterKey(key)}
-                  className={`text-sm px-3 py-1 rounded border transition-colors ${filterKey === key
+                  type="button"
+                  aria-pressed={filterKey === key}
+                  onClick={() => setFilters(current => ({ ...current, filterKey: key }))}
+                  className={`min-h-11 text-sm px-3 py-1 rounded border transition-colors ${filterKey === key
                     ? 'border-accent text-accent bg-accent/10'
                     : 'border-gray-700 text-gray-400 hover:border-gray-600 hover:text-gray-300'
                     }`}

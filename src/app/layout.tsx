@@ -3,9 +3,10 @@ import "./globals.css";
 import RouteAtmosphere from "./components/RouteAtmosphere";
 
 export const metadata: Metadata = {
-  title: "Awnon Bhowmik — Doctoral Researcher & Software Engineer | v3.0",
+  metadataBase: new URL("https://awnon.netlify.app"),
+  title: "Awnon Bhowmik — Doctoral Researcher & Software Engineer",
   description:
-    "Awnon Bhowmik is a doctoral researcher and software engineer working at the intersection of " +
+    "Awnon Bhowmik is a doctoral researcher, software engineer, and mathematics tutor working at the intersection of " +
     "cybersecurity, privacy-preserving machine learning, and applied mathematical modeling. " +
     "Doctor of Computer Science candidate at Colorado Technical University.",
   icons: { icon: "/favicon.ico" },
