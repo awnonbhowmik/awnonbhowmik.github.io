@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { getBlogPosts, type BlogPost } from '@/lib/blog';
 import Link from 'next/link';
-import AdminControls from './components/AdminControls';
 import Footer from '@/app/components/Footer';
 
 export const metadata: Metadata = {
@@ -45,7 +44,7 @@ export default async function BlogPage() {
         <>
             <div className="min-h-screen bg-[#1a1a1a] text-white py-12 sm:py-16">
                 <div className="container mx-auto px-4 max-w-6xl">
-                    <div className="flex flex-col items-start gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="mb-8">
                         <Link
                             href="/"
                             className="inline-flex min-h-11 items-center text-accent hover:text-white border border-accent/60 hover:border-accent px-3 py-1.5 rounded-full transition-colors group bg-transparent"
@@ -65,7 +64,6 @@ export default async function BlogPage() {
                             </svg>
                             Back to Home
                         </Link>
-                        <AdminControls minimal={true} />
                     </div>
 
                     <div className="text-center mb-10">
@@ -146,7 +144,7 @@ export default async function BlogPage() {
                                             </span>
                                         </div>
 
-                                        <h2 className="break-words text-xl font-bold mb-3 hover:text-accent transition-colors leading-snug">
+                                        <h2 className="wrap-break-word text-xl font-bold mb-3 hover:text-accent transition-colors leading-snug">
                                             <Link href={`/blog/${post.slug}`}>{post.frontmatter?.title || 'Untitled'}</Link>
                                         </h2>
 
@@ -190,10 +188,9 @@ export default async function BlogPage() {
                             <div className="col-span-full text-center py-12">
                                 <div className="bg-gray-800 p-8 rounded-lg">
                                     <h3 className="text-xl font-semibold mb-4">No Blog Posts Yet</h3>
-                                    <p className="text-gray-400 mb-6">
+                                    <p className="text-gray-400">
                                         Check back soon for new content and insights from my research journey.
                                     </p>
-                                    <AdminControls showWhenEmpty={true} />
                                 </div>
                             </div>
                         )}

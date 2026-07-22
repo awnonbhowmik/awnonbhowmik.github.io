@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
-import { sanitizeEmail, isValidEmail } from '@/lib/sanitize';
+import { sanitizeEmail } from '@/lib/sanitize';
 
 // Rate limiting constants
 const RATE_LIMIT_WINDOW = 60 * 1000; // 60 seconds
@@ -122,7 +122,7 @@ export default function Contact() {
 
     // Validate and sanitize email
     const sanitizedEmail = sanitizeEmail(formData.email);
-    if (!sanitizedEmail || !isValidEmail(sanitizedEmail)) {
+    if (!sanitizedEmail) {
       clearTimeout(submissionTimeoutId);
       setIsSubmitting(false);
       setStatus('Please enter a valid email address.');
@@ -245,7 +245,7 @@ export default function Contact() {
                 role="status"
                 aria-live="polite"
                 aria-atomic="true"
-                className={`mt-4 break-words text-center text-sm ${status.includes('success') || status.includes('sent successfully')
+                className={`mt-4 wrap-break-word text-center text-sm ${status.includes('success') || status.includes('sent successfully')
                 ? 'text-green-400'
                 : status.includes('Sending')
                   ? 'text-accent'

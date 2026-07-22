@@ -16,7 +16,6 @@ import {
 
 
 interface CategorizedPublication extends Publication {
-  category: string;
   categoryKey: string;
 }
 
@@ -33,7 +32,6 @@ const CATEGORIES: Record<string, { label: string; color: string; bg: string; bor
   cyber: { label: 'Cybersecurity', color: 'text-red-400', bg: 'bg-red-950/40', border: 'border-red-700/50' },
   epi: { label: 'Epidemiology & Public Health', color: 'text-emerald-400', bg: 'bg-emerald-950/40', border: 'border-emerald-700/50' },
   env: { label: 'Environmental Science', color: 'text-teal-400', bg: 'bg-teal-950/40', border: 'border-teal-700/50' },
-  data: { label: 'Data Analytics & Applied Statistics', color: 'text-blue-400', bg: 'bg-blue-950/40', border: 'border-blue-700/50' },
   preprint: { label: 'Preprint', color: 'text-yellow-400', bg: 'bg-yellow-950/40', border: 'border-yellow-700/50' },
 };
 
@@ -51,10 +49,10 @@ const FILTER_LABELS: Record<string, string> = {
 
 function buildJournalList(): CategorizedPublication[] {
   return [
-    ...cryptographyArticles.map(p => ({ ...p, category: CATEGORIES.crypto.label, categoryKey: 'crypto' })),
-    ...cybersecurityArticles.map(p => ({ ...p, category: CATEGORIES.cyber.label, categoryKey: 'cyber' })),
-    ...epidemiologyArticles.map(p => ({ ...p, category: CATEGORIES.epi.label, categoryKey: 'epi' })),
-    ...environmentalArticles.map(p => ({ ...p, category: CATEGORIES.env.label, categoryKey: 'env' })),
+    ...cryptographyArticles.map(p => ({ ...p, categoryKey: 'crypto' })),
+    ...cybersecurityArticles.map(p => ({ ...p, categoryKey: 'cyber' })),
+    ...epidemiologyArticles.map(p => ({ ...p, categoryKey: 'epi' })),
+    ...environmentalArticles.map(p => ({ ...p, categoryKey: 'env' })),
   ];
 }
 
@@ -67,7 +65,7 @@ function buildPreprintList(): CategorizedPublication[] {
     } else if (tags.some(t => ['epidemiol', 'mortality', 'health'].some(k => t.includes(k)))) {
       categoryKey = 'epi';
     }
-    return { ...p, category: CATEGORIES[categoryKey]?.label ?? 'Preprint', categoryKey };
+    return { ...p, categoryKey };
   });
 }
 
@@ -152,7 +150,7 @@ function PublicationRow({ pub, rank }: { pub: CategorizedPublication; rank: numb
             href={pub.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="break-words text-accent hover:text-white font-medium leading-snug transition-colors text-[15px] sm:text-[17px] block mb-1"
+            className="wrap-break-word text-accent hover:text-white font-medium leading-snug transition-colors text-[15px] sm:text-[17px] block mb-1"
           >
             {pub.title}
           </a>
@@ -164,7 +162,7 @@ function PublicationRow({ pub, rank }: { pub: CategorizedPublication; rank: numb
 
           {/* Venue — truncated on mobile, full on sm+ */}
           {venueLine && (
-            <p className="break-words text-sm sm:text-[15px] text-gray-400 italic mb-1.5 leading-relaxed">{venueLine}</p>
+            <p className="wrap-break-word text-sm sm:text-[15px] text-gray-400 italic mb-1.5 leading-relaxed">{venueLine}</p>
           )}
 
           {/* Badges + links */}
@@ -236,7 +234,7 @@ function SectionTable({
   return (
     <div className="mb-12">
       <div className="flex flex-wrap items-baseline gap-2 sm:gap-3 mb-4 pb-3 border-b border-gray-700/80">
-        <h2 className="break-words text-base sm:text-lg font-semibold text-accent uppercase tracking-[0.14em] sm:tracking-widest">{title}</h2>
+        <h2 className="wrap-break-word text-base sm:text-lg font-semibold text-accent uppercase tracking-[0.14em] sm:tracking-widest">{title}</h2>
         <span className="text-gray-500 text-sm">
           {pubs.length} {pubs.length === 1 ? 'work' : 'works'}
         </span>

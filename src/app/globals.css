@@ -26,7 +26,6 @@ body {
   color: var(--foreground);
   font-family: Arial, sans-serif;
   min-height: 100vh;
-  background-color: var(--background);
 }
 
 body.site-atmosphere {

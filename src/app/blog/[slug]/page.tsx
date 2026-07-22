@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getBlogPost, getBlogPosts } from '@/lib/blog';
+import { SITE_URL } from '@/lib/site';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
@@ -11,26 +12,26 @@ import BackToTopButton from '../components/BackToTopButton';
 
 // Custom components for MDX
 const components = {
-    h1: (props: React.HTMLProps<HTMLHeadingElement>) => <h1 className="break-words text-3xl sm:text-4xl font-bold mb-6 text-white" {...props} />,
-    h2: (props: React.HTMLProps<HTMLHeadingElement>) => <h2 className="break-words text-2xl sm:text-3xl font-bold mb-4 mt-8 text-white" {...props} />,
-    h3: (props: React.HTMLProps<HTMLHeadingElement>) => <h3 className="break-words text-xl sm:text-2xl font-bold mb-3 mt-6 text-white" {...props} />,
+    h1: (props: React.HTMLProps<HTMLHeadingElement>) => <h1 className="wrap-break-word text-3xl sm:text-4xl font-bold mb-6 text-white" {...props} />,
+    h2: (props: React.HTMLProps<HTMLHeadingElement>) => <h2 className="wrap-break-word text-2xl sm:text-3xl font-bold mb-4 mt-8 text-white" {...props} />,
+    h3: (props: React.HTMLProps<HTMLHeadingElement>) => <h3 className="wrap-break-word text-xl sm:text-2xl font-bold mb-3 mt-6 text-white" {...props} />,
     h4: (props: React.HTMLProps<HTMLHeadingElement>) => <h4 className="text-xl font-bold mb-2 mt-4 text-white" {...props} />,
-    p: (props: React.HTMLProps<HTMLParagraphElement>) => <p className="mb-4 break-words text-gray-300 leading-relaxed text-left md:text-justify" {...props} />,
+    p: (props: React.HTMLProps<HTMLParagraphElement>) => <p className="mb-4 wrap-break-word text-gray-300 leading-relaxed text-left md:text-justify" {...props} />,
     ul: (props: React.HTMLProps<HTMLUListElement>) => <ul className="mb-4 ml-5 sm:ml-6 list-disc text-gray-300 leading-relaxed" {...props} />,
     ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => <ol className="mb-4 ml-5 sm:ml-6 list-decimal text-gray-300 leading-relaxed" {...props} />,
-    li: (props: React.HTMLProps<HTMLLIElement>) => <li className="mb-1 break-words" {...props} />,
+    li: (props: React.HTMLProps<HTMLLIElement>) => <li className="mb-1 wrap-break-word" {...props} />,
     blockquote: (props: React.HTMLProps<HTMLQuoteElement>) => (
-        <blockquote className="border-l-4 border-accent pl-3 sm:pl-4 my-4 break-words italic text-gray-400" {...props} />
+        <blockquote className="border-l-4 border-accent pl-3 sm:pl-4 my-4 wrap-break-word italic text-gray-400" {...props} />
     ),
     code: (props: React.HTMLProps<HTMLElement>) => (
-        <code className="break-words bg-gray-800 px-2 py-1 rounded text-sm font-mono text-accent" {...props} />
+        <code className="wrap-break-word bg-gray-800 px-2 py-1 rounded text-sm font-mono text-accent" {...props} />
     ),
     pre: (props: React.HTMLProps<HTMLPreElement>) => (
         <pre className="bg-gray-800 p-4 rounded-lg overflow-x-auto mb-4 border border-gray-700" {...props} />
     ),
     a: (props: React.HTMLProps<HTMLAnchorElement>) => (
         <a
-            className="break-words text-accent hover:text-accent-dark underline transition-colors"
+            className="wrap-break-word text-accent hover:text-accent-dark underline transition-colors"
             target={props.href?.startsWith('http') ? '_blank' : undefined}
             rel={props.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
             {...props}
@@ -134,7 +135,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                         </span>
                     </div>
 
-                    <h1 className="break-words text-3xl sm:text-5xl font-bold mb-6 leading-tight">
+                    <h1 className="wrap-break-word text-3xl sm:text-5xl font-bold mb-6 leading-tight">
                         {frontmatter.title}
                     </h1>
 
@@ -207,7 +208,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                             <h4 className="font-semibold">Share this post</h4>
                             <div className="flex gap-2">
                                 <a
-                                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(frontmatter.title)}&url=${encodeURIComponent(`https://awnon.netlify.app/blog/${resolvedParams.slug}`)}`}
+                                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(frontmatter.title)}&url=${encodeURIComponent(`${SITE_URL}/blog/${resolvedParams.slug}`)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex min-h-11 items-center bg-accent hover:bg-accent-dark text-white px-3 py-2 rounded text-sm transition-colors"
@@ -215,7 +216,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                     Twitter
                                 </a>
                                 <a
-                                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://awnon.netlify.app/blog/${resolvedParams.slug}`)}`}
+                                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_URL}/blog/${resolvedParams.slug}`)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex min-h-11 items-center border border-accent text-accent hover:bg-accent hover:text-white px-3 py-2 rounded text-sm transition-colors"

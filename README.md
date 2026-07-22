@@ -28,7 +28,6 @@ npm run lint
 Copy `.env.example` to `.env`:
 
 ```bash
-NEXT_PUBLIC_BLOG_ADMIN_PASSWORD=    # blog admin access (client-side only)
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=
@@ -45,7 +44,7 @@ src/
   app/
     components/     # portfolio sections
     data/           # typed publications and projects data
-    blog/           # blog pages and admin editor
+    blog/           # blog index and post pages
   content/blog/     # MDX posts (KaTeX math supported)
   lib/              # blog utilities, input sanitization
 public/             # static assets

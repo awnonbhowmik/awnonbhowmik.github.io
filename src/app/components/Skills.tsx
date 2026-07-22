@@ -119,7 +119,7 @@ export default function Skills() {
             >
               <div className="flex items-start gap-3 mb-4">
                 <div className="shrink-0" aria-hidden="true">{cat.icon}</div>
-                <h3 className="min-w-0 break-words text-lg font-semibold leading-snug text-white">{cat.title}</h3>
+                <h3 className="min-w-0 wrap-break-word text-lg font-semibold leading-snug text-white">{cat.title}</h3>
               </div>
               <div className="flex flex-wrap gap-2">
                 {cat.skills.map((skill) => (

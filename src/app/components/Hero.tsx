@@ -57,7 +57,7 @@ export default function Hero() {
       </div>
 
       {/* Name */}
-      <h1 className="relative z-10 max-w-full break-words text-4xl sm:text-6xl leading-tight font-bold mb-3 tracking-tight">
+      <h1 className="relative z-10 max-w-full wrap-break-word text-4xl sm:text-6xl leading-tight font-bold mb-3 tracking-tight">
         Awnon Bhowmik
       </h1>
 
