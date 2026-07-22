@@ -35,7 +35,7 @@ const education: EducationEntry[] = [
     degree: 'Doctor of Computer Science',
     field: 'Specialization: Cybersecurity and Information Assurance',
     institution: 'Colorado Technical University',
-    date: 'Mar 2025 – Feb 2030 (expected)',
+    date: 'Mar 2025 – Jul 2028 (expected)',
     icon: <FaUniversity size={28} />,
     honors: [
       'Dissertation: Privacy-Preserving Cybersecurity Threat Detection',
@@ -237,9 +237,9 @@ export default function Resume() {
   const renderEducationCard = (edu: EducationEntry, key: string | number) => (
     <div key={key} className="min-w-0 bg-gray-800 p-4 sm:p-6 rounded-lg shadow hover:shadow-lg motion-safe:transition-shadow">
       <div className="text-accent mb-3" aria-hidden="true">{edu.icon}</div>
-      <h4 className="text-lg font-semibold leading-snug break-words text-white">{edu.degree}</h4>
-      <p className="text-accent text-sm leading-relaxed break-words mt-0.5">{edu.field}</p>
-      <p className="text-gray-300 leading-relaxed break-words mt-1">{edu.institution}</p>
+      <h4 className="text-lg font-semibold leading-snug wrap-break-word text-white">{edu.degree}</h4>
+      <p className="text-accent text-sm leading-relaxed wrap-break-word mt-0.5">{edu.field}</p>
+      <p className="text-gray-300 leading-relaxed wrap-break-word mt-1">{edu.institution}</p>
       <p className="flex items-start text-gray-400 text-sm leading-relaxed mt-2">
         <FaCalendarAlt className="mr-2 mt-0.5 shrink-0" aria-hidden="true" />
         <span className="min-w-0">{edu.date}</span>
@@ -249,7 +249,7 @@ export default function Resume() {
           {edu.honors.map((h, i) => (
             <li key={i} className="flex gap-2 text-[15px] sm:text-base text-gray-400 leading-relaxed">
               <span className="text-accent shrink-0 mt-0.5" aria-hidden="true">—</span>
-              <span className="min-w-0 break-words">{h}</span>
+              <span className="min-w-0 wrap-break-word">{h}</span>
             </li>
           ))}
         </ul>
@@ -263,7 +263,7 @@ export default function Resume() {
     return (
       <div key={key} className="min-w-0 bg-gray-800 p-4 sm:p-6 rounded-lg shadow hover:shadow-lg motion-safe:transition-shadow">
         <div className="text-accent mb-3" aria-hidden="true">{exp.icon}</div>
-        <h4 className="text-lg font-semibold leading-snug break-words text-white mb-4">{exp.organization}</h4>
+        <h4 className="text-lg font-semibold leading-snug wrap-break-word text-white mb-4">{exp.organization}</h4>
 
         <ol>
           {exp.roles.map((role, roleIndex) => (
@@ -285,7 +285,7 @@ export default function Resume() {
                   )}
                 </>
               )}
-              <h5 className="font-semibold leading-snug break-words text-gray-100">{role.title}</h5>
+              <h5 className="font-semibold leading-snug wrap-break-word text-gray-100">{role.title}</h5>
               <p className={`flex items-start text-gray-400 text-sm leading-relaxed mt-1 ${role.bullets.length > 0 ? 'mb-3' : ''}`}>
                 <FaCalendarAlt className="mr-2 mt-0.5 shrink-0" aria-hidden="true" />
                 <span className="min-w-0">{role.date}</span>
@@ -295,7 +295,7 @@ export default function Resume() {
                   {role.bullets.map((bullet, bulletIndex) => (
                     <li key={bulletIndex} className="flex gap-2 text-[15px] sm:text-base text-gray-400 leading-relaxed">
                       <span className="text-accent mt-1 shrink-0" aria-hidden="true">—</span>
-                      <span className="min-w-0 break-words">{bullet}</span>
+                      <span className="min-w-0 wrap-break-word">{bullet}</span>
                     </li>
                   ))}
                 </ul>

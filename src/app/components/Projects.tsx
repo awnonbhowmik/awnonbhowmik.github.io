@@ -2,25 +2,14 @@
 
 import projects, { type Project } from '@/app/data/projects';
 
-const categoryLabels: Record<string, string> = {
-  'privacy-security': 'Privacy & Security',
-  'cryptography': 'Cryptography',
-  'systems': 'Systems',
-  'fullstack': 'Full-Stack Web',
-  'data-ml': 'Data & ML',
-  'mathematical-modeling': 'Mathematical Modeling',
-};
-
-const statusLabels: Record<string, string> = {
+const statusLabels: Record<Project['status'], string> = {
   completed: 'Completed',
   'in-progress': 'In Progress',
-  prototype: 'Prototype',
 };
 
-const statusColors: Record<string, string> = {
+const statusColors: Record<Project['status'], string> = {
   completed: 'border-green-500/50 text-green-400',
   'in-progress': 'border-accent/50 text-accent',
-  prototype: 'border-yellow-500/50 text-yellow-400',
 };
 
 function ProjectCard({ project }: { project: Project }) {
@@ -31,11 +20,8 @@ function ProjectCard({ project }: { project: Project }) {
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="min-w-0 flex flex-wrap gap-2 items-center">
-          <span className="break-words text-xs font-semibold uppercase tracking-widest text-gray-400 border border-gray-600 rounded px-2 py-0.5">
-            {categoryLabels[project.category] ?? project.category}
-          </span>
           <span
-            className={`break-words text-xs font-semibold uppercase tracking-widest border rounded px-2 py-0.5 ${
+            className={`wrap-break-word text-xs font-semibold uppercase tracking-widest border rounded px-2 py-0.5 ${
               statusColors[project.status]
             }`}
           >
@@ -48,35 +34,21 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
 
       {/* Title */}
-      <h3 className="text-xl font-semibold text-white mb-2 leading-snug break-words">
+      <h3 className="text-xl font-semibold text-white mb-2 leading-snug wrap-break-word">
         {project.title}
       </h3>
 
       {/* Summary */}
-      <p className="text-gray-300 text-[15px] sm:text-base leading-relaxed mb-4 flex-grow text-left md:text-justify">
+      <p className="text-gray-300 text-[15px] sm:text-base leading-relaxed mb-4 grow text-left">
         {project.summary}
       </p>
 
-      {/* Problem / Approach */}
-      <div className="space-y-3 mb-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">
-            Problem
-          </p>
-          <p className="text-gray-400 text-[15px] sm:text-base leading-relaxed text-left md:text-justify">{project.problem}</p>
-        </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">
-            Approach
-          </p>
-          <p className="text-gray-400 text-[15px] sm:text-base leading-relaxed text-left md:text-justify">{project.approach}</p>
-        </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">
-            Outcome
-          </p>
-          <p className="text-gray-400 text-[15px] sm:text-base leading-relaxed text-left md:text-justify">{project.outcome}</p>
-        </div>
+      {/* Result */}
+      <div className="mb-4">
+        <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">
+          Result
+        </p>
+        <p className="text-gray-400 text-[15px] sm:text-base leading-relaxed text-left">{project.outcome}</p>
       </div>
 
       {/* Technologies */}
@@ -118,15 +90,15 @@ export default function Projects() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-16">
         {/* Heading */}
         <div className="text-center mb-10 sm:mb-14">
-          <h2 id="projects-heading" className="text-3xl sm:text-4xl font-bold text-white">Selected Projects</h2>
+          <h2 id="projects-heading" className="text-3xl sm:text-4xl font-bold text-white">Featured Projects</h2>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-[15px] sm:text-base leading-relaxed">
-            Research prototypes, published implementations, and engineering work spanning
-            privacy-preserving systems, applied cryptography, and full-stack development.
+            Research prototypes and published implementations spanning privacy-preserving
+            systems, applied cryptography, and cybersecurity engineering.
           </p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}

@@ -127,7 +127,7 @@ export default function Research() {
               className="min-w-0 flex flex-col items-start bg-gray-800 p-4 sm:p-7 rounded-lg shadow-lg hover:shadow-xl motion-safe:transition-shadow"
             >
               <div className="mb-4 text-accent" aria-hidden="true">{area.icon}</div>
-              <h3 className="text-lg font-semibold leading-snug break-words text-white mb-2">{area.title}</h3>
+              <h3 className="text-lg font-semibold leading-snug wrap-break-word text-white mb-2">{area.title}</h3>
               <p className="text-gray-400 text-[15px] sm:text-base leading-relaxed text-left md:text-justify">{area.description}</p>
             </div>
           ))}

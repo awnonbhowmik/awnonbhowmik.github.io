@@ -7,8 +7,7 @@
 // what is missing.
 // ============================================================
 
-export type PublicationType = 'journal' | 'conference' | 'preprint';
-export type PublicationStatus = 'published' | 'in-press' | 'under-review' | 'in-progress';
+export type PublicationType = 'journal' | 'preprint';
 
 export interface Publication {
   id: string;
@@ -23,8 +22,6 @@ export interface Publication {
   doi?: string;
   url?: string;
   arxivId?: string;     // arXiv paper ID, e.g. '2008.12645'
-  preprintUrl?: string; // URL to non-arXiv preprint server
-  status: PublicationStatus;
   tags?: string[];
 }
 
@@ -43,7 +40,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2021,
     doi: '10.7717/peerj-cs.637',
     url: 'https://doi.org/10.7717/peerj-cs.637',
-    status: 'published',
     tags: ['cryptography', 'finite fields', 'Galois field', 'trapdoor functions'],
   },
   {
@@ -58,7 +54,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2020,
     doi: '10.5120/ijca2020920320',
     url: 'https://doi.org/10.5120/ijca2020920320',
-    status: 'published',
     tags: ['cryptography', 'NTRU', 'lattice-based cryptography', 'post-quantum'],
   },
   {
@@ -74,7 +69,6 @@ export const cryptographyArticles: Publication[] = [
     doi: '10.5120/ijca2020920331',
     url: 'https://doi.org/10.5120/ijca2020920331',
     arxivId: '2008.12645',
-    status: 'published',
     tags: ['cryptography', 'fractal geometry', 'dragon curve', 'trapdoor functions'],
   },
   {
@@ -89,7 +83,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2020,
     doi: '10.5120/ijca2020920479',
     url: 'https://doi.org/10.5120/ijca2020920479',
-    status: 'published',
     tags: ['cryptography', 'block cipher', 'number theory', 'AES alternative'],
   },
   {
@@ -104,7 +97,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2020,
     doi: '10.5815/ijmsc.2020.06.02',
     url: 'https://doi.org/10.5815/ijmsc.2020.06.02',
-    status: 'published',
     tags: ['cryptography', 'coordinate transformations', 'encoding'],
   },
   {
@@ -119,7 +111,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2023,
     doi: '10.5815/ijmsc.2023.02.01',
     url: 'https://doi.org/10.5815/ijmsc.2023.02.01',
-    status: 'published',
     tags: ['cryptography', 'coordinate transformation', 'key generation'],
   },
   {
@@ -134,7 +125,6 @@ export const cryptographyArticles: Publication[] = [
     year: 2024,
     doi: '10.5815/ijmsc.2024.01.04',
     url: 'https://doi.org/10.5815/ijmsc.2024.01.04',
-    status: 'published',
     tags: ['cryptography', 'trapdoor functions', 'one-way functions'],
   },
 ];
@@ -155,7 +145,6 @@ export const cybersecurityArticles: Publication[] = [
     year: 2024,
     doi: '10.5815/ijmsc.2024.03.03',
     url: 'https://doi.org/10.5815/ijmsc.2024.03.03',
-    status: 'published',
     tags: ['cybersecurity', 'FinTech', 'security awareness', 'defense mechanisms'],
   },
   {
@@ -169,7 +158,6 @@ export const cybersecurityArticles: Publication[] = [
     pages: '1–17',
     year: 2025,
     url: 'https://www.researchgate.net/publication/393729816_Integrating_Blockchain_and_ECC_for_Secure_Authentication_Comprehensive_Survey_for_IoT_WSN_Environment_News_Bulletin_Calcutta_Mathematical_Society',
-    status: 'published',
     tags: ['cybersecurity', 'blockchain', 'elliptic curve cryptography', 'IoT', 'authentication'],
   },
 ];
@@ -188,7 +176,6 @@ export const epidemiologyArticles: Publication[] = [
     year: 2026,
     doi: '10.1111/tmi.70136',
     url: 'https://doi.org/10.1111/tmi.70136',
-    status: 'published',
     tags: [
       'epidemiology',
       'dengue',
@@ -209,7 +196,6 @@ export const epidemiologyArticles: Publication[] = [
     year: 2025,
     doi: '10.1016/j.soh.2024.100103',
     url: 'https://doi.org/10.1016/j.soh.2024.100103',
-    status: 'published',
     tags: ['epidemiology', 'Nipah virus', 'public health', 'Bangladesh', 'disease surveillance'],
   },
   {
@@ -224,7 +210,6 @@ export const epidemiologyArticles: Publication[] = [
     year: 2025,
     doi: '10.3390/sexes6030034',
     url: 'https://doi.org/10.3390/sexes6030034',
-    status: 'published',
     tags: ['epidemiology', 'HIV', 'public health', 'Bangladesh', 'data-driven analysis'],
   },
 ];
@@ -245,7 +230,6 @@ export const environmentalArticles: Publication[] = [
     pages: '102',
     year: 2026,
     url: 'https://scholar.google.com/citations?view_op=view_citation&hl=en&user=nEdZAFkAAAAJ&sortby=pubdate&citation_for_view=nEdZAFkAAAAJ:Wp0gIr-vW9MC',
-    status: 'published',
     tags: ['microplastics', 'One Health', 'aquatic life', 'fish', 'ecotoxicology'],
   },
   {
@@ -260,7 +244,6 @@ export const environmentalArticles: Publication[] = [
     year: 2024,
     doi: '10.3390/pollutants4040033',
     url: 'https://doi.org/10.3390/pollutants4040033',
-    status: 'published',
     tags: ['microplastics', 'environmental science', 'public health'],
   },
   {
@@ -275,7 +258,6 @@ export const environmentalArticles: Publication[] = [
     year: 2025,
     doi: '10.3390/microplastics4020024',
     url: 'https://doi.org/10.3390/microplastics4020024',
-    status: 'published',
     tags: ['microplastics', 'water quality', 'systematic review', 'environmental science'],
   },
   {
@@ -290,7 +272,6 @@ export const environmentalArticles: Publication[] = [
     year: 2026,
     doi: '10.3390/pollutants6010003',
     url: 'https://doi.org/10.3390/pollutants6010003',
-    status: 'published',
     tags: ['microplastics', 'rural environment', 'environmental transport'],
   },
   {
@@ -305,7 +286,6 @@ export const environmentalArticles: Publication[] = [
     year: 2026,
     doi: '10.3390/pollutants6010018',
     url: 'https://doi.org/10.3390/pollutants6010018',
-    status: 'published',
     tags: ['microplastics', 'mathematical modeling', 'river transport', 'environmental modeling'],
   },
 ];
@@ -324,7 +304,6 @@ export const preprints: Publication[] = [
     arxivId: '2510.02383',
     doi: '10.48550/arXiv.2510.02383',
     url: 'https://arxiv.org/abs/2510.02383',
-    status: 'published',
     tags: ['cryptography', 'elliptic curves', 'number theory'],
   },
   {
@@ -337,7 +316,6 @@ export const preprints: Publication[] = [
     arxivId: '2208.06002',
     doi: '10.48550/arXiv.2208.06002',
     url: 'https://arxiv.org/abs/2208.06002',
-    status: 'published',
     tags: ['cryptography', 'chaotic mappings', 'review'],
   },
   {
@@ -350,7 +328,6 @@ export const preprints: Publication[] = [
     arxivId: '2212.12300',
     doi: '10.48550/arXiv.2212.12300',
     url: 'https://arxiv.org/abs/2212.12300',
-    status: 'published',
     tags: ['cryptography', 'block cipher', 'matrix operations'],
   },
   {
@@ -362,9 +339,6 @@ export const preprints: Publication[] = [
     year: 2025,
     doi: '10.20944/preprints202508.1297.v1',
     url: 'https://www.preprints.org/manuscript/202508.1297/v1',
-    preprintUrl: 'https://www.preprints.org/manuscript/202508.1297/v1',
-    status: 'published',
     tags: ['epidemiology', 'mortality', 'SAARC', 'public health', 'data-driven analysis'],
   },
 ];
-

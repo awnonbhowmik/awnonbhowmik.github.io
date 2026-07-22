@@ -29,6 +29,11 @@ yarn-error.log*
 # Claude Code
 .claude/
 
+# Local agent and migration-tool state
+.agents/
+.codex/
+.github/modernize/
+
 # OS
 .DS_Store
 Thumbs.db

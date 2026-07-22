@@ -47,7 +47,7 @@ export default function Achievements() {
                 {item.points.map((point, i) => (
                   <li key={i} className="flex gap-2 text-[15px] sm:text-base text-gray-400 leading-relaxed">
                     <span className="text-accent mt-1 shrink-0" aria-hidden="true">—</span>
-                    <span className="min-w-0 break-words">{point}</span>
+                    <span className="min-w-0 wrap-break-word">{point}</span>
                   </li>
                 ))}
               </ul>

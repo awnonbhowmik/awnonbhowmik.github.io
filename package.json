@@ -9,12 +9,9 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "@mdx-js/loader": "^3.1.1",
-    "@mdx-js/react": "^3.1.1",
-    "@uiw/react-md-editor": "^4.1.1",
-    "js-yaml": "^5.2.0",
+    "js-yaml": "^5.2.1",
     "katex": "^0.17.0",
-    "next": "^16.2.6",
+    "next": "^16.2.11",
     "next-mdx-remote": "^6.0.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
@@ -25,16 +22,15 @@
   },
   "overrides": {
     "@babel/core": "^7.29.7",
-    "postcss": "^8.5.15"
+    "postcss": "^8.5.15",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "autoprefixer": "^10.5.0",
     "eslint": "^9",
     "eslint-config-next": "^16.2.6",
     "postcss": "^8.5.15",
