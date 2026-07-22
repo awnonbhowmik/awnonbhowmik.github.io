@@ -1,0 +1,411 @@
+---
+title: "Luhn's Blind Spots: An Exhaustive Map of Undetected Errors"
+date: "2026-07-22"
+category: "cryptography"
+tags: ["Luhn algorithm", "check digits", "error detection", "modular arithmetic", "Python", "data integrity"]
+excerpt: "Luhn catches every single-digit substitution, but what exactly slips through? An exhaustive analysis maps its missed transpositions, twin errors, and compensating mistakes."
+---
+
+# Luhn's Blind Spots: An Exhaustive Map of Undetected Errors
+
+The Luhn algorithm is often summarized with a reassuring sentence: it catches every single-digit error and almost every adjacent transposition. Both claims are correct. Neither tells us the whole story.
+
+What happens when two digits are changed? What if two nonadjacent digits are swapped? Which repeated-digit errors cancel out? And what does “almost every” mean as an exact count rather than a vague promise?
+
+This article answers those questions by treating Luhn as a small, completely enumerable mathematical system. There are only 10 decimal digits, two positional transformations, and 10 possible checksum residues. That makes it possible to examine every substitution or digit pair—not merely a sample—and identify the precise structures that the checksum cannot distinguish.
+
+The underlying algorithm and its history are developed in [The Mathematics Behind Luhn's Algorithm](/blog/the-mathematics-behind-luhns-algorithm). Here, the focus is narrower: **the error surface**.
+
+> The results below describe error detection, not payment-card security. A Luhn-valid number is only structurally consistent. It is not evidence that an account exists, belongs to someone, or can authorize a transaction.
+
+---
+
+## 1. What Counts as an Error?
+
+Error-detecting codes are evaluated against an **error model**: a precise description of how a correct message may be corrupted. Verhoeff's foundational study of decimal codes distinguished several human transcription patterns, including single substitutions, adjacent transpositions, twin errors, jump transpositions, and phonetic errors (Verhoeff, 1969). Kirtland (2001) later presented these patterns in a broader mathematical treatment of identification-number schemes.
+
+This analysis considers five classes:
+
+1. **Single substitution:** one digit changes, such as `7 → 3`.
+2. **Adjacent transposition:** neighboring, distinct digits exchange places, such as `27 → 72`.
+3. **Nonadjacent transposition:** distinct digits farther apart exchange places.
+4. **Twin substitution:** an adjacent repeated pair changes to another repeated pair, such as `22 → 55`.
+5. **Independent double substitution:** two selected positions each change to a different digit.
+
+Insertions and deletions are not included. They change the length of the string and therefore reverse the doubled/undoubled status of every digit to one side of the edit. Their behavior depends on the number's length and the edit location, so they require a separate experiment.
+
+The distinction between an **error event** and an unchanged string also matters. Swapping `44` to obtain `44` is not an error. Therefore, when counting transpositions, I exclude equal digit pairs and work with the 90 ordered pairs $(a,b)$ for which $a \neq b$.
+
+---
+
+## 2. Luhn as Two Positional Functions
+
+Hans Peter Luhn's original patent describes a check digit computed by alternating ordinary digits with “substitute digits” obtained by doubling and adding an end-around carry (Luhn, 1960). In contemporary notation, define
+
+$$
+T(d)=
+\begin{cases}
+2d, & 0 \leq d \leq 4,\\[4pt]
+2d-9, & 5 \leq d \leq 9.
+\end{cases}
+$$
+
+Starting from the right, including the check digit, Luhn applies the identity function $I(d)=d$ at odd positions and $T(d)$ at even positions. A sequence is valid when
+
+$$
+L(d_1,\ldots,d_n)
+=\sum_{i\text{ odd}}I(d_i)+\sum_{i\text{ even}}T(d_i)
+\equiv 0 \pmod{10}.
+$$
+
+The complete transformation table is small enough to inspect:
+
+| Digit $d$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| $I(d)$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+| $T(d)$ | 0 | 2 | 4 | 6 | 8 | 1 | 3 | 5 | 7 | 9 |
+
+Both rows are permutations of the decimal digits. That observation proves Luhn's strongest guarantee.
+
+---
+
+## 3. Blind Spot Zero: There Is No Single-Digit Blind Spot
+
+Suppose one digit $a$ is replaced by a distinct digit $b$.
+
+At an undoubled position, the checksum contribution changes from $I(a)$ to $I(b)$. Because the identity function is one-to-one, these contributions differ.
+
+At a doubled position, the contribution changes from $T(a)$ to $T(b)$. The second row of the table contains every residue exactly once, so $T$ is also one-to-one.
+
+In either case, the difference is a nonzero residue modulo 10. No other position changed, so nothing can cancel it.
+
+**Result:** all 90 possible directed substitutions at either positional type are detected. The detection rate is exactly **100%**, not an estimate.
+
+This is the central value of the scheme. If the dominant practical failure mode is a single mistyped digit, one extra decimal digit provides a strong and inexpensive safeguard (Gallian & Winters, 1988; Kirtland, 2001).
+
+---
+
+## 4. Adjacent Transpositions: The 0–9 Collision
+
+Consider neighboring digits $a$ and $b$. One occupies a doubled position and the other an undoubled position. Before the swap, their contribution is
+
+$$
+T(a)+I(b).
+$$
+
+After the swap, it is
+
+$$
+T(b)+I(a).
+$$
+
+The swap is invisible precisely when
+
+$$
+T(a)+b \equiv T(b)+a \pmod{10}.
+$$
+
+Rearranging gives
+
+$$
+T(a)-a \equiv T(b)-b \pmod{10}.
+$$
+
+Define the positional contrast $Q(d)=T(d)-d \pmod{10}$:
+
+| $d$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| $Q(d)$ | 0 | 1 | 2 | 3 | 4 | 6 | 7 | 8 | 9 | 0 |
+
+Every value is unique except $Q(0)=Q(9)=0$. Consequently, the only distinct adjacent pair whose swap leaves the checksum unchanged is 0 and 9:
+
+- `09 → 90`
+- `90 → 09`
+
+The exhaustive count is therefore:
+
+| Measure | Count |
+|---|---:|
+| Ordered pairs of distinct digits | 90 |
+| Detected swaps | 88 |
+| Undetected swaps | 2 |
+| Detection rate under a uniform pair model | 97.78% |
+
+This is the exact meaning of “almost all adjacent transpositions.” It agrees with the established analysis of the Luhn scheme (Kirtland, 2001), but the percentage requires an important qualification: **real human errors are not uniformly distributed across digit pairs**. A 97.78% rate describes an artificial experiment in which all 90 directed pairs are equally likely. Operational performance depends on how often 0 and 9 occur beside one another and how often users reverse them.
+
+---
+
+## 5. Nonadjacent Transpositions: Parity Is the Real Boundary
+
+Adjacency itself is not the decisive property. **Positional parity** is.
+
+Number positions from the right. Positions 1, 3, 5, and so on use $I$; positions 2, 4, 6, and so on use $T$.
+
+### Swapping positions of opposite parity
+
+If the distance between two positions is odd, one position uses $I$ and the other uses $T$. The algebra is identical to the adjacent case. Every swap of distinct digits is detected except 0 and 9.
+
+### Swapping positions of the same parity
+
+If the distance is even, both positions use the same function. Suppose they both use $T$. Their contribution before the swap is
+
+$$
+T(a)+T(b),
+$$
+
+and after the swap it is
+
+$$
+T(b)+T(a).
+$$
+
+The two sums are equal because addition is commutative. The same argument applies when both positions use $I$.
+
+**Result:** every transposition between same-parity positions is invisible to Luhn, regardless of the digits involved.
+
+For example, in the fragment `1 4 7`, the first and third positions have the same parity. Swapping them produces `7 4 1`, but their combined checksum contribution is unchanged. The surrounding digits cannot reveal the swap because they have not changed.
+
+| Position relationship | Different digit pairs missed |
+|---|---:|
+| Opposite parity | 2 of 90: `09 ↔ 90` |
+| Same parity | 90 of 90 |
+
+This is a much larger blind spot than the familiar 0–9 exception. Luhn was designed to catch common local transcription errors, not arbitrary permutations of a sequence. Luhn's mechanical design specifically used alternating substitution columns to expose ordinary transpositions (Luhn, 1960); it was never a general-purpose permutation detector.
+
+---
+
+## 6. Twin Errors: Three Collision Families
+
+A twin error replaces one repeated adjacent pair with another:
+
+$$
+aa \longrightarrow bb, \qquad a \neq b.
+$$
+
+Because adjacent positions have opposite parity, the original contribution is $T(a)+a$, and the replacement contributes $T(b)+b$. Define
+
+$$
+R(d)=T(d)+d \pmod{10}.
+$$
+
+| $d$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| $R(d)$ | 0 | 3 | 6 | 9 | 2 | 6 | 9 | 2 | 5 | 8 |
+
+Three values collide:
+
+- $R(2)=R(5)=6$, so `22 ↔ 55` is missed.
+- $R(3)=R(6)=9$, so `33 ↔ 66` is missed.
+- $R(4)=R(7)=2$, so `44 ↔ 77` is missed.
+
+Counting both directions gives six undetected events among the 90 possible directed twin substitutions.
+
+| Measure | Count |
+|---|---:|
+| Directed twin substitutions | 90 |
+| Detected | 84 |
+| Undetected | 6 |
+| Detection rate under a uniform model | 93.33% |
+
+These collision families are documented in summaries of Luhn's limitations and follow immediately from the transformation table. The exhaustive calculation shows why those three families—and no others—survive.
+
+---
+
+## 7. Two Independent Substitutions: Cancellation Becomes Common
+
+Now select two fixed positions and change each original digit to a different digit. At either position, there are 10 choices for the original digit and 9 choices for its replacement, giving 90 directed substitutions. Across two positions, there are
+
+$$
+90^2=8{,}100
+$$
+
+possible paired substitutions.
+
+Each individual change produces one of the nine nonzero checksum differences. For either positional function, each nonzero residue occurs exactly 10 times among the 90 directed substitutions. This follows because both $I$ and $T$ are permutations: relabeling the digits cannot change the distribution of differences.
+
+The two errors cancel when their checksum differences add to zero modulo 10. For each of the nine possible nonzero differences at the first position, exactly 10 substitutions at the first position and 10 inverse-difference substitutions at the second position work. Therefore,
+
+$$
+9 \times 10 \times 10=900
+$$
+
+of the 8,100 paired substitutions are undetected.
+
+$$
+\Pr(\text{undetected}\mid\text{two uniform substitutions})
+=\frac{900}{8100}
+=\frac{1}{9}
+\approx 11.11\%.
+$$
+
+Equivalently, the uniform-model detection rate is approximately **88.89%**.
+
+This result does not contradict perfect single-error detection. A single nonzero checksum change cannot disappear. With two changes, one can be the additive inverse of the other in $\mathbb{Z}_{10}$.
+
+Again, $1/9$ is not a field failure rate. Human substitutions are not independent and uniformly random. The value characterizes the checksum under a transparent mathematical model.
+
+---
+
+## 8. Why a Random Number Passes One Time in Ten
+
+Fix every digit except the final check digit. Exactly one of the 10 possible check digits makes the total congruent to zero modulo 10. Therefore, a uniformly random decimal sequence of a fixed length passes Luhn with probability
+
+$$
+\frac{1}{10}=10\%.
+$$
+
+That sounds high only if a checksum is mistaken for an authentication mechanism. One decimal check digit contains at most $\log_2(10) \approx 3.32$ bits of redundancy. Its job is to detect accidental data-entry errors cheaply, not to resist an adversary. Anyone who knows the rule can compute a valid check digit immediately.
+
+This distinction was present from the beginning: Luhn's patent described a device for computing and verifying check digits on copied identification numbers, not a mechanism for establishing identity or authorization (Luhn, 1960).
+
+---
+
+## 9. Reproducing the Census
+
+The following Python program enumerates the relevant state spaces. It uses contribution differences instead of generating complete account numbers, so the output is independent of number length and does not use real payment-card data.
+
+```python
+from itertools import product
+
+
+def transform(digit: int) -> int:
+    """Luhn's doubled-and-reduced contribution."""
+    doubled = 2 * digit
+    return doubled if doubled < 10 else doubled - 9
+
+
+def delta(old: int, new: int, doubled: bool) -> int:
+    """Checksum change caused by one substitution, modulo 10."""
+    weight = transform if doubled else lambda digit: digit
+    return (weight(new) - weight(old)) % 10
+
+
+directed_changes = [
+    (old, new)
+    for old, new in product(range(10), repeat=2)
+    if old != new
+]
+
+
+# 1. Single substitutions
+single_missed = [
+    (old, new, doubled)
+    for old, new in directed_changes
+    for doubled in (False, True)
+    if delta(old, new, doubled) == 0
+]
+
+
+# 2. Adjacent transpositions: doubled a beside undoubled b
+adjacent_missed = [
+    (a, b)
+    for a, b in directed_changes
+    if (transform(b) + a - transform(a) - b) % 10 == 0
+]
+
+
+# 3. Same-parity transpositions
+# Both contributions use the same function, so every distinct pair is missed.
+same_parity_missed = [
+    (a, b)
+    for a, b in directed_changes
+    if (transform(b) + transform(a)
+        - transform(a) - transform(b)) % 10 == 0
+]
+
+
+# 4. Adjacent twin substitutions: aa becomes bb
+twin_missed = [
+    (a, b)
+    for a, b in directed_changes
+    if (transform(b) + b - transform(a) - a) % 10 == 0
+]
+
+
+# 5. Two substitutions at one undoubled and one doubled position
+double_missed = [
+    (a, a_new, b, b_new)
+    for a, a_new in directed_changes
+    for b, b_new in directed_changes
+    if (delta(a, a_new, False) + delta(b, b_new, True)) % 10 == 0
+]
+
+
+print("single substitutions missed:", len(single_missed))
+print("adjacent transpositions missed:", adjacent_missed)
+print("same-parity transpositions missed:", len(same_parity_missed))
+print("twin substitutions missed:", twin_missed)
+print("double substitutions missed:", len(double_missed))
+```
+
+Expected output:
+
+```text
+single substitutions missed: 0
+adjacent transpositions missed: [(0, 9), (9, 0)]
+same-parity transpositions missed: 90
+twin substitutions missed: [(2, 5), (3, 6), (4, 7),
+                            (5, 2), (6, 3), (7, 4)]
+double substitutions missed: 900
+```
+
+The program is deliberately direct. At this scale, exhaustive enumeration is preferable to clever optimization: the largest loop examines only 8,100 cases, and each mathematical claim can be compared visibly with its corresponding code.
+
+---
+
+## 10. The Complete Map
+
+| Error class | Cases in the stated model | Undetected | Detection rate |
+|---|---:|---:|---:|
+| One substitution at a fixed parity | 90 | 0 | 100% |
+| Adjacent transposition of distinct digits | 90 | 2 | 97.78% |
+| Opposite-parity transposition | 90 | 2 | 97.78% |
+| Same-parity transposition | 90 | 90 | 0% |
+| Adjacent twin substitution | 90 | 6 | 93.33% |
+| Two substitutions at fixed positions | 8,100 | 900 | 88.89% |
+| Uniformly random complete sequence | All strings of fixed length | 1 residue class in 10 | 90% rejection |
+
+These percentages belong to different sample spaces and should not be averaged. The table is a map of mathematical capabilities, not a single performance score.
+
+---
+
+## 11. What Luhn Is—and Is Not—Optimized For
+
+Luhn performs well against the error it guarantees to catch: any one-digit substitution. It also catches 88 of the 90 possible adjacent swaps of distinct digits. Those are valuable properties for an algorithm that can be carried out by hand and was originally embodied in a mechanical device.
+
+Its weaknesses follow from the same simplicity:
+
+- It stores only one decimal residue.
+- Its checksum is additive, so multiple errors can cancel.
+- Alternating only two positional functions means positions of the same parity are interchangeable.
+- It is publicly computable and therefore supplies no protection against intentional manipulation.
+
+Stronger decimal check-digit systems exist. Verhoeff (1969), for example, constructed a decimal code using noncommutative algebra to detect all single substitutions and all adjacent transpositions. The tradeoff is greater conceptual and implementation complexity. Which scheme is appropriate depends on the application's error model, compatibility constraints, and consequences of a missed error.
+
+For a legacy identifier in which Luhn is mandated, the right response is not to ask it to provide security. Use it as the inexpensive formatting check it is, then rely on authenticated systems, database validation, rate controls, and transaction authorization for the properties a checksum cannot supply.
+
+---
+
+## Conclusion
+
+Luhn's blind spots are not random. They arise from three visible algebraic structures:
+
+1. **A single collision in positional contrast:** 0 and 9 behave identically under $T(d)-d$, creating the adjacent-transposition exception.
+2. **Repeated values in the twin map:** $T(d)+d$ collides for 2 and 5, 3 and 6, and 4 and 7.
+3. **Additivity:** equal-position swaps preserve sums, while two independent errors can contribute inverse residues.
+
+That structure makes the algorithm easy to analyze completely. It also offers a broader lesson in data integrity: statements such as “detects most errors” are meaningful only after the error model and denominator are stated. A small exhaustive experiment can turn those claims into results that are exact, reproducible, and appropriately limited.
+
+---
+
+## References
+
+Bhowmik, A. K. (2019). *Luhn's algorithm for checksum validation* [Computer software]. GitHub. https://github.com/awnonbhowmik/Luhn-s-Algorithm-for-checksum-validation
+
+Gallian, J. A., & Winters, S. (1988). Modular arithmetic in the marketplace. *The American Mathematical Monthly, 95*(6), 548–551. https://doi.org/10.2307/2322763
+
+Kirtland, J. (2001). *Identification numbers and check digit schemes*. Mathematical Association of America.
+
+Luhn, H. P. (1960). *Computer for verifying numbers* (U.S. Patent No. 2,950,048). U.S. Patent and Trademark Office. https://patents.google.com/patent/US2950048A/en
+
+Verhoeff, J. (1969). *Error detecting decimal codes* (Mathematical Centre Tracts, Vol. 29). Mathematisch Centrum. https://ir.cwi.nl/pub/13045
