@@ -22,7 +22,7 @@
   },
   "overrides": {
     "@babel/core": "^7.29.7",
-    "postcss": "^8.5.15",
+    "postcss": "^8.5.25",
     "sharp": "^0.35.3"
   },
   "devDependencies": {
@@ -33,7 +33,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "^16.2.6",
-    "postcss": "^8.5.15",
+    "postcss": "^8.5.25",
     "tailwindcss": "^4.3.0",
     "typescript": "^6"
   }
