@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import {
   FaShieldAlt,
@@ -75,7 +73,6 @@ export default function Research() {
                 width={300}
                 height={300}
                 className="w-full h-auto rounded-full"
-                priority
               />
             </div>
           </div>

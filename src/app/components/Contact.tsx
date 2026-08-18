@@ -1,20 +1,34 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { sanitizeEmail } from '@/lib/sanitize';
 
 // Rate limiting constants
 const RATE_LIMIT_WINDOW = 60 * 1000; // 60 seconds
 const MAX_SUBMISSIONS_PER_WINDOW = 3; // Max 3 submissions per window
-const SUBMISSION_TIMEOUT = 5 * 1000; // 5 second timeout per submission
+const EMAILJS_THROTTLE = RATE_LIMIT_WINDOW / MAX_SUBMISSIONS_PER_WINDOW;
+
+const fieldMap = {
+  from_name: 'name',
+  from_email: 'email',
+  message: 'message',
+  website: 'website',
+} as const;
+
+const maxLengths = {
+  from_name: 100,
+  from_email: 254,
+  message: 5000,
+  website: 200,
+} as const;
 
 export default function Contact() {
-  const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
+    website: '',
   });
 
   const [status, setStatus] = useState<string | null>(null);
@@ -23,19 +37,26 @@ export default function Contact() {
 
   // Initialize rate limiting from localStorage
   useEffect(() => {
-    const stored = localStorage.getItem('contact_form_submissions');
-    if (stored) {
-      try {
+    try {
+      const stored = localStorage.getItem('contact_form_submissions');
+      if (stored) {
         const data = JSON.parse(stored);
-        submissionTimesRef.current = data.times || [];
-        // Clean up old submissions outside the rate limit window
         const now = Date.now();
-        submissionTimesRef.current = submissionTimesRef.current.filter(
-          (time) => now - time < RATE_LIMIT_WINDOW
-        );
-      } catch {
-        submissionTimesRef.current = [];
+        submissionTimesRef.current = Array.isArray(data?.times)
+          ? data.times
+              .filter(
+                (time: unknown): time is number =>
+                  typeof time === 'number' &&
+                  Number.isFinite(time) &&
+                  time <= now &&
+                  now - time < RATE_LIMIT_WINDOW
+              )
+              .slice(-MAX_SUBMISSIONS_PER_WINDOW)
+          : [];
       }
+    } catch {
+      // Storage can be unavailable in private browsing or blocked by policy.
+      submissionTimesRef.current = [];
     }
   }, []);
 
@@ -53,34 +74,24 @@ export default function Contact() {
   const recordSubmission = (): void => {
     const now = Date.now();
     submissionTimesRef.current.push(now);
-    localStorage.setItem(
-      'contact_form_submissions',
-      JSON.stringify({ times: submissionTimesRef.current })
-    );
+    try {
+      localStorage.setItem(
+        'contact_form_submissions',
+        JSON.stringify({ times: submissionTimesRef.current })
+      );
+    } catch {
+      // Keep the in-memory rate limit when persistent storage is unavailable.
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    const mappedField = fieldMap[name as keyof typeof fieldMap];
+    const maxLength = maxLengths[name as keyof typeof maxLengths];
 
-    // Enforce maximum input lengths to prevent DoS attacks
-    const maxLengths: Record<string, number> = {
-      from_name: 100,
-      from_email: 254,
-      message: 5000, // Reasonable limit for a message
-    };
+    if (!mappedField || !maxLength || value.length > maxLength) return;
 
-    const maxLength = maxLengths[name] || 1000;
-
-    if (value.length <= maxLength) {
-      // Update the state based on the EmailJS field names
-      if (name === 'from_name') {
-        setFormData({ ...formData, name: value });
-      } else if (name === 'from_email') {
-        setFormData({ ...formData, email: value });
-      } else if (name === 'message') {
-        setFormData({ ...formData, message: value });
-      }
-    }
+    setFormData((current) => ({ ...current, [mappedField]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -104,74 +115,75 @@ export default function Contact() {
       return;
     }
 
-    setStatus('Sending...');
-    setIsSubmitting(true);
-
-    // Set a timeout to prevent hanging requests
-    const submissionTimeoutId = setTimeout(() => {
-      setIsSubmitting(false);
-      setStatus('Request timeout. Please try again.');
-    }, SUBMISSION_TIMEOUT);
-
-    if (!form.current) {
-      clearTimeout(submissionTimeoutId);
-      setIsSubmitting(false);
-      setStatus('Form reference error. Please try again.');
+    // A hidden honeypot catches basic form bots without sending any data.
+    if (formData.website) {
+      setStatus('Message sent successfully!');
+      setFormData({ name: '', email: '', message: '', website: '' });
       return;
     }
 
-    // Validate and sanitize email
+    const normalizedName = formData.name.trim();
+    const normalizedMessage = formData.message.trim();
     const sanitizedEmail = sanitizeEmail(formData.email);
     if (!sanitizedEmail) {
-      clearTimeout(submissionTimeoutId);
-      setIsSubmitting(false);
       setStatus('Please enter a valid email address.');
       return;
     }
 
     // Validate required fields
-    if (!formData.name.trim() || !formData.message.trim()) {
-      clearTimeout(submissionTimeoutId);
-      setIsSubmitting(false);
+    if (!normalizedName || !normalizedMessage) {
       setStatus('Please fill in all required fields.');
       return;
     }
 
     // Additional validation: check minimum lengths
-    if (formData.name.trim().length < 2) {
-      clearTimeout(submissionTimeoutId);
-      setIsSubmitting(false);
+    if (normalizedName.length < 2) {
       setStatus('Name must be at least 2 characters long.');
       return;
     }
 
-    if (formData.message.trim().length < 10) {
-      clearTimeout(submissionTimeoutId);
-      setIsSubmitting(false);
+    if (normalizedMessage.length < 10) {
       setStatus('Message must be at least 10 characters long.');
       return;
     }
 
+    setStatus('Sending...');
+    setIsSubmitting(true);
+
     try {
-      // EmailJS configuration - you'll need to replace these with your actual values
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
       if (!serviceId || !templateId || !publicKey) {
-        throw new Error('Contact form is not configured. Please try another method.');
+        setStatus('Contact form is unavailable. Please try another method.');
+        return;
       }
 
-      await emailjs.sendForm(serviceId, templateId, form.current, publicKey);
-
-      // Record successful submission for rate limiting
+      // Count attempts, not only successes, so repeated failed calls cannot bypass
+      // the client-side limit. EmailJS applies an independent SDK throttle too.
       recordSubmission();
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: normalizedName,
+          from_email: sanitizedEmail,
+          message: normalizedMessage,
+        },
+        {
+          publicKey,
+          blockHeadless: true,
+          limitRate: {
+            id: 'portfolio-contact-form',
+            throttle: EMAILJS_THROTTLE,
+          },
+        }
+      );
 
-      clearTimeout(submissionTimeoutId);
       setStatus('Message sent successfully!');
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', message: '', website: '' });
     } catch (error) {
-      clearTimeout(submissionTimeoutId);
       if (process.env.NODE_ENV !== 'production') {
         console.error('Contact form submission failed:', error);
       }
@@ -189,7 +201,20 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
           {/* Contact Form */}
           <div className="bg-gray-800 p-4 sm:p-8 rounded-lg shadow-lg min-h-[430px] sm:min-h-[400px] flex flex-col">
-            <form ref={form} onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
+            <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="website">Leave this field empty</label>
+                <input
+                  id="website"
+                  type="text"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  maxLength={maxLengths.website}
+                />
+              </div>
               <div>
                 <label htmlFor="name" className="sr-only">Your Name</label>
                 <input
@@ -199,6 +224,9 @@ export default function Contact() {
                   placeholder="Your Name"
                   value={formData.name}
                   onChange={handleChange}
+                  minLength={2}
+                  maxLength={maxLengths.from_name}
+                  autoComplete="name"
                   required
                   className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent"
                 />
@@ -213,6 +241,8 @@ export default function Contact() {
                   placeholder="Your Email"
                   value={formData.email}
                   onChange={handleChange}
+                  maxLength={maxLengths.from_email}
+                  autoComplete="email"
                   required
                   className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent"
                 />
@@ -226,6 +256,8 @@ export default function Contact() {
                   placeholder="Your Message"
                   value={formData.message}
                   onChange={handleChange}
+                  minLength={10}
+                  maxLength={maxLengths.message}
                   required
                   className="w-full h-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-accent resize-none"
                 />
@@ -268,7 +300,7 @@ export default function Contact() {
               className="w-full h-72 sm:h-100 rounded-lg shadow-lg border-none"
               allowFullScreen={false}
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
+              referrerPolicy="no-referrer"
               sandbox="allow-scripts allow-same-origin"
             ></iframe>
           </div>

@@ -62,6 +62,8 @@ function buildPreprintList(): CategorizedPublication[] {
     let categoryKey = 'preprint';
     if (tags.some(t => ['cryptograph', 'cipher', 'elliptic', 'chaotic'].some(k => t.includes(k)))) {
       categoryKey = 'crypto';
+    } else if (tags.some(t => ['privacy', 'security'].some(k => t.includes(k)))) {
+      categoryKey = 'cyber';
     } else if (tags.some(t => ['epidemiol', 'mortality', 'health'].some(k => t.includes(k)))) {
       categoryKey = 'epi';
     }
@@ -82,6 +84,7 @@ function matchesSearch(pub: Publication, rawQuery: string): boolean {
     pub.authors.join(' '),
     pub.doi ?? '',
     pub.arxivId ?? '',
+    ...(pub.tags ?? []),
     String(pub.year ?? ''),
   ]
     .join(' ')

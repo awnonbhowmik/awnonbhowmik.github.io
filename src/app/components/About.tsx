@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 
 export default function About() {
@@ -21,7 +19,6 @@ export default function About() {
               width={300}
               height={300}
               className="rounded-full"
-              priority
             />
           </div>
         </div>

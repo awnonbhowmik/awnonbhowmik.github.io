@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { load as loadYaml } from 'js-yaml';
+import { JSON_SCHEMA, load as loadYaml } from 'js-yaml';
 
 export interface BlogPostFrontmatter {
   title: string;
@@ -17,11 +17,72 @@ export interface BlogPost {
   readingTime: string;
 }
 
+const BLOG_DIRECTORY = path.join(process.cwd(), 'src/content/blog');
+const BLOG_SLUG_PATTERN = /^[a-zA-Z0-9_-]+$/;
+const MAX_FRONTMATTER_SIZE = 32 * 1024;
+const MAX_POST_SIZE = 2 * 1024 * 1024;
+
 const calculateReadingTime = (content: string): string => {
   const wordsPerMinute = 200;
-  const words = content.trim().split(/\s+/).length;
-  const readingTime = Math.ceil(words / wordsPerMinute);
+  const words = content.trim().match(/\S+/g)?.length ?? 0;
+  const readingTime = Math.max(1, Math.ceil(words / wordsPerMinute));
   return `${readingTime} min read`;
+};
+
+const requiredString = (
+  value: unknown,
+  field: keyof Omit<BlogPostFrontmatter, 'tags'>,
+  maxLength: number
+): string => {
+  if (typeof value !== 'string') {
+    throw new Error(`Blog frontmatter field "${field}" must be a string.`);
+  }
+
+  const normalized = value.trim();
+  if (!normalized || normalized.length > maxLength) {
+    throw new Error(
+      `Blog frontmatter field "${field}" must contain 1-${maxLength} characters.`
+    );
+  }
+
+  return normalized;
+};
+
+const validateFrontmatter = (value: unknown): BlogPostFrontmatter => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error('Blog frontmatter must be a YAML object.');
+  }
+
+  const parsed = value as Record<string, unknown>;
+  const date = requiredString(parsed.date, 'date', 10);
+  const parsedDate = new Date(`${date}T00:00:00.000Z`);
+
+  if (
+    !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+    Number.isNaN(parsedDate.getTime()) ||
+    parsedDate.toISOString().slice(0, 10) !== date
+  ) {
+    throw new Error('Blog frontmatter field "date" must be a valid YYYY-MM-DD date.');
+  }
+
+  if (!Array.isArray(parsed.tags) || parsed.tags.length > 20) {
+    throw new Error('Blog frontmatter field "tags" must be an array with at most 20 items.');
+  }
+
+  const tags = parsed.tags.map((tag, index) => {
+    if (typeof tag !== 'string' || !tag.trim() || tag.trim().length > 80) {
+      throw new Error(`Blog frontmatter tag ${index + 1} must contain 1-80 characters.`);
+    }
+    return tag.trim();
+  });
+
+  return {
+    title: requiredString(parsed.title, 'title', 200),
+    date,
+    category: requiredString(parsed.category, 'category', 80),
+    tags,
+    excerpt: requiredString(parsed.excerpt, 'excerpt', 500),
+  };
 };
 
 const parseMdxFrontmatter = (
@@ -31,16 +92,16 @@ const parseMdxFrontmatter = (
   const match = fileContents.match(frontmatterRegex);
 
   if (!match) {
-    return {
-      frontmatter: {} as BlogPostFrontmatter,
-      content: fileContents,
-    };
+    throw new Error('Blog post is missing YAML frontmatter.');
   }
 
   const [, rawFrontmatter] = match;
-  const parsed = loadYaml(rawFrontmatter);
-  const frontmatter =
-    parsed && typeof parsed === 'object' ? (parsed as BlogPostFrontmatter) : ({} as BlogPostFrontmatter);
+  if (Buffer.byteLength(rawFrontmatter, 'utf8') > MAX_FRONTMATTER_SIZE) {
+    throw new Error('Blog frontmatter exceeds the 32 KiB size limit.');
+  }
+
+  const parsed = loadYaml(rawFrontmatter, { schema: JSON_SCHEMA });
+  const frontmatter = validateFrontmatter(parsed);
 
   return {
     frontmatter,
@@ -48,29 +109,68 @@ const parseMdxFrontmatter = (
   };
 };
 
+const readBlogFile = (slug: string): string | null => {
+  if (!BLOG_SLUG_PATTERN.test(slug) || !fs.existsSync(BLOG_DIRECTORY)) {
+    return null;
+  }
+
+  const fullPath = path.resolve(BLOG_DIRECTORY, `${slug}.mdx`);
+  const relativePath = path.relative(BLOG_DIRECTORY, fullPath);
+  if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
+    return null;
+  }
+
+  try {
+    const fileStat = fs.lstatSync(fullPath);
+    if (!fileStat.isFile() || fileStat.size > MAX_POST_SIZE) {
+      return null;
+    }
+
+    // Reject symlinks and verify the resolved target remains inside the content
+    // directory so a crafted repository cannot expose build-host files.
+    const blogDirectoryRealPath = fs.realpathSync(BLOG_DIRECTORY);
+    const fileRealPath = fs.realpathSync(fullPath);
+    const realRelativePath = path.relative(blogDirectoryRealPath, fileRealPath);
+    if (realRelativePath.startsWith('..') || path.isAbsolute(realRelativePath)) {
+      return null;
+    }
+
+    return fs.readFileSync(fileRealPath, 'utf8');
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      return null;
+    }
+    throw error;
+  }
+};
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  const blogDirectory = path.join(process.cwd(), 'src/content/blog');
-  
-  if (!fs.existsSync(blogDirectory)) {
+  if (!fs.existsSync(BLOG_DIRECTORY)) {
     return [];
   }
 
-  const filenames = fs.readdirSync(blogDirectory);
-  const posts = filenames
-    .filter((name: string) => name.endsWith('.mdx'))
-    .map((filename: string) => {
-      const slug = filename.replace(/\.mdx$/, '');
-      const fullPath = path.join(blogDirectory, filename);
-      const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const posts = fs
+    .readdirSync(BLOG_DIRECTORY, { withFileTypes: true })
+    .filter(
+      (entry) =>
+        entry.isFile() &&
+        entry.name.endsWith('.mdx') &&
+        BLOG_SLUG_PATTERN.test(entry.name.slice(0, -4))
+    )
+    .flatMap((entry) => {
+      const slug = entry.name.slice(0, -4);
+      const fileContents = readBlogFile(slug);
+      if (fileContents === null) return [];
+
       const { frontmatter, content } = parseMdxFrontmatter(fileContents);
       const readingTime = calculateReadingTime(content);
 
-      return {
+      return [{
         slug,
-        frontmatter: frontmatter as BlogPostFrontmatter,
+        frontmatter,
         content,
         readingTime,
-      };
+      }];
     })
     .sort((a: BlogPost, b: BlogPost) => 
       new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
@@ -80,40 +180,19 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
-  // Sanitize slug to prevent path traversal attacks
-  // Only allow alphanumeric characters, hyphens, and underscores
-  const sanitizedSlug = slug.replace(/[^a-zA-Z0-9-_]/g, '');
-  
-  if (!sanitizedSlug || sanitizedSlug !== slug) {
-    // If slug contains invalid characters, return null
-    return null;
-  }
-  
-  const blogDirectory = path.join(process.cwd(), 'src/content/blog');
-  const fullPath = path.join(blogDirectory, `${sanitizedSlug}.mdx`);
-  
-  // Verify the resolved path is still within the blog directory
-  // This prevents path traversal attacks like ../../../etc/passwd
-  // Using path.relative() and checking for '..' is more robust than startsWith
-  const relativePath = path.relative(blogDirectory, fullPath);
-  
-  // If relative path contains '..', the file is outside the blog directory
-  // Also check if relative path is empty or starts with path separator
-  if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
-    return null;
-  }
-  
-  if (!fs.existsSync(fullPath)) {
+  if (!BLOG_SLUG_PATTERN.test(slug)) {
     return null;
   }
 
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const fileContents = readBlogFile(slug);
+  if (fileContents === null) return null;
+
   const { frontmatter, content } = parseMdxFrontmatter(fileContents);
   const readingTime = calculateReadingTime(content);
 
   return {
-    slug: sanitizedSlug,
-    frontmatter: frontmatter as BlogPostFrontmatter,
+    slug,
+    frontmatter,
     content,
     readingTime,
   };

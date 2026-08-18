@@ -1,5 +1,3 @@
-'use client';
-
 import projects, { type Project } from '@/app/data/projects';
 
 const statusLabels: Record<Project['status'], string> = {

@@ -9,6 +9,20 @@ import rehypeKatex from 'rehype-katex';
 import Link from 'next/link';
 import 'katex/dist/katex.css';
 import BackToTopButton from '../components/BackToTopButton';
+import JsonLd from '@/app/components/JsonLd';
+
+const getSafeLink = (href?: string) => {
+    if (!href) return { href: undefined, isExternal: false };
+
+    const isRelative = href.startsWith('/') || href.startsWith('#') || href.startsWith('./') || href.startsWith('../');
+    const isExternal = /^https?:\/\//i.test(href);
+    const isEmail = /^mailto:/i.test(href);
+
+    return {
+        href: isRelative || isExternal || isEmail ? href : undefined,
+        isExternal,
+    };
+};
 
 // Custom components for MDX
 const components = {
@@ -29,14 +43,18 @@ const components = {
     pre: (props: React.HTMLProps<HTMLPreElement>) => (
         <pre className="bg-gray-800 p-4 rounded-lg overflow-x-auto mb-4 border border-gray-700" {...props} />
     ),
-    a: (props: React.HTMLProps<HTMLAnchorElement>) => (
-        <a
-            className="wrap-break-word text-accent hover:text-accent-dark underline transition-colors"
-            target={props.href?.startsWith('http') ? '_blank' : undefined}
-            rel={props.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-            {...props}
-        />
-    ),
+    a: ({ href, ...props }: React.HTMLProps<HTMLAnchorElement>) => {
+        const safeLink = getSafeLink(href);
+        return (
+            <a
+                {...props}
+                href={safeLink.href}
+                className="wrap-break-word text-accent hover:text-accent-dark underline transition-colors"
+                target={safeLink.isExternal ? '_blank' : undefined}
+                rel={safeLink.isExternal ? 'noopener noreferrer' : undefined}
+            />
+        );
+    },
     img: (props: React.HTMLProps<HTMLImageElement>) => (
         // eslint-disable-next-line @next/next/no-img-element
         <img {...props} className="max-w-full h-auto rounded-lg my-4 mx-auto" alt={props.alt ?? ''} />
@@ -74,6 +92,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         title: `${post.frontmatter.title} | Awnon Bhowmik`,
         description: post.frontmatter.excerpt || `Read about ${post.frontmatter.title}`,
         keywords: post.frontmatter.tags?.join(', '),
+        authors: [{ name: 'Awnon Bhowmik', url: SITE_URL }],
+        creator: 'Awnon Bhowmik',
+        publisher: 'Awnon Bhowmik',
         alternates: {
             canonical: `/blog/${resolvedParams.slug}`,
         },
@@ -81,9 +102,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             title: post.frontmatter.title,
             description: post.frontmatter.excerpt || `Read about ${post.frontmatter.title}`,
             url: `/blog/${resolvedParams.slug}`,
+            siteName: 'Awnon Bhowmik',
+            locale: 'en_US',
             type: 'article',
             publishedTime: post.frontmatter.date,
+            authors: [SITE_URL],
             tags: post.frontmatter.tags,
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.frontmatter.title,
+            description: post.frontmatter.excerpt || `Read about ${post.frontmatter.title}`,
         },
     };
 }
@@ -97,10 +126,44 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     }
 
     const { frontmatter, content, readingTime } = post;
+    const articleUrl = `${SITE_URL}/blog/${resolvedParams.slug}`;
+    const articleStructuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        '@id': `${articleUrl}#article`,
+        headline: frontmatter.title,
+        description: frontmatter.excerpt,
+        url: articleUrl,
+        mainEntityOfPage: articleUrl,
+        datePublished: frontmatter.date,
+        dateModified: frontmatter.date,
+        inLanguage: 'en-US',
+        articleSection: frontmatter.category,
+        keywords: frontmatter.tags,
+        author: {
+            '@type': 'Person',
+            '@id': `${SITE_URL}/#person`,
+            name: 'Awnon Bhowmik',
+            url: SITE_URL,
+        },
+        publisher: {
+            '@type': 'Person',
+            '@id': `${SITE_URL}/#person`,
+            name: 'Awnon Bhowmik',
+        },
+        isPartOf: {
+            '@type': 'Blog',
+            '@id': `${SITE_URL}/blog#blog`,
+            name: 'Awnon Bhowmik Academic Blog',
+            url: `${SITE_URL}/blog`,
+        },
+    };
 
     return (
-        <div className="min-h-screen bg-[#1a1a1a] text-white">
-            <div className="container mx-auto px-4 py-8 sm:py-12 max-w-4xl">
+        <>
+            <JsonLd data={articleStructuredData} />
+            <div className="min-h-screen bg-[#1a1a1a] text-white">
+                <div className="container mx-auto px-4 py-8 sm:py-12 max-w-4xl">
                 {/* Navigation */}
                 <div className="flex flex-wrap items-center gap-3 mb-8">
                     <div className="flex flex-wrap items-center gap-3">
@@ -237,7 +300,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                         <BackToTopButton />
                     </div>
                 </footer>
+                </div>
             </div>
-        </div>
+        </>
     );
 }

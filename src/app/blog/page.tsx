@@ -2,18 +2,28 @@ import type { Metadata } from 'next';
 import { getBlogPosts, type BlogPost } from '@/lib/blog';
 import Link from 'next/link';
 import Footer from '@/app/components/Footer';
+import { SITE_URL } from '@/lib/site';
+
+const description =
+    'Research notes, tutorials, and practical insights on privacy, cryptography, cybersecurity, and applied mathematics.';
 
 export const metadata: Metadata = {
     title: 'Academic Blog | Awnon Bhowmik',
-    description:
-        'Research notes, tutorials, and practical insights on privacy, cryptography, cybersecurity, and applied mathematics.',
+    description,
+    authors: [{ name: 'Awnon Bhowmik', url: SITE_URL }],
     alternates: { canonical: '/blog' },
     openGraph: {
         title: 'Academic Blog | Awnon Bhowmik',
-        description:
-            'Research notes, tutorials, and practical insights on privacy, cryptography, cybersecurity, and applied mathematics.',
+        description,
         url: '/blog',
+        siteName: 'Awnon Bhowmik',
+        locale: 'en_US',
         type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Academic Blog | Awnon Bhowmik',
+        description,
     },
 };
 

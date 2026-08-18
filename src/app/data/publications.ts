@@ -173,6 +173,9 @@ export const epidemiologyArticles: Publication[] = [
       'Two Decades of Dengue in Bangladesh (2001–2024): Epidemiologic Trends, Geographic Spread and Climatic Drivers',
     authors: ['Awnon Bhowmik', 'Mahmudul Hasan', 'Goutam Saha', 'Huaiping Zhu'],
     venue: 'Tropical Medicine & International Health',
+    volume: '31',
+    issue: '7',
+    pages: '772–795',
     year: 2026,
     doi: '10.1111/tmi.70136',
     url: 'https://doi.org/10.1111/tmi.70136',
@@ -219,17 +222,45 @@ export const epidemiologyArticles: Publication[] = [
 // ──────────────────────────────────────────────────────────────
 export const environmentalArticles: Publication[] = [
   {
+    id: 'microplastics-human-body-2026',
+    type: 'journal',
+    title:
+      'Microplastics Across the Human Body: Occurrence, Detection Methodologies, and Distribution in Human Tissues, Organs, and Biological Fluids',
+    authors: [
+      'Hriddhi Sarker',
+      'Umar Hasnain Monabbi',
+      'Goutam Saha',
+      'Awnon Bhowmik',
+      'B. M. Rabby Hossain',
+    ],
+    venue: 'Microplastics',
+    volume: '5',
+    issue: '3',
+    pages: '157',
+    year: 2026,
+    doi: '10.3390/microplastics5030157',
+    url: 'https://doi.org/10.3390/microplastics5030157',
+    tags: [
+      'microplastics',
+      'human health',
+      'biological fluids',
+      'human tissues',
+      'detection methodologies',
+    ],
+  },
+  {
     id: 'microplastics-one-health-fish-2026',
     type: 'journal',
     title:
       'Microplastics as Emerging One Health Threats: A Molecular and Ecotoxicological Review Across Aquatic Life with Emphasis on Fish',
-    authors: ['H. Sarker', 'Goutam Saha', 'Awnon Bhowmik', 'A. Ganguly'],
+    authors: ['Hriddhi Sarker', 'Goutam Saha', 'Awnon Bhowmik', 'Amlan Ganguly'],
     venue: 'Microplastics',
     volume: '5',
     issue: '2',
     pages: '102',
     year: 2026,
-    url: 'https://scholar.google.com/citations?view_op=view_citation&hl=en&user=nEdZAFkAAAAJ&sortby=pubdate&citation_for_view=nEdZAFkAAAAJ:Wp0gIr-vW9MC',
+    doi: '10.3390/microplastics5020102',
+    url: 'https://doi.org/10.3390/microplastics5020102',
     tags: ['microplastics', 'One Health', 'aquatic life', 'fish', 'ecotoxicology'],
   },
   {
@@ -294,6 +325,18 @@ export const environmentalArticles: Publication[] = [
 // PREPRINTS (arXiv / preprint servers — no published journal version)
 // ──────────────────────────────────────────────────────────────
 export const preprints: Publication[] = [
+  {
+    id: 'arxiv-dp-continual-counting-2026',
+    type: 'preprint',
+    title: 'Costs of Arbitrary Real Matrix Factorizations for Pure-DP Continual Counting',
+    authors: ['Awnon Bhowmik', 'Mahmudul Hasan'],
+    venue: 'arXiv',
+    year: 2026,
+    arxivId: '2607.28703',
+    doi: '10.48550/arXiv.2607.28703',
+    url: 'https://arxiv.org/abs/2607.28703',
+    tags: ['differential privacy', 'continual counting', 'matrix mechanisms', 'functional analysis'],
+  },
   {
     id: 'arxiv-selmer-ecc-2025',
     type: 'preprint',
