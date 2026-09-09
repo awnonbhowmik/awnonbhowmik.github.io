@@ -6,6 +6,7 @@ import {
   epidemiologyArticles,
   environmentalArticles,
   preprints,
+  comparePublicationsNewestFirst,
 } from '@/app/data/publications';
 import { SITE_URL } from '@/lib/site';
 
@@ -45,7 +46,7 @@ const publications = [
   ...epidemiologyArticles,
   ...environmentalArticles,
   ...preprints,
-].sort((a, b) => (b.year ?? 0) - (a.year ?? 0) || a.title.localeCompare(b.title));
+].sort(comparePublicationsNewestFirst);
 
 const publicationListStructuredData = {
   '@context': 'https://schema.org',
@@ -69,7 +70,7 @@ const publicationListStructuredData = {
         ...(name === 'Awnon Bhowmik' ? { '@id': `${SITE_URL}/#person` } : {}),
         name,
       })),
-      datePublished: publication.year?.toString(),
+      datePublished: publication.publishedDate ?? publication.year?.toString(),
       identifier:
         publication.doi || publication.arxivId
           ? [

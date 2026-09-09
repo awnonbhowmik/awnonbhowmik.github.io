@@ -9,6 +9,7 @@ import {
   epidemiologyArticles,
   environmentalArticles,
   preprints,
+  comparePublicationsNewestFirst,
   type Publication,
 } from '@/app/data/publications';
 
@@ -43,6 +44,7 @@ const FILTER_LABELS: Record<string, string> = {
   env: 'Environmental',
   preprints: 'Preprints',
 };
+const MAX_SEARCH_LENGTH = 200;
 
 
 // ── Data builders ─────────────────────────────────────────────
@@ -229,10 +231,7 @@ function SectionTable({
   title: string;
   pubs: CategorizedPublication[];
 }) {
-  const sorted = useMemo(() => [...pubs].sort((a, b) => {
-    const diff = (b.year ?? 0) - (a.year ?? 0);
-    return diff !== 0 ? diff : a.title.localeCompare(b.title);
-  }), [pubs]);
+  const sorted = useMemo(() => [...pubs].sort(comparePublicationsNewestFirst), [pubs]);
 
   return (
     <div className="mb-12">
@@ -271,13 +270,15 @@ export default function PublicationsPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const candidate = params.get('filter') ?? 'all';
-    const hydratedFilterKey = candidate in FILTER_LABELS ? candidate : 'all';
+    const hydratedFilterKey = Object.prototype.hasOwnProperty.call(FILTER_LABELS, candidate)
+      ? candidate
+      : 'all';
 
     // URL parameters are an external browser state that is only available after mount.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setFilters({
       filterKey: hydratedFilterKey,
-      searchTerm: params.get('q') ?? '',
+      searchTerm: (params.get('q') ?? '').slice(0, MAX_SEARCH_LENGTH),
       isUrlHydrated: true,
     });
   }, []);
@@ -299,7 +300,9 @@ export default function PublicationsPage() {
   }, [filterKey, searchTerm, isUrlHydrated]);
 
   const filteredJournals = useMemo(() =>
-    filterKey === 'all' || filterKey === 'preprints'
+    filterKey === 'preprints'
+      ? []
+      : filterKey === 'all'
       ? journalList.filter(p => matchesSearch(p, searchTerm))
       : journalList.filter(p => p.categoryKey === filterKey && matchesSearch(p, searchTerm)),
     [journalList, filterKey, searchTerm]);
@@ -368,7 +371,11 @@ export default function PublicationsPage() {
                 id="publication-search"
                 type="search"
                 value={searchTerm}
-                onChange={(e) => setFilters(current => ({ ...current, searchTerm: e.target.value }))}
+                onChange={(e) => setFilters(current => ({
+                  ...current,
+                  searchTerm: e.target.value.slice(0, MAX_SEARCH_LENGTH),
+                }))}
+                maxLength={MAX_SEARCH_LENGTH}
                 placeholder="Title, author, venue, DOI..."
                 className="w-full min-h-11 bg-gray-900/70 border border-gray-700 rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500 focus:outline-none focus:border-accent/70"
               />
@@ -401,18 +408,14 @@ export default function PublicationsPage() {
           </div>
 
           {/* Tables */}
-          {filterKey !== 'preprints' && filteredJournals.length > 0 && (
+          {filteredJournals.length > 0 && (
             <SectionTable title="Journal Articles" pubs={filteredJournals} />
           )}
-          {filterKey !== 'preprints' && filteredJournals.length === 0 && (
-            <p className="text-gray-500 text-sm mb-8">No journal articles match the current filter/search.</p>
+          {filteredPreprints.length > 0 && (
+            <SectionTable title="Preprints" pubs={filteredPreprints} />
           )}
-          {(filterKey === 'all' || filterKey === 'preprints') && (
-            filteredPreprints.length > 0 ? (
-              <SectionTable title="Preprints" pubs={filteredPreprints} />
-            ) : (
-              <p className="text-gray-500 text-sm mb-8">No preprints match the current filter/search.</p>
-            )
+          {filteredJournals.length === 0 && filteredPreprints.length === 0 && (
+            <p className="text-gray-500 text-sm mb-8">No publications match the current filter/search.</p>
           )}
 
           {/* Footer note */}

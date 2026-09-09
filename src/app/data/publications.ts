@@ -19,10 +19,24 @@ export interface Publication {
   issue?: string;
   pages?: string;
   year?: number;
+  publishedDate?: string; // ISO YYYY-MM-DD publication or initial submission date
   doi?: string;
   url?: string;
   arxivId?: string;     // arXiv paper ID, e.g. '2008.12645'
   tags?: string[];
+}
+
+const getPublicationTimestamp = (publication: Publication): number => {
+  if (publication.publishedDate) {
+    const parsed = Date.parse(`${publication.publishedDate}T00:00:00.000Z`);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+
+  return publication.year ? Date.UTC(publication.year, 0, 1) : 0;
+};
+
+export function comparePublicationsNewestFirst(a: Publication, b: Publication): number {
+  return getPublicationTimestamp(b) - getPublicationTimestamp(a) || a.title.localeCompare(b.title);
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -38,6 +52,7 @@ export const cryptographyArticles: Publication[] = [
     volume: '7',
     pages: 'e637',
     year: 2021,
+    publishedDate: '2021-08-16',
     doi: '10.7717/peerj-cs.637',
     url: 'https://doi.org/10.7717/peerj-cs.637',
     tags: ['cryptography', 'finite fields', 'Galois field', 'trapdoor functions'],
@@ -52,6 +67,7 @@ export const cryptographyArticles: Publication[] = [
     issue: '29',
     pages: '46–53',
     year: 2020,
+    publishedDate: '2020-06-18',
     doi: '10.5120/ijca2020920320',
     url: 'https://doi.org/10.5120/ijca2020920320',
     tags: ['cryptography', 'NTRU', 'lattice-based cryptography', 'post-quantum'],
@@ -66,6 +82,7 @@ export const cryptographyArticles: Publication[] = [
     issue: '29',
     pages: '37–41',
     year: 2020,
+    publishedDate: '2020-06-18',
     doi: '10.5120/ijca2020920331',
     url: 'https://doi.org/10.5120/ijca2020920331',
     arxivId: '2008.12645',
@@ -81,6 +98,7 @@ export const cryptographyArticles: Publication[] = [
     issue: '36',
     pages: '21–27',
     year: 2020,
+    publishedDate: '2020-07-15',
     doi: '10.5120/ijca2020920479',
     url: 'https://doi.org/10.5120/ijca2020920479',
     tags: ['cryptography', 'block cipher', 'number theory', 'AES alternative'],
@@ -95,6 +113,7 @@ export const cryptographyArticles: Publication[] = [
     issue: '6',
     pages: '9–14',
     year: 2020,
+    publishedDate: '2020-12-08',
     doi: '10.5815/ijmsc.2020.06.02',
     url: 'https://doi.org/10.5815/ijmsc.2020.06.02',
     tags: ['cryptography', 'coordinate transformations', 'encoding'],
@@ -109,6 +128,7 @@ export const cryptographyArticles: Publication[] = [
     issue: '2',
     pages: '1–9',
     year: 2023,
+    publishedDate: '2023-05-08',
     doi: '10.5815/ijmsc.2023.02.01',
     url: 'https://doi.org/10.5815/ijmsc.2023.02.01',
     tags: ['cryptography', 'coordinate transformation', 'key generation'],
@@ -123,6 +143,7 @@ export const cryptographyArticles: Publication[] = [
     issue: '1',
     pages: '31–38',
     year: 2024,
+    publishedDate: '2024-02-08',
     doi: '10.5815/ijmsc.2024.01.04',
     url: 'https://doi.org/10.5815/ijmsc.2024.01.04',
     tags: ['cryptography', 'trapdoor functions', 'one-way functions'],
@@ -143,6 +164,7 @@ export const cybersecurityArticles: Publication[] = [
     issue: '3',
     pages: '26–36',
     year: 2024,
+    publishedDate: '2024-09-08',
     doi: '10.5815/ijmsc.2024.03.03',
     url: 'https://doi.org/10.5815/ijmsc.2024.03.03',
     tags: ['cybersecurity', 'FinTech', 'security awareness', 'defense mechanisms'],
@@ -177,6 +199,7 @@ export const epidemiologyArticles: Publication[] = [
     issue: '7',
     pages: '772–795',
     year: 2026,
+    publishedDate: '2026-04-06',
     doi: '10.1111/tmi.70136',
     url: 'https://doi.org/10.1111/tmi.70136',
     tags: [
@@ -197,6 +220,7 @@ export const epidemiologyArticles: Publication[] = [
     volume: '4',
     pages: '100103',
     year: 2025,
+    publishedDate: '2024-12-30',
     doi: '10.1016/j.soh.2024.100103',
     url: 'https://doi.org/10.1016/j.soh.2024.100103',
     tags: ['epidemiology', 'Nipah virus', 'public health', 'Bangladesh', 'disease surveillance'],
@@ -211,6 +235,7 @@ export const epidemiologyArticles: Publication[] = [
     issue: '3',
     pages: '34',
     year: 2025,
+    publishedDate: '2025-07-01',
     doi: '10.3390/sexes6030034',
     url: 'https://doi.org/10.3390/sexes6030034',
     tags: ['epidemiology', 'HIV', 'public health', 'Bangladesh', 'data-driven analysis'],
@@ -221,6 +246,28 @@ export const epidemiologyArticles: Publication[] = [
 // JOURNAL ARTICLES — Environmental Science
 // ──────────────────────────────────────────────────────────────
 export const environmentalArticles: Publication[] = [
+  {
+    id: 'pollutants-commercial-beverages-2026',
+    type: 'journal',
+    title:
+      'Analytical Variability in Microplastic Quantification: A Narrative Review of Commercial Beverages',
+    authors: ['Awnon Bhowmik', 'B. M. Rabby Hossain', 'Goutam Saha'],
+    venue: 'Pollutants',
+    volume: '6',
+    issue: '3',
+    pages: '44',
+    year: 2026,
+    publishedDate: '2026-08-20',
+    doi: '10.3390/pollutants6030044',
+    url: 'https://doi.org/10.3390/pollutants6030044',
+    tags: [
+      'microplastics',
+      'commercial beverages',
+      'analytical variability',
+      'quantification',
+      'narrative review',
+    ],
+  },
   {
     id: 'microplastics-human-body-2026',
     type: 'journal',
@@ -238,6 +285,7 @@ export const environmentalArticles: Publication[] = [
     issue: '3',
     pages: '157',
     year: 2026,
+    publishedDate: '2026-08-07',
     doi: '10.3390/microplastics5030157',
     url: 'https://doi.org/10.3390/microplastics5030157',
     tags: [
@@ -259,6 +307,7 @@ export const environmentalArticles: Publication[] = [
     issue: '2',
     pages: '102',
     year: 2026,
+    publishedDate: '2026-06-02',
     doi: '10.3390/microplastics5020102',
     url: 'https://doi.org/10.3390/microplastics5020102',
     tags: ['microplastics', 'One Health', 'aquatic life', 'fish', 'ecotoxicology'],
@@ -273,6 +322,7 @@ export const environmentalArticles: Publication[] = [
     issue: '4',
     pages: '490–497',
     year: 2024,
+    publishedDate: '2024-11-07',
     doi: '10.3390/pollutants4040033',
     url: 'https://doi.org/10.3390/pollutants4040033',
     tags: ['microplastics', 'environmental science', 'public health'],
@@ -287,6 +337,7 @@ export const environmentalArticles: Publication[] = [
     issue: '2',
     pages: '24',
     year: 2025,
+    publishedDate: '2025-05-07',
     doi: '10.3390/microplastics4020024',
     url: 'https://doi.org/10.3390/microplastics4020024',
     tags: ['microplastics', 'water quality', 'systematic review', 'environmental science'],
@@ -301,6 +352,7 @@ export const environmentalArticles: Publication[] = [
     issue: '1',
     pages: '3',
     year: 2026,
+    publishedDate: '2026-01-04',
     doi: '10.3390/pollutants6010003',
     url: 'https://doi.org/10.3390/pollutants6010003',
     tags: ['microplastics', 'rural environment', 'environmental transport'],
@@ -315,6 +367,7 @@ export const environmentalArticles: Publication[] = [
     issue: '1',
     pages: '18',
     year: 2026,
+    publishedDate: '2026-03-04',
     doi: '10.3390/pollutants6010018',
     url: 'https://doi.org/10.3390/pollutants6010018',
     tags: ['microplastics', 'mathematical modeling', 'river transport', 'environmental modeling'],
@@ -332,6 +385,7 @@ export const preprints: Publication[] = [
     authors: ['Awnon Bhowmik', 'Mahmudul Hasan'],
     venue: 'arXiv',
     year: 2026,
+    publishedDate: '2026-07-30',
     arxivId: '2607.28703',
     doi: '10.48550/arXiv.2607.28703',
     url: 'https://arxiv.org/abs/2607.28703',
@@ -344,6 +398,7 @@ export const preprints: Publication[] = [
     authors: ['Awnon Bhowmik'],
     venue: 'arXiv',
     year: 2025,
+    publishedDate: '2025-09-30',
     arxivId: '2510.02383',
     doi: '10.48550/arXiv.2510.02383',
     url: 'https://arxiv.org/abs/2510.02383',
@@ -356,6 +411,7 @@ export const preprints: Publication[] = [
     authors: ['Awnon Bhowmik', 'Emon Hossain', 'Mahmudul Hasan'],
     venue: 'arXiv',
     year: 2022,
+    publishedDate: '2022-07-17',
     arxivId: '2208.06002',
     doi: '10.48550/arXiv.2208.06002',
     url: 'https://arxiv.org/abs/2208.06002',
@@ -368,6 +424,7 @@ export const preprints: Publication[] = [
     authors: ['Awnon Bhowmik'],
     venue: 'arXiv',
     year: 2022,
+    publishedDate: '2022-10-09',
     arxivId: '2212.12300',
     doi: '10.48550/arXiv.2212.12300',
     url: 'https://arxiv.org/abs/2212.12300',
@@ -380,6 +437,7 @@ export const preprints: Publication[] = [
     authors: ['Awnon Bhowmik', 'Mahmudul Hasan', 'Goutam Saha'],
     venue: 'Preprints.org',
     year: 2025,
+    publishedDate: '2025-08-18',
     doi: '10.20944/preprints202508.1297.v1',
     url: 'https://www.preprints.org/manuscript/202508.1297/v1',
     tags: ['epidemiology', 'mortality', 'SAARC', 'public health', 'data-driven analysis'],

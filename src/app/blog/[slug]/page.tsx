@@ -11,17 +11,28 @@ import 'katex/dist/katex.css';
 import BackToTopButton from '../components/BackToTopButton';
 import JsonLd from '@/app/components/JsonLd';
 
+const SITE_ORIGIN = new URL(SITE_URL).origin;
+
 const getSafeLink = (href?: string) => {
     if (!href) return { href: undefined, isExternal: false };
 
-    const isRelative = href.startsWith('/') || href.startsWith('#') || href.startsWith('./') || href.startsWith('../');
-    const isExternal = /^https?:\/\//i.test(href);
-    const isEmail = /^mailto:/i.test(href);
+    const candidate = href.trim();
+    if (!candidate) return { href: undefined, isExternal: false };
 
-    return {
-        href: isRelative || isExternal || isEmail ? href : undefined,
-        isExternal,
-    };
+    try {
+        // URL parsing also handles protocol-relative and backslash-prefixed
+        // URLs, which browsers may otherwise resolve to a different origin.
+        const url = new URL(candidate, SITE_URL);
+        const isHttp = url.protocol === 'http:' || url.protocol === 'https:';
+        const isEmail = url.protocol === 'mailto:';
+
+        return {
+            href: isHttp || isEmail ? candidate : undefined,
+            isExternal: isHttp && url.origin !== SITE_ORIGIN,
+        };
+    } catch {
+        return { href: undefined, isExternal: false };
+    }
 };
 
 // Custom components for MDX

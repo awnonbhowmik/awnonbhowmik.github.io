@@ -21,6 +21,8 @@ const BLOG_DIRECTORY = path.join(process.cwd(), 'src/content/blog');
 const BLOG_SLUG_PATTERN = /^[a-zA-Z0-9_-]+$/;
 const MAX_FRONTMATTER_SIZE = 32 * 1024;
 const MAX_POST_SIZE = 2 * 1024 * 1024;
+const MAX_FRONTMATTER_ALIASES = 20;
+const MAX_FRONTMATTER_MERGE_KEYS = 100;
 
 const calculateReadingTime = (content: string): string => {
   const wordsPerMinute = 200;
@@ -100,7 +102,13 @@ const parseMdxFrontmatter = (
     throw new Error('Blog frontmatter exceeds the 32 KiB size limit.');
   }
 
-  const parsed = loadYaml(rawFrontmatter, { schema: JSON_SCHEMA });
+  const parsed = loadYaml(rawFrontmatter, {
+    schema: JSON_SCHEMA,
+    // Keep YAML anchors from turning a small frontmatter block into an
+    // expensive alias or merge-key expansion during a production build.
+    maxAliases: MAX_FRONTMATTER_ALIASES,
+    maxTotalMergeKeys: MAX_FRONTMATTER_MERGE_KEYS,
+  });
   const frontmatter = validateFrontmatter(parsed);
 
   return {
