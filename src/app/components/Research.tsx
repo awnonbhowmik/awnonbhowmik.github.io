@@ -63,10 +63,10 @@ export default function Research() {
         </div>
 
         {/* Dissertation Overview — image + text */}
-        <div className="flex flex-col lg:flex-row items-start justify-between mb-12 sm:mb-16 space-y-8 sm:space-y-12 lg:space-y-0 lg:space-x-16">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-12 sm:mb-16 space-y-8 sm:space-y-12 lg:space-y-0 lg:space-x-16">
           {/* Image */}
           <div className="w-full lg:w-1/3 flex justify-center">
-            <div className="w-56 sm:w-72 max-w-full rounded-full overflow-hidden shadow-xl">
+            <div className="w-56 sm:w-72 max-w-full rounded-full overflow-hidden shadow-xl motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:scale-105">
               <Image
                 src="/research.webp"
                 alt="Research overview"

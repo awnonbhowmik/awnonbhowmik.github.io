@@ -8,11 +8,11 @@ export default function About() {
         <h2 className="text-4xl font-bold text-white">About</h2>
       </div>
 
-      <div className="container mx-auto flex flex-col lg:flex-row items-start justify-between px-6 lg:px-16 space-y-12 lg:space-y-0 lg:space-x-16">
+      <div className="container mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between px-6 lg:px-16 space-y-12 lg:space-y-0 lg:space-x-16">
 
         {/* Image */}
-        <div className="w-full lg:w-1/3 flex justify-center lg:sticky lg:top-24 transition-transform hover:scale-105 duration-300">
-          <div className="rounded-full overflow-hidden shadow-xl">
+        <div className="w-full lg:w-1/3 flex justify-center">
+          <div className="rounded-full overflow-hidden shadow-xl motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:scale-105">
             <Image
               src="/image_modified_high_contrast.webp"
               alt="Awnon Bhowmik"
