@@ -155,6 +155,23 @@ export const cryptographyArticles: Publication[] = [
 // ──────────────────────────────────────────────────────────────
 export const cybersecurityArticles: Publication[] = [
   {
+    id: 'springer-banking-cybersecurity-2026',
+    type: 'journal',
+    title: 'Advanced strategies for defending against cybersecurity threats in the banking sector',
+    authors: ['Awnon Bhowmik'],
+    venue: 'Journal of Banking and Financial Technology',
+    year: 2026,
+    publishedDate: '2026-09-23',
+    doi: '10.1007/s42786-026-00067-8',
+    url: 'https://doi.org/10.1007/s42786-026-00067-8',
+    tags: [
+      'banking cybersecurity',
+      'identity and access management',
+      'authentication security',
+      'cyber resilience',
+    ],
+  },
+  {
     id: 'ijmsc-fintech-2024',
     type: 'journal',
     title: 'Raising Digital Security Awareness in the FinTech Sector: Case Studies and Defense Mechanisms',
