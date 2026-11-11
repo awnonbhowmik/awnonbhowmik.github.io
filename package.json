@@ -5,12 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/**/*.test.mjs",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build"
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
     "js-yaml": "^5.3.0",
-    "katex": "^0.17.0",
+    "katex": "^0.19.1",
     "next": "^16.3.3",
     "next-mdx-remote": "^6.0.0",
     "react": "^19.2.6",
@@ -23,6 +25,10 @@
   "overrides": {
     "@babel/core": "^7.29.7",
     "baseline-browser-mapping": "^2.11.0",
+    "katex": "$katex",
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.1"
+    },
     "postcss": "^8.5.26",
     "sharp": "^0.35.4"
   },

@@ -18,7 +18,7 @@ Next.js 16 · TypeScript 6 · Tailwind CSS 4 · MDX + KaTeX · EmailJS · Netlif
 npm install
 npm run dev    # Turbopack (Next.js 16 default)
 npm run build  # Turbopack production build
-npm run lint
+npm run check  # Lint, type-check, test, and build
 ```
 
 ---
@@ -28,12 +28,16 @@ npm run lint
 Copy `.env.example` to `.env`:
 
 ```bash
-NEXT_PUBLIC_EMAILJS_SERVICE_ID=
-NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=
-NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=
+EMAILJS_SERVICE_ID=
+EMAILJS_TEMPLATE_ID=
+EMAILJS_PUBLIC_KEY=
+EMAILJS_PRIVATE_KEY= # Optional; required if private-key authorization is enabled
 ```
 
 Set the same variables under **Site settings → Environment variables** on Netlify.
+The contact form submits to a rate-limited Netlify Function, so these values are
+never included in the browser bundle. Existing `NEXT_PUBLIC_EMAILJS_*` variables
+remain supported temporarily as a deployment-migration fallback.
 
 ---
 

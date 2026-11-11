@@ -1,13 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
+import { useState } from 'react';
 import { sanitizeEmail } from '@/lib/sanitize';
-
-// Rate limiting constants
-const RATE_LIMIT_WINDOW = 60 * 1000; // 60 seconds
-const MAX_SUBMISSIONS_PER_WINDOW = 3; // Max 3 submissions per window
-const EMAILJS_THROTTLE = RATE_LIMIT_WINDOW / MAX_SUBMISSIONS_PER_WINDOW;
 
 const fieldMap = {
   from_name: 'name',
@@ -33,56 +27,6 @@ export default function Contact() {
 
   const [status, setStatus] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const submissionTimesRef = useRef<number[]>([]);
-
-  // Initialize rate limiting from localStorage
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('contact_form_submissions');
-      if (stored) {
-        const data = JSON.parse(stored);
-        const now = Date.now();
-        submissionTimesRef.current = Array.isArray(data?.times)
-          ? data.times
-              .filter(
-                (time: unknown): time is number =>
-                  typeof time === 'number' &&
-                  Number.isFinite(time) &&
-                  time <= now &&
-                  now - time < RATE_LIMIT_WINDOW
-              )
-              .slice(-MAX_SUBMISSIONS_PER_WINDOW)
-          : [];
-      }
-    } catch {
-      // Storage can be unavailable in private browsing or blocked by policy.
-      submissionTimesRef.current = [];
-    }
-  }, []);
-
-  // Check if submission is allowed based on rate limiting
-  const isRateLimited = (): boolean => {
-    const now = Date.now();
-    // Remove submissions older than the rate limit window
-    submissionTimesRef.current = submissionTimesRef.current.filter(
-      (time) => now - time < RATE_LIMIT_WINDOW
-    );
-    return submissionTimesRef.current.length >= MAX_SUBMISSIONS_PER_WINDOW;
-  };
-
-  // Record a submission for rate limiting
-  const recordSubmission = (): void => {
-    const now = Date.now();
-    submissionTimesRef.current.push(now);
-    try {
-      localStorage.setItem(
-        'contact_form_submissions',
-        JSON.stringify({ times: submissionTimesRef.current })
-      );
-    } catch {
-      // Keep the in-memory rate limit when persistent storage is unavailable.
-    }
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -100,25 +44,6 @@ export default function Contact() {
     // Prevent double submissions
     if (isSubmitting) {
       setStatus('Submission already in progress. Please wait...');
-      return;
-    }
-
-    // Rate limiting check
-    if (isRateLimited()) {
-      const oldestSubmission = submissionTimesRef.current[0];
-      const timeUntilAvailable = Math.ceil(
-        (RATE_LIMIT_WINDOW - (Date.now() - oldestSubmission)) / 1000
-      );
-      setStatus(
-        `Too many submissions. Please wait ${timeUntilAvailable}s before submitting again.`
-      );
-      return;
-    }
-
-    // A hidden honeypot catches basic form bots without sending any data.
-    if (formData.website) {
-      setStatus('Message sent successfully!');
-      setFormData({ name: '', email: '', message: '', website: '' });
       return;
     }
 
@@ -151,35 +76,30 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: normalizedName,
+          email: sanitizedEmail,
+          message: normalizedMessage,
+          website: formData.website,
+        }),
+      });
 
-      if (!serviceId || !templateId || !publicKey) {
-        setStatus('Contact form is unavailable. Please try another method.');
+      const result = (await response.json().catch(() => null)) as
+        | { message?: string }
+        | null;
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          setStatus('Too many submissions. Please wait a minute and try again.');
+          return;
+        }
+
+        setStatus(result?.message || 'Failed to send message. Please try again.');
         return;
       }
-
-      // Count attempts, not only successes, so repeated failed calls cannot bypass
-      // the client-side limit. EmailJS applies an independent SDK throttle too.
-      recordSubmission();
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          from_name: normalizedName,
-          from_email: sanitizedEmail,
-          message: normalizedMessage,
-        },
-        {
-          publicKey,
-          blockHeadless: true,
-          limitRate: {
-            id: 'portfolio-contact-form',
-            throttle: EMAILJS_THROTTLE,
-          },
-        }
-      );
 
       setStatus('Message sent successfully!');
       setFormData({ name: '', email: '', message: '', website: '' });
@@ -292,8 +212,8 @@ export default function Contact() {
           {/* Google Map */}
           <div className="relative">
             <iframe
-              title="My Location - Paterson, NJ"
-              src="https://www.google.com/maps?q=Paterson%2C%20NJ&z=13&output=embed"
+              title="My Location - Anna, TX"
+              src="https://www.google.com/maps?q=Anna%2C%20TX&z=13&output=embed"
               width="100%"
               height="400"
               style={{ filter: 'invert(90%) hue-rotate(180deg) brightness(0.85) contrast(1.05)' }}
